@@ -8,6 +8,6 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "")
+@Table(name = "t_user_groups")
 public class Role extends AbstractDomainClass {
 }

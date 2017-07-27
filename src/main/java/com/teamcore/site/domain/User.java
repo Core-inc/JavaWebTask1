@@ -8,6 +8,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "")
+@Table(name = "t_users")
 public class User extends AbstractDomainClass {
+
 }

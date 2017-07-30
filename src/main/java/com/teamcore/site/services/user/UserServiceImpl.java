@@ -5,6 +5,7 @@ import com.teamcore.site.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,21 +24,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<?> listAll() {
-        return null;
+        List<User> userList = new ArrayList<>();
+        userRepository.findAll().forEach(userList::add);
+        return userList;
     }
 
     @Override
     public User getById(Integer id) {
-        return null;
+        return userRepository.findOne(id);
     }
 
     @Override
     public User saveOrUpdate(User domainObject) {
-        return null;
+        return userRepository.save(domainObject);
     }
 
     @Override
     public void delete(Integer id) {
-
+        userRepository.delete(id);
     }
 }

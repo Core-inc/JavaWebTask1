@@ -5,6 +5,7 @@ import com.teamcore.site.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,21 +24,23 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<?> listAll() {
-        return null;
+        List<Role> roleList = new ArrayList<>();
+        roleRepository.findAll().forEach(roleList::add);
+        return roleList;
     }
 
     @Override
     public Role getById(Integer id) {
-        return null;
+        return roleRepository.findOne(id);
     }
 
     @Override
     public Role saveOrUpdate(Role domainObject) {
-        return null;
+        return roleRepository.save(domainObject);
     }
 
     @Override
     public void delete(Integer id) {
-
+        roleRepository.delete(id);
     }
 }

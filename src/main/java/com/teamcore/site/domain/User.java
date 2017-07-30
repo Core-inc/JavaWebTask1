@@ -1,7 +1,10 @@
 package com.teamcore.site.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
 
 /**
  * Created by igoz on 26.07.17.
@@ -9,6 +12,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_users")
-public class User extends AbstractDomainClass {
+public @Data class User extends AbstractDomainClass {
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String salt;
+    @Column(nullable = false)
+    private DateTime createdAt;
 
+    private DateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
 }

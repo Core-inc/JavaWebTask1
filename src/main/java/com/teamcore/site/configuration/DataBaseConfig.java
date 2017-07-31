@@ -21,7 +21,7 @@ public class DataBaseConfig {
         driver.setDriverClassName("org.postgresql.Driver");
         driver.setUrl("jdbc:postgresql://localhost:5432/java_lab");
         driver.setUsername("postgres");
-        driver.setPassword("bujhmfcz");
+        driver.setPassword("");
 
         return driver;
     }

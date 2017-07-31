@@ -25,3 +25,8 @@ nbdist/
 
 ###temp files
 *.swp
+
+###Maven
+.mvn/*
+mvnw
+mvnw.cmd

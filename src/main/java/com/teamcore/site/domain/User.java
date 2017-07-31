@@ -1,7 +1,6 @@
 package com.teamcore.site.domain;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;

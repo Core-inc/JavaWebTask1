@@ -13,10 +13,6 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by igoz on 31.07.17.
- */
-
 @Repository
 public class UserDAOImpl implements UserDAO {
     @Autowired

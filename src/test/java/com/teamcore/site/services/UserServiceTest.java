@@ -18,10 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by igoz on 30.07.17.
- */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceTest {

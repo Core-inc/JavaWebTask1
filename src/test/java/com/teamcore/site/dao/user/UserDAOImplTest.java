@@ -10,10 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by igoz on 31.07.17.
- */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserDAOImplTest {

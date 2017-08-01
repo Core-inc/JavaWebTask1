@@ -8,10 +8,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-/**
- * Created by igoz on 31.07.17.
- */
-
 @Configuration
 public class DataBaseConfig {
 
@@ -21,7 +17,7 @@ public class DataBaseConfig {
         driver.setDriverClassName("org.postgresql.Driver");
         driver.setUrl("jdbc:postgresql://localhost:5432/java_lab");
         driver.setUsername("postgres");
-        driver.setPassword("bujhmfcz");
+        driver.setPassword();
 
         return driver;
     }

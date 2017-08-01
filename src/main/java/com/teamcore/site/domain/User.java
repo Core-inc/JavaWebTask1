@@ -5,10 +5,6 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 
-/**
- * Created by igoz on 26.07.17.
- */
-
 @Entity
 @Table(name = "t_users")
 public @Data class User extends AbstractDomainClass {

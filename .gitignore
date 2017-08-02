@@ -30,3 +30,6 @@ nbdist/
 .mvn/*
 mvnw
 mvnw.cmd
+
+###db config
+db.conf

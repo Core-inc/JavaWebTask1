@@ -11,16 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-/**
- * Created by igoz on 30.07.17.
- */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -45,7 +43,7 @@ public class UserServiceTest {
         user.setEmail("tester@test.com");
         user.setPassword("qwerty");
         user.setSalt("salt");
-        user.setCreatedAt(new DateTime());
+        user.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
 
         assertNull(user.getId());
 
@@ -61,7 +59,7 @@ public class UserServiceTest {
         user.setEmail("tester@test.com");
         user.setPassword("qwerty");
         user.setSalt("salt");
-        user.setCreatedAt(new DateTime());
+        user.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
 
         Role role = new Role();
         role.setName("user");

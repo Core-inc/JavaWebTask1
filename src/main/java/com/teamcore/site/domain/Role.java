@@ -7,10 +7,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by igoz on 26.07.17.
- */
-
 @Entity
 @Table(name = "t_user_groups")
 @EqualsAndHashCode(exclude = "users")

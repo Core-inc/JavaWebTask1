@@ -13,16 +13,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-/**
- * Created by igoz on 31.07.17.
- */
-
 @Configuration
 public class DataBaseConfig {
 
     @Bean
     public DataSource dataSource(ConfigReader cfgReader) {
         DriverManagerDataSource driver = new DriverManagerDataSource();
+
         //read config options
         try {
             driver.setDriverClassName(cfgReader.getOption("dbDriver"));

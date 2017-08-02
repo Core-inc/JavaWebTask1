@@ -1,7 +1,9 @@
 package com.teamcore.site;
 
 import com.teamcore.site.domain.User;
-import org.joda.time.DateTime;
+
+import java.sql.Date;
+import java.util.Calendar;
 
 public class TestFactory {
 
@@ -11,7 +13,7 @@ public class TestFactory {
         user.setEmail("john@epam.com");
         user.setPassword("123456");
         user.setSalt("wkfemwkpfmwek");
-        user.setCreatedAt(new DateTime());
+        user.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
 
         return user;
     }

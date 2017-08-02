@@ -1,4 +1,4 @@
-package com.teamcore.site.dao.user;
+package com.teamcore.site.dao.task;
 
 import com.teamcore.site.domain.Project;
 import com.teamcore.site.domain.Task;

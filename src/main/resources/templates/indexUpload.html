@@ -27,23 +27,23 @@
         <div class="col-md-4">
             <!--Authorization form-->
             <div id="login_form">
-                <form id="form_sign_in" action="@{/personal}" th:object="${AuthPojo}" method="POST">
+                <form id="form_sign_in" action="" method="POST">
                     <p class="text-md-center" style="font-size: 20px; font-weight: bold; margin-bottom: 4px;">Лаборатория EPAM</p>
-                    <p class="text-md-center mx-auto" id="form_subtitle">Вход для зарегистрированных пользователей</p>
+                    <p class="text-md-center mx-auto" id="form_subtitle">Для начала сотрудничества отправьте техническоезадание</p>
                     <input class="form-control" th:field="*{email}" placeholder="Введите email" name="email" required>
-                    <input class="form-control" th:field="*{password}" placeholder="Введите пароль" name="password" required>
-                    <button type="submit" class="my_button">Войти</button>
+                    <input class="form-control" placeholder="Введите пароль" name="password" required>
+                    <button type="submit" class="my_button" href="">Отправить</button>
                 </form>
             </div>
-            <!-- Link to upload tech.task
+             <!-- Link to upload tech.task
              Не уверен, что способ верный.
              Задача: Нам нужно вернуть одну из двух страниц (с формой авторизации
              или с формой загрузки ТЗ), для этого служит контроллер (/index).
              Решение: Посылаем get-запрос, по параметру isAuthorization выбираем нужный шаблон.-->
             <div class="switch_form">
                 <p class="text-md-center">
-                    Хотите начать сотрудничество?
-                    <a href="index.html?isAuthorizationPage=0">Начать</a>
+                    Уже зарегистрированы?
+                    <a href="/index.html?isAuthorizationPage=1">Войти</a>
                 </p>
             </div>
         </div>

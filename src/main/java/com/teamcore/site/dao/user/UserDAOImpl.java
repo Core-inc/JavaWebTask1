@@ -2,6 +2,7 @@ package com.teamcore.site.dao.user;
 
 import com.teamcore.site.domain.Skill;
 import com.teamcore.site.domain.User;
+import com.teamcore.site.extractors.DeveloperExtractor;
 import com.teamcore.site.extractors.UserExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
     public User addUser(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String query = "INSERT INTO t_users (name, email, password, salt, created_at) values (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO t_users (c_name, c_email, c_password, c_salt, c_created_at, c_user_group_id) values (?, ?, ?, ?, ?, ?)";
         List<Object> args = new ArrayList<>();
 
         jdbcTemplate.update(con -> {
@@ -32,43 +34,34 @@ public class UserDAOImpl implements UserDAO {
             pst.setString(2, user.getEmail());
             pst.setString(3, user.getPassword());
             pst.setString(4, user.getSalt());
-            pst.setDate(5, user.getCreatedAt());
+            pst.setTimestamp(5, Timestamp.valueOf(user.getCreatedAt()));
+            pst.setInt(6, user.getRoleId());
 
             return pst;
         }, keyHolder);
 
-        user.setId((Long) keyHolder.getKey());
+        user.setId((Integer)keyHolder.getKey());
 
-        if (!user.getSkills().isEmpty()) {
-            user.getSkills().forEach(skill -> addSkillToUser(user, skill));
-        }
 
         return user;
     }
 
     @Override
-    public User getUserById(Long id) {
-        String query = "SELECT t_users.id AS user_id, t_users.name AS user_name, email, password, salt, created_at, " +
-                "t_skills.id AS skill_id, t_skills.name AS skill_name " +
-                "FROM t_users " +
-                "LEFT JOIN t_users_skills on t_users.id = user_id " +
-                "LEFT JOIN t_skills on skill_id = t_users_skills.skill_id " +
-                "WHERE user_id = ?";
+    public User getUserById(Integer id) {
+        String query = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
+                "FROM t_users WHERE id = ?";
 
-//        List<User> users = jdbcTemplate.query(query,
-//                new PreparedStatementSetter() {
-//                    @Override
-//                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
-//                        preparedStatement.setLong(1, id);
-//                    }
-//                }, new UserMapper());
-//
-//        return users.get(0);
 
         return jdbcTemplate.query(query, new Object[]{id}, new UserExtractor());
-//
-//
-//        return jdbcTemplate.queryForObject(query, new Object[]{id}, new UserMapper());
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        String query = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
+                "FROM t_users WHERE c_email = ?";
+
+        return jdbcTemplate.query(query, new Object[]{email}, new UserExtractor());
+
     }
 
     @Override

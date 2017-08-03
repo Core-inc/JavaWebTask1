@@ -1,15 +1,9 @@
-drop table if exists t_users CASCADE;
-drop table if exists t_user_groups CASCADE;
-drop table if exists t_developers CASCADE;
-drop table if exists t_projects CASCADE;
-drop table if exists t_tasks CASCADE;
-drop table if exists t_developers_tasks CASCADE;
-
-
 create table t_user_groups (
-	id		serial primary key not null,
+	id			serial primary key not null,
+	c_group_id 	integer not null unique,
 	c_name		text not null unique
 );
+
 
 create table t_users (
 	id				serial primary key not null,
@@ -20,7 +14,7 @@ create table t_users (
 	c_created_at 		timestamp DEFAULT current_timestamp not null,
 	c_updated_at 		timestamp DEFAULT current_timestamp not null,
 	c_user_group_id 	integer not null,
-	FOREIGN KEY (c_user_group_id) REFERENCES t_user_groups(id)
+	FOREIGN KEY (c_user_group_id) REFERENCES t_user_groups(c_group_id)
 );
 
 

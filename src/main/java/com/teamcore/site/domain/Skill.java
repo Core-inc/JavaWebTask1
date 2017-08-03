@@ -15,6 +15,4 @@ import java.util.Set;
 public @Data class Skill extends AbstractDomainClass {
     private String name;
 
-    @ManyToMany(mappedBy = "skills")
-    Set<User> users = new HashSet<>();
 }

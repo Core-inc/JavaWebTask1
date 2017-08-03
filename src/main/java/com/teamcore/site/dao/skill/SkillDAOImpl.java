@@ -32,7 +32,7 @@ public class SkillDAOImpl implements SkillDAO {
             return pst;
         }, keyHolder);
 
-        skill.setId((Long) keyHolder.getKey());
+        skill.setId((Integer)keyHolder.getKey());
 
         return skill;
     }

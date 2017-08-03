@@ -6,13 +6,15 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "t_users")
-@EqualsAndHashCode(exclude = {"skills", "role"})
+@EqualsAndHashCode(exclude = {"role"})
 public @Data class User extends AbstractDomainClass {
+
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -22,21 +24,15 @@ public @Data class User extends AbstractDomainClass {
     @Column(nullable = false)
     private String salt;
     @Column(nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId")
-    private Role role;
+    @Column(name = "c_user_group_id", nullable = false)
+    private Integer roleId;
 
-    @ManyToMany
-    @JoinTable(name = "t_users_skills", joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "skill_id"))
-    Set<Skill> skills = new HashSet<>();
+//    @ManyToOne
+//    @JoinColumn(name = "c_user_group_id")
+//    private Role role;
 
-    public void addSkill(Skill skill) {
-        this.skills.add(skill);
-        skill.getUsers().add(this);
-    }
 }

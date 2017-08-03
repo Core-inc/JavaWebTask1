@@ -47,7 +47,7 @@ public class DataBaseConfig {
     @Bean
     public ConfigReader plainTextConfigReader() {
         try {
-            return new FileConfigReader("db.conf", (bytes) -> bytes);
+            return new FileConfigReader("db/db.conf", (bytes) -> bytes);
         } catch (IOException e) {
             throw new BeanCreationException("db FileConfigReader creation failed", e);
         }

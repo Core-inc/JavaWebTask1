@@ -4,12 +4,17 @@ import com.teamcore.site.TestFactory;
 import com.teamcore.site.dao.skill.SkillDAO;
 import com.teamcore.site.domain.Skill;
 import com.teamcore.site.domain.User;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -17,43 +22,32 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class UserDAOImplTest {
     private UserDAO userDAO;
-    private SkillDAO skillDAO;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-    @Autowired
-    public void setSkillDAO(SkillDAO skillDAO) {
-        this.skillDAO = skillDAO;
-    }
+
+
 
     @Test
-    public void saveUser() {
+    @Sql(scripts={"classpath:db/cleanup.sql",
+            "classpath:db/init_schema.sql",
+            "classpath:db/init_data.sql"})
+    public void saveAndGetUser() throws InterruptedException {
         User user = TestFactory.createDefaultUser();
 
-        assertNotNull(userDAO.addUser(user).getId());
+        User dbUser = userDAO.addUser(user);
+        assertNotNull(dbUser);
 
+        //fetch from database test
+        dbUser = userDAO.getUserById(dbUser.getId());
+        assertNotNull(dbUser);
+        //test fields
+        assertEquals(user.getName(), dbUser.getName());
+        assertEquals(user.getEmail(), dbUser.getEmail());
+        assertEquals(user.getCreatedAt(), dbUser.getCreatedAt());
     }
 
-    @Test
-    public void addUserSkills() {
-        User user = TestFactory.createDefaultUser();
-
-        Skill skill = new Skill();
-        skill.setName("java");
-
-        assertNotNull(skillDAO.addSkill(skill).getId());
-
-        user.addSkill(skill);
-
-        User userSaved = userDAO.addUser(user);
-
-        assertTrue(userSaved.getSkills().contains(skill));
-
-        userSaved = userDAO.getUserById(userSaved.getId());
-
-        System.out.println();
-    }
 }

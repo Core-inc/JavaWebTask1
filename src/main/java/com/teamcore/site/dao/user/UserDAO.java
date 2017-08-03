@@ -5,6 +5,7 @@ import com.teamcore.site.domain.User;
 
 public interface UserDAO {
     User addUser(User user);
-    User getUserById(Long id);
+    User getUserById(Integer id);
+    User getUserByEmail(String email);
     void addSkillToUser(User user, Skill skill);
 }

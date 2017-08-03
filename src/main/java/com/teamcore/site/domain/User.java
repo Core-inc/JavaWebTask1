@@ -24,6 +24,8 @@ public @Data class User extends AbstractDomainClass {
     @Column(nullable = false)
     private String salt;
     @Column(nullable = false)
+    private Boolean enabled;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

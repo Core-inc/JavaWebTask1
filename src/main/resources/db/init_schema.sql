@@ -9,6 +9,7 @@ create table t_users (
 	id				serial primary key not null,
 	c_name       		varchar(255) not null unique,
 	c_email 			varchar(255) not null unique,
+	c_enabled     boolean DEFAULT TRUE not null,
 	c_password   		varchar(255) not null,
 	c_salt       		varchar(255) not null,
 	c_created_at 		timestamp DEFAULT current_timestamp not null,

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Team Core</title>
@@ -11,7 +11,7 @@
 <!-- Header -->
 <div id="header">
     <div id="logo">
-        <a href="index.html">
+        <a href="/">
             <img src="../static/images/logo.png" width="60" height="60">
         </a>
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
@@ -20,27 +20,30 @@
 <!-- Body -->
 <div class="container-fluid" id="body">
     <div class="row pt-5">
+        <!-- Mac image -->
         <div class="col-md-7" style="padding-right: 50px">
-            <img src="../static/images/imac.png" alt="" width="100%">
+            <img src="../static/images/imac.png" width="100%">
         </div>
         <div class="col-md-4">
+            <!--Authorization form-->
             <div id="login_form">
-                <form id="form_sign_in" action="" method="POST">
+                <form id="form_sign_in" action="@{/personal}" th:object="${AuthPojo}" method="POST">
                     <p class="text-md-center" style="font-size: 20px; font-weight: bold; margin-bottom: 4px;">Лаборатория EPAM</p>
                     <p class="text-md-center mx-auto" id="form_subtitle">Вход для зарегистрированных пользователей</p>
-                    <input class="form-control" placeholder="Введите email" name="email" required>
-                    <input class="form-control" placeholder="Введите пароль" name="password" required>
-                    <button type="submit" class="my_button" href="">Войти</button>
+                    <input class="form-control" th:field="*{email}" placeholder="Введите email" name="email" required>
+                    <input class="form-control" th:field="*{password}" placeholder="Введите пароль" name="password" required>
+                    <button type="submit" class="my_button">Войти</button>
                 </form>
             </div>
-            <!--Не уверен, что способ верный.
+            <!-- Link to upload tech.task
+             Не уверен, что способ верный.
              Задача: Нам нужно вернуть одну из двух страниц (с формой авторизации
-             или с формой загрузки ТЗ), для этого служит контроллер (/index.html).
+             или с формой загрузки ТЗ), для этого служит контроллер (/index).
              Решение: Посылаем get-запрос, по параметру isAuthorization выбираем нужный шаблон.-->
             <div class="switch_form">
                 <p class="text-md-center">
                     Хотите начать сотрудничество?
-                    <a href="index.html?isAuthorization=0">Начать</a>
+                    <a href="index.html?isAuthorizationPage=0">Начать</a>
                 </p>
             </div>
         </div>
@@ -51,9 +54,9 @@
     <div class="row mx-auto">
         <div class="col-md-7 offset-md-2">
             <div id="footer_links">
-                <a href="indexAuth.html">Команда</a>
-                <a href="indexAuth.html">Задача</a>
-                <a href="indexAuth.html">Технологии</a>
+                <a href="/team">Команда</a>
+                <a href="/info">Информация о проекте</a>
+                <a href="/tech">Технологии</a>
             </div>
         </div>
         <div class="col-md-2 text-md-right">© 2017 Core-inc</div>

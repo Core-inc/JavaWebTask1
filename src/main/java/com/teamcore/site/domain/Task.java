@@ -4,9 +4,6 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 
-/**
- * Created by alterG on 1.08.17.
- */
 
 @Entity
 @Table(name = "t_tasks")

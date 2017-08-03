@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by igoz on 26.07.17.
- */
-
 @Service
 public class ProjectServiceImpl implements ProjectService {
 

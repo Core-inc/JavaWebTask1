@@ -1,18 +1,22 @@
 package com.teamcore.site.dao.user;
 
 import com.teamcore.site.TestFactory;
+import com.teamcore.site.dao.skill.SkillDAO;
+import com.teamcore.site.domain.Skill;
 import com.teamcore.site.domain.User;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.sql.Timestamp;
 
-/**
- * Created by igoz on 31.07.17.
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,11 +28,26 @@ public class UserDAOImplTest {
         this.userDAO = userDAO;
     }
 
+
+
+
     @Test
-    public void saveUser() {
+    @Sql(scripts={"classpath:db/cleanup.sql",
+            "classpath:db/init_schema.sql",
+            "classpath:db/init_data.sql"})
+    public void saveAndGetUser() throws InterruptedException {
         User user = TestFactory.createDefaultUser();
 
-        assertNotNull(userDAO.addUser(user).getId());
+        User dbUser = userDAO.addUser(user);
+        assertNotNull(dbUser);
 
+        //fetch from database test
+        dbUser = userDAO.getUserById(dbUser.getId());
+        assertNotNull(dbUser);
+        //test fields
+        assertEquals(user.getName(), dbUser.getName());
+        assertEquals(user.getEmail(), dbUser.getEmail());
+        assertEquals(user.getCreatedAt(), dbUser.getCreatedAt());
     }
+
 }

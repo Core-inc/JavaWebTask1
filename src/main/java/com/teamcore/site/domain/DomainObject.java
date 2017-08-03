@@ -1,11 +1,8 @@
 package com.teamcore.site.domain;
 
-/**
- * Created by igoz on 26.07.17.
- */
 public interface DomainObject {
 
-    Long getId();
+    Integer getId();
 
-    void setId(Long id);
+    void setId(Integer id);
 }

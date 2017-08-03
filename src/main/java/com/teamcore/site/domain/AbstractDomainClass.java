@@ -6,23 +6,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.MappedSuperclass;
 
-/**
- * Created by igoz on 26.07.17.
- */
-
 @MappedSuperclass
 public class AbstractDomainClass implements DomainObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
     @Override
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

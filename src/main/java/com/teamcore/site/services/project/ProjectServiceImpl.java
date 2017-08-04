@@ -1,22 +1,12 @@
 package com.teamcore.site.services.project;
 
 import com.teamcore.site.domain.Project;
-import com.teamcore.site.repositories.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
-
-    private ProjectRepository projectRepository;
-
-    @Autowired
-    public void setProjectRepository(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
-
     @Override
     public List<?> listAll() {
         return null;

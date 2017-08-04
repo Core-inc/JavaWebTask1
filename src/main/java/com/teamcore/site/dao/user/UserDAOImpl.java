@@ -17,6 +17,18 @@ import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+    private static final String INSERT_USER = "INSERT INTO t_users " +
+            "(c_name, c_email, c_password, c_salt, c_created_at, c_user_group_id) values (?, ?, ?, ?, ?, ?)";
+
+    private static final String GET_USER_BY_ID = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
+            "FROM t_users WHERE id = ?";
+
+    private static final String GET_USER_BY_EMAIL = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
+            "FROM t_users WHERE c_email = ?";
+
+    private static final String ADD_SKILL_TO_USER = "INSERT INTO t_users_skills (user_id, skill_id) values (?, ?)";
+
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -24,11 +36,8 @@ public class UserDAOImpl implements UserDAO {
     public User addUser(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String query = "INSERT INTO t_users (c_name, c_email, c_password, c_salt, c_created_at, c_user_group_id) values (?, ?, ?, ?, ?, ?)";
-        List<Object> args = new ArrayList<>();
-
         jdbcTemplate.update(con -> {
-            PreparedStatement pst = con.prepareStatement(query, new String[]{"id"});
+            PreparedStatement pst = con.prepareStatement(INSERT_USER, new String[]{"id"});
 
             pst.setString(1, user.getName());
             pst.setString(2, user.getEmail());
@@ -48,26 +57,18 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(Integer id) {
-        String query = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
-                "FROM t_users WHERE id = ?";
-
-
-        return jdbcTemplate.query(query, new Object[]{id}, new UserExtractor());
+        return jdbcTemplate.query(GET_USER_BY_ID, new Object[]{id}, new UserExtractor());
     }
 
     @Override
     public User getUserByEmail(String email) {
-        String query = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
-                "FROM t_users WHERE c_email = ?";
-
-        return jdbcTemplate.query(query, new Object[]{email}, new UserExtractor());
+        return jdbcTemplate.query(GET_USER_BY_EMAIL, new Object[]{email}, new UserExtractor());
 
     }
 
     @Override
     public void addSkillToUser(User user, Skill skill) {
-        String query = "INSERT INTO t_users_skills (user_id, skill_id) values (?, ?)";
-        jdbcTemplate.update(query, user.getId(), skill.getId());
+        jdbcTemplate.update(ADD_SKILL_TO_USER, user.getId(), skill.getId());
     }
 
 

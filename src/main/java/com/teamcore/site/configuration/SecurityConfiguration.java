@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 
@@ -46,8 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .formLogin()
         .loginProcessingUrl("/login").loginPage("/login")
         .failureHandler((httpServletRequest, httpServletResponse, e) -> {
-            httpServletResponse.addHeader("authFail", "true");
+            HttpSession session = httpServletRequest.getSession();
+            session.setAttribute("authFail", "true");
             httpServletResponse.sendRedirect("/login");
+//            httpServletResponse.addHeader("authFail", "true");
+//            httpServletRequest.getRequestDispatcher("/login").forward(httpServletRequest, httpServletResponse);
         })
         .permitAll();
     }

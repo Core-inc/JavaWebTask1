@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@Configuration
+@EnableWebSecurity
 public class AppSecurityConfig {
 
    @Configuration
-   @EnableWebSecurity
+   @Order(1)
    public static class AppWebSecurityConfig extends WebSecurityConfig {}
 
    @Configuration
-   @EnableWebSecurity
+   @Order(2)
    public static class AppServiceSecurityConfig extends ServiceSecurityConfig {}
 }

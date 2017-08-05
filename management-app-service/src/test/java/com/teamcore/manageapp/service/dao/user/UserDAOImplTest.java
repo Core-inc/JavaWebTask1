@@ -1,6 +1,6 @@
 package com.teamcore.manageapp.service.dao.user;
 
-import com.teamcore.manageapp.service.TestFactory;
+import com.teamcore.manageapp.service.utils.TestFactory;
 import com.teamcore.manageapp.service.config.TestConfig;
 import com.teamcore.manageapp.service.domain.User;
 import org.junit.Test;

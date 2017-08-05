@@ -14,6 +14,19 @@
 	</parent>
 
 
+	<dependencies>
+		<dependency>
+			<groupId>com.teamcore</groupId>
+			<artifactId>management-app-web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<!-- The main class to start by executing java -jar -->
+		<start-class>com.teamcore.manageapp.main.SiteApplication</start-class>
+	</properties>
+
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<plugins>

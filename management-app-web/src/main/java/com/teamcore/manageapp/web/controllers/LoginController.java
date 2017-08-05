@@ -20,12 +20,5 @@ public class LoginController {
         }
         return "login";
     }
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public String login(Model model, HttpServletResponse response) {
-//        if (response.getHeader("authFail") != null) {
-//            model.addAttribute("authFail", true);
-//        }
-//        return "login";
-//    }
 
 }

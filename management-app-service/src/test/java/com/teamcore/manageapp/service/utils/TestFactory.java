@@ -1,4 +1,4 @@
-package com.teamcore.manageapp.service;
+package com.teamcore.manageapp.service.utils;
 
 
 import com.teamcore.manageapp.service.domain.Role;

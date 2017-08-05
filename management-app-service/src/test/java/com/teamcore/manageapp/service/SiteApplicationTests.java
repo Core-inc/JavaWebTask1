@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.service;
 
 import com.teamcore.manageapp.service.config.TestConfig;
+import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class SiteApplicationTests {
 	@Autowired
 	public void setTestFactory(TestFactory testFactory) {
 		this.testFactory = testFactory;
-	}
+    }
 
 	@Test
 	public void contextLoads() {

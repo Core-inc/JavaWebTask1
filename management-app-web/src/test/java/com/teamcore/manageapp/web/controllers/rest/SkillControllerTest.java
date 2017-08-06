@@ -2,7 +2,9 @@ package com.teamcore.manageapp.web.controllers.rest;
 
 import com.teamcore.manageapp.service.domain.Skill;
 import com.teamcore.manageapp.service.services.skill.SkillService;
+import com.teamcore.manageapp.service.services.skill.exceptions.SkillDevelopersNotFoundException;
 import com.teamcore.manageapp.service.services.skill.exceptions.SkillNotFoundException;
+import com.teamcore.manageapp.service.services.skill.exceptions.SkillProjectsNotFoundException;
 import com.teamcore.manageapp.service.services.skill.exceptions.SkillsNotFoundException;
 import com.teamcore.manageapp.web.config.TestConfig;
 import org.junit.Before;
@@ -58,7 +60,7 @@ public class SkillControllerTest {
                 .thenThrow(new SkillsNotFoundException());
 
         //assert expectations
-        mockMvc.perform(get("/skill/list"))
+        mockMvc.perform(get("/skills"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error_code")
                         .value(RestError.SKILLS_NOT_FOUND_CODE));
@@ -86,7 +88,7 @@ public class SkillControllerTest {
 
 
         //assert expectations
-        mockMvc.perform(get("/skill/list"))
+        mockMvc.perform(get("/skills"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -108,7 +110,7 @@ public class SkillControllerTest {
                 .thenThrow(new SkillNotFoundException(1));
 
         //assert expectations
-        mockMvc.perform(get("/skill/{id}", 1))
+        mockMvc.perform(get("/skills/{id}", 1))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error_code")
                         .value(RestError.SKILL_NOT_FOUND_CODE));
@@ -129,7 +131,7 @@ public class SkillControllerTest {
                 .thenReturn(expectedSkill);
 
         //assert expectations
-        mockMvc.perform(get("/skill/{id}", 1))
+        mockMvc.perform(get("/skills/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(1))
@@ -139,4 +141,72 @@ public class SkillControllerTest {
         verifyNoMoreInteractions(mockService);
     }
 
+    @Test
+    public void testFindAllDevelopersById_NotFound() throws Exception {
+
+        //setup mock skill repository
+        when(mockService.findAllDevelopers(1))
+                .thenThrow(new SkillDevelopersNotFoundException());
+
+        //assert expectations
+        mockMvc.perform(get("/skills/{skillId}/developers", 1))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error_code")
+                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
+
+        verify(mockService, times(1)).findAllDevelopers(1);
+        verifyNoMoreInteractions(mockService);
+    }
+
+    @Test
+    //TODO implement test
+    public void testFindAllDevelopersById_Found() throws Exception {
+
+    }
+
+    @Test
+    public void testFindFreeDevelopersById_NotFound() throws Exception {
+
+        //setup mock skill repository
+        when(mockService.findFreeDevelopers(1))
+                .thenThrow(new SkillDevelopersNotFoundException());
+
+        //assert expectations
+        mockMvc.perform(get("/skills/{skillId}/developers/free", 1))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error_code")
+                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
+
+        verify(mockService, times(1)).findFreeDevelopers(1);
+        verifyNoMoreInteractions(mockService);
+    }
+
+    @Test
+    //TODO implement test
+    public void testFindFreeDevelopersById_Found() {
+
+    }
+
+    @Test
+    public void testFindProjectsById_NotFound() throws Exception {
+
+        //setup mock skill repository
+        when(mockService.findProjects(1))
+                .thenThrow(new SkillProjectsNotFoundException());
+
+        //assert expectations
+        mockMvc.perform(get("/skills/{skillId}/projects", 1))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error_code")
+                        .value(RestError.SKILL_PROJECTS_NOT_FOUND));
+
+        verify(mockService, times(1)).findProjects(1);
+        verifyNoMoreInteractions(mockService);
+    }
+
+    @Test
+    //TODO implement test
+    public void testFindProjectsById_Found() {
+
+    }
 }

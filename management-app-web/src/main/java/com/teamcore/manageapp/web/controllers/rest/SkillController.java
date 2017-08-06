@@ -23,7 +23,7 @@ import java.util.Map;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-@RequestMapping(value = "/skill", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/skills", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class SkillController {
 
     private SkillService skillService;
@@ -46,7 +46,8 @@ public class SkillController {
         this.skillService = skillService;
     }
 
-    @RequestMapping(path="/list", method = GET)
+
+    @RequestMapping(path="", method = GET)
     public @ResponseBody List<Skill> findAllSkills() {
         List<Skill> skills = skillService.findAll();
         if (skills == null) { throw new SkillsNotFoundException(); }
@@ -76,7 +77,7 @@ public class SkillController {
     }
 
     @RequestMapping(path="/{skillId}/projects", method = GET)
-    public List<Project> findProjectsById(int skillId) {
+    public List<Project> findProjectsById(@PathVariable("skillId") int skillId) {
         List<Project> projects = skillService.findProjects(skillId);
         if (projects == null) { throw new SkillProjectsNotFoundException(); }
         return projects;

@@ -3,21 +3,32 @@ package com.teamcore.manageapp.service.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(exclude = {"role"})
 public @Data class User {
     private Long id;
     private String name;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
+
+    @NotNull
     private String salt;
+
+    @NotNull
     private Boolean enabled;
 
+    @NotNull
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
+    @NotNull
     private Integer roleId;
 
     protected User() {}

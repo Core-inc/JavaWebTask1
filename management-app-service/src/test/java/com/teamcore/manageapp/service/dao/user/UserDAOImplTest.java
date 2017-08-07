@@ -35,11 +35,11 @@ public class UserDAOImplTest {
     public void saveAndGetUser() throws InterruptedException {
         User user = TestFactory.createDefaultUser();
 
-        User dbUser = userDAO.addUser(user);
+        User dbUser = userDAO.save(user);
         assertNotNull(dbUser);
 
         //fetch from database test
-        dbUser = userDAO.getUserById(dbUser.getId());
+        dbUser = userDAO.getById(dbUser.getId());
         assertNotNull(dbUser);
         //test fields
         assertEquals(user.getName(), dbUser.getName());

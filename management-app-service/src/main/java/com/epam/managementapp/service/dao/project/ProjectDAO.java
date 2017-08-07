@@ -9,7 +9,7 @@ import java.util.*;
  * DAO for Project
  */
 public interface ProjectDAO {
-    /**
+    /**¢¢
      * Method for adding new Project.
      * @param project - Project to add.
      */
@@ -46,7 +46,6 @@ public interface ProjectDAO {
 
     /**
      * Method to update info of the project.
-     * @param id - id of the old project.
      * @param newProject - project after update.
      */
     public String updateProject(Project newProject);

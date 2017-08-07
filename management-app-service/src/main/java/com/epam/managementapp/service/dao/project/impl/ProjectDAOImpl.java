@@ -6,6 +6,7 @@ import com.epam.managementapp.service.dao.project.utils.ProjectRowMapper;
 import com.epam.managementapp.service.domain.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,7 +27,8 @@ import java.util.List;
 /**
  * ProjectDAO implementation
  */
-@Service
+//@Service
+@Repository
 public class ProjectDAOImpl implements ProjectDAO {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -88,9 +90,14 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     public Project findById(int id) {
+        Project project;
 
-        SqlParameterSource ps = new MapSqlParameterSource("id", id);
-        Project project = namedParameterJdbcTemplate.queryForObject(FIND_PROJECT_BY_ID,ps,new ProjectRowMapper());
+        try {
+            SqlParameterSource ps = new MapSqlParameterSource("id", id);
+            project = namedParameterJdbcTemplate.queryForObject(FIND_PROJECT_BY_ID, ps, new ProjectRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
 
         return project;
 
@@ -110,9 +117,14 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     public Project findByInnerName(String innerName) {
+        Project project;
+        try{
         SqlParameterSource ps = new MapSqlParameterSource("innername", innerName);
-        Project project = namedParameterJdbcTemplate.queryForObject(FIND_PROJECT_BY_INNERNAME,ps,new ProjectRowMapper());
+        project = namedParameterJdbcTemplate.queryForObject(FIND_PROJECT_BY_INNERNAME,ps,new ProjectRowMapper());
 
+        } catch (EmptyResultDataAccessException e) {
+          return null;
+        }
         return project;
     }
 

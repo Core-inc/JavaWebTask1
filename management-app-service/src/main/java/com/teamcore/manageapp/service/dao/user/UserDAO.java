@@ -8,7 +8,7 @@ import com.teamcore.manageapp.service.domain.User;
 import java.util.List;
 
 public interface UserDAO {
-    User save(User user);
+    User saveOrUpdate(User user);
     User getById(Integer id);
     User getByEmail(String email);
     void addSkill(User user, Skill skill);

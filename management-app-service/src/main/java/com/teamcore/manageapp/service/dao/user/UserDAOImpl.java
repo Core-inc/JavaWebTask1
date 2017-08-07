@@ -19,24 +19,42 @@ import java.util.List;
 @Repository
 public class UserDAOImpl implements UserDAO {
     private static final String INSERT_USER = "INSERT INTO t_users " +
-            "(c_name, c_email, c_password, c_salt, c_created_at, c_user_group_id) values (?, ?, ?, ?, ?, ?)";
+            "(c_name, c_email, c_password, c_salt, c_created_at, c_updated_at, c_user_group_id) values (?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String GET_USER_BY_ID = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
-            "FROM t_users WHERE id = ?";
+    private static final String UPDATE_USER = "UPDATE t_users " +
+            "SET c_name = ?, c_email = ?, c_password = ?, c_salt = ?, c_created_at = ?, c_updated_at = ?, c_user_group_id = ? " +
+            "WHERE id = ?";
 
-    private static final String GET_USER_BY_EMAIL = "SELECT id, c_name, c_email, c_password, c_salt, c_created_at " +
-            "FROM t_users WHERE c_email = ?";
+    private static final String GET_USER_BY_ID = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on t_users.c_user_group_id = t_user_groups.c_group_id " +
+            "WHERE t_users.id = ?";
 
-    private static final String ADD_SKILL_TO_USER = "INSERT INTO t_users_skills (user_id, skill_id) values (?, ?)";
+    private static final String GET_USER_BY_EMAIL = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on t_users.c_user_group_id = t_user_groups.c_group_id " +
+            "WHERE c_email = ?";
+
+    private static final String ADD_SKILL_TO_USER = "INSERT INTO t_developers_skills (c_developer_id, c_skill_id) values (?, ?)";
 
     private static final String DELETE_USER = "DELETE FROM t_users WHERE id = ?";
 
-    private static final String GET_ROLE_BY_USER_ID = "SELECT id, c_group_id, c_name, FROM t_user_groups " +
-            "JOIN t_users on t_users.c_user_group_id = t_users_groups.c_group_id WHERE t_users.id = ?";
+    private static final String GET_ROLE_BY_USER_ID = "SELECT t_user_groups.id, c_group_id, t_user_groups.c_name " +
+            "FROM t_user_groups JOIN t_users on t_user_groups.c_group_id = t_users.c_user_group_id " +
+            "WHERE t_users.id = ?";
 
-    private static final String GET_ALL_USERS = "SELECT * FROM t_users";
+    private static final String GET_ALL_USERS = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id";
 
-    private static final String GET_ALL_USERS_BY_NAME = "SELECT * FROM t_users WHERE c_name = ?";
+    private static final String GET_ALL_USERS_BY_NAME = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
+            "WHERE t_users.c_name = ?";
 
 
     @Autowired
@@ -48,6 +66,18 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User saveOrUpdate(User user) {
+        User resultUser;
+
+        if (user.getId() == null) {
+            resultUser = save(user);
+        } else {
+            resultUser = update(user);
+        }
+
+        return resultUser;
+    }
+
     public User save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -59,13 +89,34 @@ public class UserDAOImpl implements UserDAO {
             pst.setString(3, user.getPassword());
             pst.setString(4, user.getSalt());
             pst.setTimestamp(5, Timestamp.valueOf(user.getCreatedAt()));
-            pst.setInt(6, user.getRoleId());
+            pst.setTimestamp(6, user.getUpdatedAt() != null ?
+                    Timestamp.valueOf(user.getUpdatedAt()) : null);
+            pst.setLong(7, user.getRole().getId());
 
             return pst;
         }, keyHolder);
 
         user.setId(keyHolder.getKey().longValue());
 
+        return user;
+    }
+
+    public User update(User user) {
+        jdbcTemplate.update(con -> {
+            PreparedStatement pst = con.prepareStatement(UPDATE_USER, new String[]{"id"});
+
+            pst.setString(1, user.getName());
+            pst.setString(2, user.getEmail());
+            pst.setString(3, user.getPassword());
+            pst.setString(4, user.getSalt());
+            pst.setTimestamp(5, Timestamp.valueOf(user.getCreatedAt()));
+            pst.setTimestamp(6, user.getUpdatedAt() != null ?
+                    Timestamp.valueOf(user.getUpdatedAt()) : null);
+            pst.setLong(7, user.getRole().getId());
+            pst.setLong(8, user.getId());
+
+            return pst;
+        });
 
         return user;
     }
@@ -75,6 +126,7 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.query(GET_USER_BY_EMAIL, new Object[]{email}, new UserExtractor());
     }
 
+    //TODO move to developer
     @Override
     public void addSkill(User user, Skill skill) {
         jdbcTemplate.update(ADD_SKILL_TO_USER, user.getId(), skill.getId());
@@ -97,7 +149,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAllByName(String name) {
-        return jdbcTemplate.query(GET_ALL_USERS_BY_NAME, new UserListExtractor());
+        return jdbcTemplate.query(GET_ALL_USERS_BY_NAME, new Object[]{name}, new UserListExtractor());
     }
 
     @Override

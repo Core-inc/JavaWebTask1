@@ -29,7 +29,7 @@ public @Data class User {
     private LocalDateTime updatedAt;
 
     @NotNull
-    private Integer roleId;
+    private Role role;
 
     protected User() {}
 
@@ -42,7 +42,7 @@ public @Data class User {
         this.enabled = user.enabled;
         this.createdAt = user.createdAt;
         this.updatedAt = user.updatedAt;
-        this.roleId = user.roleId;
+        this.role = user.role;
     }
 
     public static Builder newBuilder() {
@@ -93,8 +93,8 @@ public @Data class User {
             return (T) this;
         }
 
-        public T setRoleId(Integer roleId) {
-            User.this.setRoleId(roleId);
+        public T setRole(Role role) {
+            User.this.setRole(role);
             return (T) this;
         }
 

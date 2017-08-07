@@ -1,5 +1,6 @@
 package com.teamcore.manageapp.service.extractors;
 
+import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -25,7 +26,12 @@ public class UserExtractor implements ResultSetExtractor<User> {
                                 .toLocalDateTime())
                         .build();
 
+                Role role = new Role();
+                role.setId(resultSet.getLong("role_id"));
+                role.setRoleId(resultSet.getInt("c_group_id"));
+                role.setName(resultSet.getString("role_name"));
 
+                user.setRole(role);
             }
         }
 

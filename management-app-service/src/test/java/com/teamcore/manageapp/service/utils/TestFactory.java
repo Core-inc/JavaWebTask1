@@ -20,12 +20,12 @@ public class TestFactory {
                 .build();
 
         Role role = new Role();
+        role.setId(1);
         role.setRoleId(0);
         role.setName("admin");
         //user.setRole(role);
 
-        //TODO delete!!!
-        user.setRoleId(role.getRoleId());
+        user.setRole(role);
 
 
 

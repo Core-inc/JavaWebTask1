@@ -50,6 +50,11 @@ create table t_tasks (
 	FOREIGN KEY (c_project_id) REFERENCES t_projects(id)
 );
 
+create table t_skills (
+	id			serial primary key not null,
+	c_name			text not null,
+);
+
 create table t_developers_tasks (
 	id 				serial primary key not null,
 	c_developer_id 		integer not null,
@@ -59,3 +64,18 @@ create table t_developers_tasks (
 	UNIQUE(c_developer_id)
 );
 
+create table t_developers_skills (
+	id 				serial primary key not null,
+	c_developer_id 		integer not null,
+	c_skill_id 			integer not null,
+	FOREIGN KEY (c_developer_id) REFERENCES t_users(id),
+	FOREIGN KEY (c_skill_id) REFERENCES t_skills(id),
+);
+
+create table t_tasks_skills (
+	id 				serial primary key not null,
+	c_task_id 		integer not null,
+	c_skill_id 			integer not null,
+	FOREIGN KEY (c_task_id) REFERENCES t_users(id),
+	FOREIGN KEY (c_skill_id) REFERENCES t_skills(id),
+);

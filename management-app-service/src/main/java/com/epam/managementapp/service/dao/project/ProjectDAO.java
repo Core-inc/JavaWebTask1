@@ -2,6 +2,7 @@ package com.epam.managementapp.service.dao.project;
 
 import com.epam.managementapp.service.domain.Project;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ public interface ProjectDAO {
      * Method for adding new Project.
      * @param project - Project to add.
      */
-    public void addNewProject(Project project);
+    public int addNewProject(Project project);
 
     /**
      * Method to view all projects.
@@ -29,7 +30,7 @@ public interface ProjectDAO {
      * Method for deleting project by it's id.
      * @param id - id of project.
      */
-    public void deleteById(int id);
+    public String deleteById(int id);
 
     /**
      * Method to find a project by it's innerName.
@@ -41,14 +42,14 @@ public interface ProjectDAO {
      * Method for deleting project by it's innerName.
      * @param innerName - innerName of project.
      */
-    public void deleteByInnerName(String innerName);
+    public String deleteByInnerName(String innerName);
 
     /**
      * Method to update info of the project.
      * @param id - id of the old project.
      * @param newProject - project after update.
      */
-    public void updateProject(int id, Project newProject);
+    public String updateProject(Project newProject);
 
     /**
      * Method to find all projects that were created after the specified date.

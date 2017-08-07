@@ -1,8 +1,8 @@
 package com.teamcore.manageapp.service.dao.user;
 
-import com.teamcore.manageapp.service.utils.TestFactory;
 import com.teamcore.manageapp.service.config.TestServiceConfig;
-import com.teamcore.manageapp.service.domain.User;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestServiceConfig.class})
@@ -30,21 +27,59 @@ public class UserDAOImplTest {
         this.userDAO = userDAO;
     }
 
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
 
     @Test
-    public void saveAndGetUser() throws InterruptedException {
-        User user = TestFactory.createDefaultUser();
+    public void getById() throws Exception {
 
-        User dbUser = userDAO.save(user);
-        assertNotNull(dbUser);
+    }
 
-        //fetch from database test
-        dbUser = userDAO.getById(dbUser.getId());
-        assertNotNull(dbUser);
-        //test fields
-        assertEquals(user.getName(), dbUser.getName());
-        assertEquals(user.getEmail(), dbUser.getEmail());
-        assertEquals(user.getCreatedAt(), dbUser.getCreatedAt());
+    @Test
+    public void save() throws Exception {
+
+    }
+
+    @Test
+    public void getByEmail() throws Exception {
+
+    }
+
+    @Test
+    public void addSkill() throws Exception {
+
+    }
+
+    @Test
+    public void getAll() throws Exception {
+
+    }
+
+    @Test
+    public void delete() throws Exception {
+
+    }
+
+    @Test
+    public void delete1() throws Exception {
+
+    }
+
+    @Test
+    public void getAllByName() throws Exception {
+
+    }
+
+    @Test
+    public void getRoleByUserId() throws Exception {
+
     }
 
 }

@@ -1,7 +1,7 @@
 package com.teamcore.manageapp.service.dao.user;
 
 import com.teamcore.manageapp.service.utils.TestFactory;
-import com.teamcore.manageapp.service.config.TestConfig;
+import com.teamcore.manageapp.service.config.TestServiceConfig;
 import com.teamcore.manageapp.service.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestConfig.class})
+@ContextConfiguration(classes = {TestServiceConfig.class})
 public class UserDAOImplTest {
     private UserDAO userDAO;
 

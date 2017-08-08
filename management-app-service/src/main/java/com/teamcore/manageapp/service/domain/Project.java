@@ -20,7 +20,6 @@ public @Data class Project {
 
     private Project() {}
 
-
     private Project(Project project) {
         this.externalName = project.externalName;
         this.internalName = project.internalName;

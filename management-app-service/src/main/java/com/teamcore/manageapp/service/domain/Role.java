@@ -3,10 +3,8 @@ package com.teamcore.manageapp.service.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(exclude = "users")
-public @Data class Role extends AbstractDomainClass {
-
+public @Data class Role {
+    private Long id;
     private Integer roleId;
-
     private String name;
 }

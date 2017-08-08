@@ -11,8 +11,13 @@ import java.time.LocalDateTime;
 public class TestFactory {
 
     public static User createDefaultUser() {
-        User user = new User();
-        user.setName("John");
+        User user = User.newBuilder()
+                .setName("John")
+                .setEmail("john@epam.com")
+                .setPassword("123456")
+                .setSalt("wkfemwkpfmwek")
+                .setCreatedAt(LocalDateTime.now())
+                .build();
 
         Role role = new Role();
         role.setRoleId(0);
@@ -22,10 +27,7 @@ public class TestFactory {
         //TODO delete!!!
         user.setRoleId(role.getRoleId());
 
-        user.setEmail("john@epam.com");
-        user.setPassword("123456");
-        user.setSalt("wkfemwkpfmwek");
-        user.setCreatedAt(LocalDateTime.now());
+
 
         return user;
     }

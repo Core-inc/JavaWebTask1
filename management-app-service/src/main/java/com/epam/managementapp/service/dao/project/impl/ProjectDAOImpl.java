@@ -159,7 +159,4 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     }
 
-    public List<Project> findAfterTheDate(Date date) {
-        return null;
-    }
 }

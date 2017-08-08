@@ -10,11 +10,11 @@ import java.util.List;
 public interface SkillDAO {
     Skill addSkill(Skill skill);
     Skill updateSkill(Skill skill);
-    void deleteSkill(int id);
+    void deleteSkill(Long id);
 
-    Skill getSkillById(int id);
+    Skill getSkillById(Long id);
     List<Skill> getAllSkills();
-    List<Developer> getAllDevelopersBySkillId(int id);
-    List<Developer> getFreeDevelopersBySkillId(int id);
-    List<Project> getProjectsBySkillId(int id);
+    List<Developer> getAllDevelopersBySkillId(Long id);
+    List<Developer> getFreeDevelopersBySkillId(Long id);
+    List<Project> getProjectsBySkillId(Long id);
 }

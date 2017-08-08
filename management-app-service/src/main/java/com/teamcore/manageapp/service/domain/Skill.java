@@ -1,16 +1,15 @@
 package com.teamcore.manageapp.service.domain;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(exclude = "users")
-public @Data class Skill extends AbstractDomainClass {
+public @Data class Skill {
+    private Long id;
     private String name;
 
     private Skill() {}
 
     private Skill(Skill skill) {
-        super(skill);
+        this.id = skill.id;
         this.name = skill.name;
     }
 
@@ -22,7 +21,7 @@ public @Data class Skill extends AbstractDomainClass {
 
         private Builder() {}
 
-        public Builder setId(Integer id) {
+        public Builder setId(Long id) {
             Skill.this.setId(id);
             return this;
         }

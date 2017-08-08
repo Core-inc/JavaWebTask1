@@ -72,9 +72,9 @@ public class SkillDAOImpl implements SkillDAO {
 
         jdbcTemplate.update(INSERT_SKILL,
                 new MapSqlParameterSource("name", skill.getName()),
-                keyHolder);
+                keyHolder, new String[]{"id"});
 
-        skill.setId((Integer)keyHolder.getKeys().get("id"));
+        skill.setId(keyHolder.getKey().longValue());
 
         return skill;
     }
@@ -90,17 +90,17 @@ public class SkillDAOImpl implements SkillDAO {
     }
 
     @Override
-    public void deleteSkill(int id) {
+    public void deleteSkill(Long id) {
         jdbcTemplate.update(DELETE_SKILL, new MapSqlParameterSource("id", id));
     }
 
     @Override
-    public Skill getSkillById(int id) {
+    public Skill getSkillById(Long id) {
         return jdbcTemplate.queryForObject(SELECT_SKILL_BY_ID,
                 new MapSqlParameterSource("id", id),
                 (ResultSet resultSet, int i) -> Skill
                         .newBuilder()
-                        .setId(resultSet.getInt("id"))
+                        .setId(resultSet.getLong("id"))
                         .setName(resultSet.getString("c_name"))
                         .build()
         );
@@ -111,33 +111,33 @@ public class SkillDAOImpl implements SkillDAO {
         return jdbcTemplate.query(SELECT_ALL_SKILLS,
                 (ResultSet resultSet, int i) -> Skill
                         .newBuilder()
-                        .setId(resultSet.getInt("id"))
+                        .setId(resultSet.getLong("id"))
                         .setName(resultSet.getString("c_name"))
                         .build()
         );
     }
 
     @Override
-    public List<Developer> getAllDevelopersBySkillId(int id) {
+    public List<Developer> getAllDevelopersBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_ALL_DEVELOPERS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
                 SkillDAOImpl::developerRowMap);
     }
 
     @Override
-    public List<Developer> getFreeDevelopersBySkillId(int id) {
+    public List<Developer> getFreeDevelopersBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_FREE_DEVELOPERS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
                 SkillDAOImpl::developerRowMap);
     }
 
     @Override
-    public List<Project> getProjectsBySkillId(int id) {
+    public List<Project> getProjectsBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_PROJECTS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
                 (ResultSet resultSet, int i) -> Project
                         .newBuilder()
-                        .setId(resultSet.getInt("t_projects.id"))
+                        .setId(resultSet.getLong("t_projects.id"))
                         .setExternalName(resultSet.getString("t_projects.c_exter_name"))
                         .setInternalName(resultSet.getString("t_projects.c_inter_name"))
                         .setSpecLink(resultSet.getString("t_projects.c_specs_link"))
@@ -154,7 +154,7 @@ public class SkillDAOImpl implements SkillDAO {
     private static Developer developerRowMap(ResultSet resultSet, int i) throws SQLException {
         return Developer
                 .newBuilder()
-                .setId(resultSet.getInt("t_users.id"))
+                .setId(resultSet.getLong("t_users.id"))
                 .setName(resultSet.getString("t_users.c_name"))
                 .setEmail(resultSet.getString("t_users.c_email"))
                 .setCreatedAt(resultSet.getTimestamp("t_users.c_created_at")

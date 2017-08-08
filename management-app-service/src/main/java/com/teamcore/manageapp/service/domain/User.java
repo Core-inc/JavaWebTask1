@@ -6,7 +6,8 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(exclude = {"role"})
-public @Data class User extends AbstractDomainClass {
+public @Data class User {
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -22,7 +23,7 @@ public @Data class User extends AbstractDomainClass {
     protected User() {}
 
     protected User(User user) {
-        super(user);
+        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
@@ -41,7 +42,7 @@ public @Data class User extends AbstractDomainClass {
 
         protected Builder() {}
 
-        public T setId(Integer id) {
+        public T setId(Long id) {
             User.this.setId(id);
             return (T) this;
         }

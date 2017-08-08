@@ -46,14 +46,14 @@ public class UserDAOImpl implements UserDAO {
             return pst;
         }, keyHolder);
 
-        user.setId((Integer)keyHolder.getKey());
+        user.setId(keyHolder.getKey().longValue());
 
 
         return user;
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public User getUserById(Long id) {
         return jdbcTemplate.query(GET_USER_BY_ID, new Object[]{id}, new UserExtractor());
     }
 

@@ -4,8 +4,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-public @Data class Project extends AbstractDomainClass {
+public @Data class Project {
 
+    private Long id;
     private String externalName;
     private String internalName;
     private String specLink;
@@ -19,7 +20,6 @@ public @Data class Project extends AbstractDomainClass {
     private Project() {}
 
     private Project(Project project) {
-        super(project);
         this.externalName = project.externalName;
         this.internalName = project.internalName;
         this.specLink = project.specLink;
@@ -36,7 +36,7 @@ public @Data class Project extends AbstractDomainClass {
 
        private Builder() {}
 
-       public Builder setId(Integer id) {
+       public Builder setId(Long id) {
            Project.this.setId(id);
            return this;
        }

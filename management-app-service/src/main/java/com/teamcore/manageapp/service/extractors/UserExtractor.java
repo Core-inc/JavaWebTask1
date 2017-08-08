@@ -16,7 +16,7 @@ public class UserExtractor implements ResultSetExtractor<User> {
         while (resultSet.next()) {
             if (user == null) {
                 user = User.newBuilder()
-                        .setId(resultSet.getInt("id"))
+                        .setId(resultSet.getLong("id"))
                         .setName(resultSet.getString("c_name"))
                         .setEmail(resultSet.getString("c_email"))
                         .setPassword(resultSet.getString("c_password"))

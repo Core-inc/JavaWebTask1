@@ -66,7 +66,7 @@ public class SkillDAOImplTest {
     @Test
     public void updateSkill() throws Exception {
         Skill skill = Skill.newBuilder()
-                .setId(2)
+                .setId(2L)
                 .setName("Python")
                 .build();
 
@@ -75,7 +75,7 @@ public class SkillDAOImplTest {
         skillDAO.updateSkill(skill);
 
         //check that db updated
-        Skill returnedSkill = skillDAO.getSkillById(2);
+        Skill returnedSkill = skillDAO.getSkillById(2L);
 
         assertNotNull(returnedSkill);
         assertEquals(skill.getId(), returnedSkill.getId());
@@ -86,7 +86,7 @@ public class SkillDAOImplTest {
     public void deleteSkill() throws Exception {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_skills");
 
-        skillDAO.deleteSkill(1);
+        skillDAO.deleteSkill(1L);
 
         assertEquals(rowCount - 1,
                 JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_skills"));
@@ -94,7 +94,7 @@ public class SkillDAOImplTest {
 
     @Test
     public void getSkillById() throws Exception {
-        Integer id = 1;
+        Long id = 1L;
         String name = "Java";
 
         Skill skill = skillDAO.getSkillById(id);
@@ -114,10 +114,10 @@ public class SkillDAOImplTest {
 
         Collections.sort(skills, Comparator.comparing(Skill::getId));
 
-        assertEquals(Integer.valueOf(1), skills.get(0).getId());
+        assertEquals(Long.valueOf(1), skills.get(0).getId());
         assertEquals("Java", skills.get(0).getName());
 
-        assertEquals(Integer.valueOf(2), skills.get(1).getId());
+        assertEquals(Long.valueOf(2), skills.get(1).getId());
         assertEquals("Python", skills.get(1).getName());
 
     }

@@ -3,6 +3,7 @@ package com.teamcore.manageapp.service.domain;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public @Data class Project {
 
@@ -13,11 +14,12 @@ public @Data class Project {
 
     private Integer status;
 
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     private Project() {}
+
 
     private Project(Project project) {
         this.externalName = project.externalName;
@@ -27,6 +29,71 @@ public @Data class Project {
         this.createdAt = project.createdAt;
         this.updatedAt = project.updatedAt;
     }
+
+    public static Project getProject(){
+        return new Project();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id =id;
+    }
+
+    public String getExternalName() {
+        return externalName;
+    }
+
+    public void setExternalName(String externalName) {
+        this.externalName = externalName;
+    }
+
+    public String getInternalName() {
+        return internalName;
+    }
+
+    public void setInternalName(String innerName) {
+        this.internalName = internalName;
+    }
+
+    public String getSpecLink() {
+        return specLink;
+    }
+
+    public void setSpecLink(String specLink) {
+        this.specLink = specLink;
+    }
+
+    public int getStatus() {return status;}
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "id = "+id+" |externalName = "+externalName+ " |internalName= "+internalName + " |status="+Status.values()[status].toString()
+                +" |specLink = "+specLink + " |createdAt = "+createdAt+ " |updatedAt = "+updatedAt;
+    }
+
 
     public static Builder newBuilder() {
         return new Project().new Builder();
@@ -61,12 +128,12 @@ public @Data class Project {
            return this;
        }
 
-       public Builder setCreatedAt(LocalDateTime createdAt) {
+       public Builder setCreatedAt(Date createdAt) {
            Project.this.setCreatedAt(createdAt);
            return this;
        }
 
-       public Builder setUpdatedAt(LocalDateTime updatedAt) {
+       public Builder setUpdatedAt(Date updatedAt) {
            Project.this.setUpdatedAt(updatedAt);
            return this;
        }
@@ -76,4 +143,8 @@ public @Data class Project {
        }
 
     }
+
+    enum Status {IN_PROCESS,FINISHED,CANCELED}
+
 }
+//enum Status {IN_PROCESS,FINISHED,CANCELED}

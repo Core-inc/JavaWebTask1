@@ -6,6 +6,7 @@ import com.teamcore.manageapp.service.domain.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -95,104 +96,72 @@ public class SkillDAOImpl implements SkillDAO {
 
     @Override
     public Skill getSkillById(int id) {
-        return jdbcTemplate.query(SELECT_SKILL_BY_ID,
+        return jdbcTemplate.queryForObject(SELECT_SKILL_BY_ID,
                 new MapSqlParameterSource("id", id),
-                (ResultSet resultSet) -> {
-                    Skill skill = null;
-
-                    if(resultSet.next()) {
-                        skill = Skill.newBuilder()
-                                .setId(resultSet.getInt("id"))
-                                .setName(resultSet.getString("c_name"))
-                                .build();
-                    }
-
-                    return skill;
-                });
+                (ResultSet resultSet, int i) -> Skill
+                        .newBuilder()
+                        .setId(resultSet.getInt("id"))
+                        .setName(resultSet.getString("c_name"))
+                        .build()
+        );
     }
 
     @Override
     public List<Skill> getAllSkills() {
         return jdbcTemplate.query(SELECT_ALL_SKILLS,
-                (ResultSet resultSet) -> {
-                    List<Skill> skillList = new ArrayList<>();
-
-                    while(resultSet.next()) {
-                        skillList.add(Skill
-                                .newBuilder()
-                                .setId(resultSet.getInt("id"))
-                                .setName(resultSet.getString("c_name"))
-                                .build()
-                        );
-                    }
-
-                    return skillList;
-                });
+                (ResultSet resultSet, int i) -> Skill
+                        .newBuilder()
+                        .setId(resultSet.getInt("id"))
+                        .setName(resultSet.getString("c_name"))
+                        .build()
+        );
     }
 
     @Override
     public List<Developer> getAllDevelopersBySkillId(int id) {
         return jdbcTemplate.query(SELECT_ALL_DEVELOPERS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
-                new DeveloperListExtractor());
+                SkillDAOImpl::developerRowMap);
     }
 
     @Override
     public List<Developer> getFreeDevelopersBySkillId(int id) {
         return jdbcTemplate.query(SELECT_FREE_DEVELOPERS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
-                new DeveloperListExtractor());
+                SkillDAOImpl::developerRowMap);
     }
 
     @Override
     public List<Project> getProjectsBySkillId(int id) {
         return jdbcTemplate.query(SELECT_PROJECTS_BY_SKILL_ID,
                 new MapSqlParameterSource("id", id),
-                (ResultSet resultSet) -> {
-                    List<Project> projectList = new ArrayList<>();
-
-                    while(resultSet.next()) {
-                        projectList.add(Project
-                                .newBuilder()
-                                .setId(resultSet.getInt("t_projects.id"))
-                                .setExternalName(resultSet.getString("t_projects.c_exter_name"))
-                                .setInternalName(resultSet.getString("t_projects.c_inter_name"))
-                                .setSpecLink(resultSet.getString("t_projects.c_specs_link"))
-                                .setStatus(resultSet.getInt("t_projects.c_status"))
-                                .setCreatedAt(resultSet.getTimestamp("t_projects.c_created_at")
-                                        .toLocalDateTime())
-                                .setUpdatedAt(resultSet.getTimestamp("t_projects.c_updated_at")
-                                        .toLocalDateTime())
-                                .build()
-                        );
-                    }
-
-                    return projectList;
-                });
-    }
-
-    private static class DeveloperListExtractor implements ResultSetExtractor<List<Developer>> {
-
-        @Override
-        public List<Developer> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-            List<Developer> developerList = new ArrayList<>();
-
-            while(resultSet.next()) {
-                developerList.add(Developer
+                (ResultSet resultSet, int i) -> Project
                         .newBuilder()
-                        .setId(resultSet.getInt("t_users.id"))
-                        .setName(resultSet.getString("t_users.c_name"))
-                        .setEmail(resultSet.getString("t_users.c_email"))
-                        .setCreatedAt(resultSet.getTimestamp("t_users.c_created_at")
+                        .setId(resultSet.getInt("t_projects.id"))
+                        .setExternalName(resultSet.getString("t_projects.c_exter_name"))
+                        .setInternalName(resultSet.getString("t_projects.c_inter_name"))
+                        .setSpecLink(resultSet.getString("t_projects.c_specs_link"))
+                        .setStatus(resultSet.getInt("t_projects.c_status"))
+                        .setCreatedAt(resultSet.getTimestamp("t_projects.c_created_at")
                                 .toLocalDateTime())
-                        .setUpdatedAt(resultSet.getTimestamp("t_users.c_updated_at")
+                        .setUpdatedAt(resultSet.getTimestamp("t_projects.c_updated_at")
                                 .toLocalDateTime())
                         .build()
-                );
-            }
+        );
+    }
 
-            return developerList;
-        }
+
+    private static Developer developerRowMap(ResultSet resultSet, int i) throws SQLException {
+        return Developer
+                .newBuilder()
+                .setId(resultSet.getInt("t_users.id"))
+                .setName(resultSet.getString("t_users.c_name"))
+                .setEmail(resultSet.getString("t_users.c_email"))
+                .setCreatedAt(resultSet.getTimestamp("t_users.c_created_at")
+                        .toLocalDateTime())
+                .setUpdatedAt(resultSet.getTimestamp("t_users.c_updated_at")
+                        .toLocalDateTime())
+                .build();
     }
 
 }

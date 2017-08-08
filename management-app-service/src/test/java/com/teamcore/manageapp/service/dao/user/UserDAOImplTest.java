@@ -6,7 +6,6 @@ import com.teamcore.manageapp.service.domain.Skill;
 import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +41,6 @@ public class UserDAOImplTest {
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Before
-    public void setUp() throws Exception {
-
     }
 
     @After

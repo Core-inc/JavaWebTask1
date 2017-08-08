@@ -57,8 +57,12 @@ public class UserDAOImpl implements UserDAO {
             "WHERE t_users.c_name = ?";
 
 
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public User getById(Integer id) {
@@ -78,7 +82,7 @@ public class UserDAOImpl implements UserDAO {
         return resultUser;
     }
 
-    public User save(User user) {
+    private User save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(con -> {
@@ -101,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
-    public User update(User user) {
+    private User update(User user) {
         jdbcTemplate.update(con -> {
             PreparedStatement pst = con.prepareStatement(UPDATE_USER, new String[]{"id"});
 

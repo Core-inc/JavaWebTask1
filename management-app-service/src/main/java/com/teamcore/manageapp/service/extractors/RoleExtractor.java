@@ -11,17 +11,12 @@ public class RoleExtractor implements ResultSetExtractor<Role> {
 
     @Override
     public Role extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-        Role role= null;
+        resultSet.next();
 
-        while (resultSet.next()) {
-            if (role == null) {
-                role = new Role();
-                role.setId(resultSet.getInt("id"));
-                role.setRoleId(resultSet.getInt("c_group_id"));
-                role.setName(resultSet.getString("c_name"));
-
-            }
-        }
+        Role role = new Role();
+        role.setId(resultSet.getLong("id"));
+        role.setRoleId(resultSet.getInt("c_group_id"));
+        role.setName(resultSet.getString("c_name"));
 
         return role;
     }

@@ -12,28 +12,25 @@ public class UserExtractor implements ResultSetExtractor<User> {
 
     @Override
     public User extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-        User user = null;
+        resultSet.next();
 
-        while (resultSet.next()) {
-            if (user == null) {
-                user = User.newBuilder()
-                        .setId(resultSet.getLong("id"))
-                        .setName(resultSet.getString("c_name"))
-                        .setEmail(resultSet.getString("c_email"))
-                        .setPassword(resultSet.getString("c_password"))
-                        .setSalt(resultSet.getString("c_salt"))
-                        .setCreatedAt(resultSet.getTimestamp("c_created_at")
-                                .toLocalDateTime())
-                        .build();
+        Role role = new Role();
+        role.setId(resultSet.getLong("role_id"));
+        role.setRoleId(resultSet.getInt("c_group_id"));
+        role.setName(resultSet.getString("role_name"));
 
-                Role role = new Role();
-                role.setId(resultSet.getLong("role_id"));
-                role.setRoleId(resultSet.getInt("c_group_id"));
-                role.setName(resultSet.getString("role_name"));
-
-                user.setRole(role);
-            }
-        }
+        User user = User.newBuilder()
+                .setId(resultSet.getLong("id"))
+                .setName(resultSet.getString("c_name"))
+                .setEmail(resultSet.getString("c_email"))
+                .setPassword(resultSet.getString("c_password"))
+                .setSalt(resultSet.getString("c_salt"))
+                .setCreatedAt(resultSet.getTimestamp("c_created_at")
+                        .toLocalDateTime())
+                .setUpdatedAt(resultSet.getTimestamp("c_updated_at")
+                        .toLocalDateTime())
+                .setRole(role)
+                .build();
 
         return user;
     }

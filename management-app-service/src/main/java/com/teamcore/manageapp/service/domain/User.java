@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(exclude = {"role"})
 public @Data class User {
+    @NotNull
     private Long id;
+
+    @NotNull
     private String name;
 
     @NotNull

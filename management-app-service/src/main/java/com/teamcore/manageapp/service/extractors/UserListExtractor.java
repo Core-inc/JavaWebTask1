@@ -17,23 +17,23 @@ public class UserListExtractor implements ResultSetExtractor<List<User>> {
         List<User> users = new ArrayList<>();
 
         while (resultSet.next()) {
-            User user = new User();
-            user.setId(resultSet.getInt("user_id"));
-            user.setName(resultSet.getString("user_name"));
-            user.setEmail(resultSet.getString("c_email"));
-            user.setPassword(resultSet.getString("c_password"));
-            user.setSalt(resultSet.getString("c_salt"));
-            user.setCreatedAt(resultSet.getTimestamp("c_created_at").toLocalDateTime());
-
-            Timestamp createdAt = resultSet.getTimestamp("c_updated_at");
-            user.setCreatedAt(createdAt != null ? createdAt.toLocalDateTime() : null);
-
             Role role = new Role();
-            role.setId(resultSet.getInt("role_id"));
+            role.setId(resultSet.getLong("role_id"));
             role.setRoleId(resultSet.getInt("c_group_id"));
             role.setName(resultSet.getString("role_name"));
 
-            user.setRole(role);
+            User user = User.newBuilder()
+                    .setId(resultSet.getLong("id"))
+                    .setName(resultSet.getString("c_name"))
+                    .setEmail(resultSet.getString("c_email"))
+                    .setPassword(resultSet.getString("c_password"))
+                    .setSalt(resultSet.getString("c_salt"))
+                    .setCreatedAt(resultSet.getTimestamp("c_created_at")
+                            .toLocalDateTime())
+                    .setUpdatedAt(resultSet.getTimestamp("c_updated_at")
+                            .toLocalDateTime())
+                    .setRole(role)
+                    .build();
 
             users.add(user);
         }

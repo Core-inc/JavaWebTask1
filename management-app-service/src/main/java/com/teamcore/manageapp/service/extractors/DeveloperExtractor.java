@@ -14,13 +14,15 @@ public class DeveloperExtractor implements ResultSetExtractor<User> {
 
         while (resultSet.next()) {
             if (user == null) {
-                user = new User();
-                user.setId(resultSet.getInt("user_id"));
-                user.setName(resultSet.getString("user_name"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setSalt(resultSet.getString("salt"));
-                user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+                user = User.newBuilder()
+                        .setId(resultSet.getInt("user_id"))
+                        .setName(resultSet.getString("user_name"))
+                        .setEmail(resultSet.getString("email"))
+                        .setPassword(resultSet.getString("password"))
+                        .setSalt(resultSet.getString("salt"))
+                        .setCreatedAt(resultSet.getTimestamp("created_at")
+                                .toLocalDateTime())
+                        .build();
 
             }
 

@@ -48,8 +48,14 @@ public class DatabaseConfig {
 
     @Bean
     @Autowired
-    public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
+    public NamedParameterJdbcTemplate namedJdbcTemplate(DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    @Bean
+    @Autowired
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 
     @Bean

@@ -21,10 +21,10 @@ import java.util.List;
 @Repository
 public class SkillDAOImpl implements SkillDAO {
 
-    public final static String SELECT_SKILL_BY_ID = "SELECT * FROM t_skills WHERE id = ?";
+    public final static String SELECT_SKILL_BY_ID = "SELECT * FROM t_skills WHERE id = :id";
     public final static String SELECT_ALL_SKILLS = "SELECT * FROM t_skills ORDER BY id ASC";
 
-    public final static String INSERT_SKILL = "INSERT INTO t_skills (name) values (:name)";
+    public final static String INSERT_SKILL = "INSERT INTO t_skills (c_name) values (:name)";
     public final static String UPDATE_SKILL = "UPDATE t_skills SET c_name = :name WHERE id = :id";
     public final static String DELETE_SKILL = "DELETE FROM t_skills WHERE id = :id";
 
@@ -73,7 +73,7 @@ public class SkillDAOImpl implements SkillDAO {
                 new MapSqlParameterSource("name", skill.getName()),
                 keyHolder);
 
-        skill.setId((Integer)keyHolder.getKey());
+        skill.setId((Integer)keyHolder.getKeys().get("id"));
 
         return skill;
     }

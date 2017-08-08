@@ -3,6 +3,7 @@ package com.epam.managementapp.service.dao.project.impl;
 
 import com.epam.managementapp.service.dao.project.ProjectDAO;
 import com.epam.managementapp.service.domain.Project;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.epam.managementapp.service.config.TestConfig;
@@ -24,6 +26,14 @@ import java.util.List;
 @DirtiesContext
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
+/*
+@SqlGroup({
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+                scripts = {"classpath:db/init_schema.sql", "classpath:db/init_data.sql"}),
+        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
+                scripts = {"classpath:db/cleanup.sql"})
+})
+*/
 public class ProjectDAOImplTest {
 
     @Resource
@@ -36,7 +46,15 @@ public class ProjectDAOImplTest {
         this.projectDAO = projectDAO;
     }
 
+    @Before
+    public void setUp() throws Exception {
 
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
 
     @Test
     public void testAddNewProject() throws Exception {

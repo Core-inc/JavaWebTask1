@@ -5,7 +5,6 @@ import com.teamcore.manageapp.service.domain.Project;
 
 import java.sql.SQLException;
 import java.util.*;
-
 /**
  * DAO for Project
  */

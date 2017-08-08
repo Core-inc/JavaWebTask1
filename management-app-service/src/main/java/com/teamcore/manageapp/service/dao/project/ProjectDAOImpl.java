@@ -53,7 +53,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     private static final String UPDATE_PROJECT ="UPDATE t_projects SET c_exter_name = :c_exter_name, c_inter_name = :c_inter_name, c_specs_link = :c_specs_link, c_status = :c_status, c_created_at = :c_created_at, c_updated_at = :c_updated_at WHERE id = :id";
 
-
     public Long addNewProject(Project project) {
 
         SqlParameterSource ps = new MapSqlParameterSource()

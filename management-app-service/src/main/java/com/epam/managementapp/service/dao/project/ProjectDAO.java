@@ -9,7 +9,7 @@ import java.util.*;
  * DAO for Project
  */
 public interface ProjectDAO {
-    /**¢¢
+    /**
      * Method for adding new Project.
      * @param project - Project to add.
      */
@@ -50,10 +50,5 @@ public interface ProjectDAO {
      */
     public String updateProject(Project newProject);
 
-    /**
-     * Method to find all projects that were created after the specified date.
-     * @param date - specified date.
-     */
-    public List<Project> findAfterTheDate(Date date);
 
 }

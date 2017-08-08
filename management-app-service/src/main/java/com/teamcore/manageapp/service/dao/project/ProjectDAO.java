@@ -16,6 +16,7 @@ public interface ProjectDAO {
      */
     public Long addNewProject(Project project);
 
+
     /**
      * Method to view all projects.
      */

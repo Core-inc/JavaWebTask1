@@ -36,6 +36,7 @@ import java.util.List;
                 scripts = {"classpath:db/cleanup.sql"})
 })
 
+
 public class ProjectDAOImplTest {
 
     @Resource

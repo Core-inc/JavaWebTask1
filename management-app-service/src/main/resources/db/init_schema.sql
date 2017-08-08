@@ -37,6 +37,7 @@ create table t_projects (
 	c_updated_at 		date not null
 );
 
+
 --tasks that developers will do
 create table t_tasks (
 	id			serial primary key not null,

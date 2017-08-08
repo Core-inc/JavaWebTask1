@@ -11,17 +11,20 @@ public class UserExtractor implements ResultSetExtractor<User> {
 
     @Override
     public User extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-               User user = null;
+        User user = null;
 
         while (resultSet.next()) {
             if (user == null) {
-                user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setName(resultSet.getString("c_name"));
-                user.setEmail(resultSet.getString("c_email"));
-                user.setPassword(resultSet.getString("c_password"));
-                user.setSalt(resultSet.getString("c_salt"));
-                user.setCreatedAt(resultSet.getTimestamp("c_created_at").toLocalDateTime());
+                user = User.newBuilder()
+                        .setId(resultSet.getLong("id"))
+                        .setName(resultSet.getString("c_name"))
+                        .setEmail(resultSet.getString("c_email"))
+                        .setPassword(resultSet.getString("c_password"))
+                        .setSalt(resultSet.getString("c_salt"))
+                        .setCreatedAt(resultSet.getTimestamp("c_created_at")
+                                .toLocalDateTime())
+                        .build();
+
 
             }
         }

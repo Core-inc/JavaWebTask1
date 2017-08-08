@@ -1,51 +1,42 @@
 package com.teamcore.manageapp.service.domain;
 
-import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import static com.teamcore.manageapp.service.domain.Role.Code.*;
 
-public @Data class Role {
-    @NotNull
-    private Long id;
+public enum Role {
+    ADMIN(ADMIN_ID, "admin"),
+    MANAGER(MANAGER_ID, "manager"),
+    DEVELOPER(DEVELOPER_ID, "developer");
 
-    @NotNull
-    private Integer roleId;
-
-    @NotNull
-    private String name;
-
-    private Role() { }
-
-    private Role(Role role) {
-        this.id = role.id;
-        this.roleId = role.roleId;
-        this.name = role.name;
+    public static class Code {
+        public static final int ADMIN_ID = 0;
+        public static final int MANAGER_ID = 1;
+        public static final int DEVELOPER_ID = 2;
     }
 
-    public static Builder newBuilder() {
-        return new Role().new Builder();
+    private final Integer dbId;
+    private final String dbName;
+
+    public final static Role getRoleByRoleId(Integer dbId) {
+        switch (dbId) {
+            case ADMIN_ID: return ADMIN;
+            case MANAGER_ID: return MANAGER;
+            case DEVELOPER_ID: return DEVELOPER;
+        }
+        throw new IllegalArgumentException("Role dbId is not correct!");
     }
 
-    public class Builder {
-        private Builder() {}
+    Role(Integer dbId, String dbName) {
+        this.dbId = dbId;
+        this.dbName = dbName;
+    }
 
-        public Builder setId(Long id) {
-            Role.this.setId(id);
-            return this;
-        }
+    public Integer getRoleId() {
+        return dbId;
+    }
 
-        public Builder setRoleId(Integer roleId) {
-            Role.this.setRoleId(roleId);
-            return this;
-        }
-
-        public Builder setName(String name) {
-            Role.this.setName(name);
-            return this;
-        }
-
-        public Role build() {
-            return new Role(Role.this);
-        }
+    public String getName() {
+        return dbName;
     }
 }
+

@@ -81,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
                     .addValue("salt", user.getSalt())
                     .addValue("createdAt", Timestamp.valueOf(LocalDateTime.now()))
                     .addValue("updatedAt", Timestamp.valueOf(LocalDateTime.now()))
-                    .addValue("roleId", user.getRole().getId()),
+                    .addValue("roleId", user.getRole().getRoleId()),
                 keyHolder, new String[]{"id"});
 
         user.setId(keyHolder.getKey().longValue());
@@ -102,7 +102,7 @@ public class UserDAOImpl implements UserDAO {
                         .addValue("salt", user.getSalt())
                         .addValue("createdAt", Timestamp.valueOf(user.getCreatedAt()))
                         .addValue("updatedAt", Timestamp.valueOf(LocalDateTime.now()))
-                        .addValue("roleId", user.getRole().getId()),
+                        .addValue("roleId", user.getRole().getRoleId()),
                 keyHolder, new String[]{"id"});
 
         user.setId(keyHolder.getKey().longValue());
@@ -142,11 +142,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private static User userRowMap(ResultSet resultSet, int i) throws SQLException {
-        Role role = Role.newBuilder()
-                .setId(resultSet.getLong("role_id"))
-                .setRoleId(resultSet.getInt("c_group_id"))
-                .setName(resultSet.getString("role_name"))
-                .build();
+        Role role = Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
 
         User user = User.newBuilder()
                 .setId(resultSet.getLong("user_id"))
@@ -165,10 +161,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
-        return Role.newBuilder()
-                .setId(resultSet.getLong("id"))
-                .setRoleId(resultSet.getInt("c_group_id"))
-                .setName(resultSet.getString("c_name"))
-                .build();
+        return Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
     }
 }

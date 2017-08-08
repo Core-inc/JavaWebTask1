@@ -17,15 +17,8 @@ public class TestFactory {
                 .setPassword("123456")
                 .setSalt("wkfemwkpfmwek")
                 .setCreatedAt(LocalDateTime.now())
+                .setRole(Role.ADMIN)
                 .build();
-
-        Role role = Role.newBuilder()
-                .setId(1L)
-                .setRoleId(0)
-                .setName("admin")
-                .build();
-
-        user.setRole(role);
 
         return user;
     }

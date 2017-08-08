@@ -2,17 +2,26 @@ package com.teamcore.manageapp.service.domain;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public @Data class Project {
-
+    @NotNull
     private Long id;
+
+    @NotNull
     private String externalName;
+
+    @NotNull
     private String internalName;
+
+    @NotNull
     private String specLink;
 
+    @NotNull
     private Integer status;
 
+    @NotNull
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

@@ -80,19 +80,6 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void addSkill() throws Exception {
-        Integer amount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_developers_skills");
-        Skill skill = Skill.newBuilder()
-                .setId(1L)
-                .setName("java")
-                .build();
-
-        userDAO.addSkill(userDAO.getById(1L), skill);
-
-        assertEquals(amount + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_developers_skills"));
-    }
-
-    @Test
     public void getAll() throws Exception {
         Integer amount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
 

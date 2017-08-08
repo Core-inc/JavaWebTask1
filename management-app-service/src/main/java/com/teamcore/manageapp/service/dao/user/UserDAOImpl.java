@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getById(Integer id) {
+    public User getById(Long id) {
         return jdbcTemplate.query(GET_USER_BY_ID, new Object[]{id}, new UserExtractor());
     }
 
@@ -130,6 +130,11 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.query(GET_USER_BY_EMAIL, new Object[]{email}, new UserExtractor());
     }
 
+    @Override
+    public List<User> getAll() {
+        return jdbcTemplate.query(GET_ALL_USERS, new UserListExtractor());
+    }
+
     //TODO move to developer
     @Override
     public void addSkill(User user, Skill skill) {
@@ -137,12 +142,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getAll() {
-        return jdbcTemplate.query(GET_ALL_USERS, new UserListExtractor());
-    }
-
-    @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         jdbcTemplate.update(DELETE_USER, id);
     }
 
@@ -157,7 +157,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Role getRoleByUserId(Integer id) {
+    public Role getRoleByUserId(Long id) {
         return jdbcTemplate.query(GET_ROLE_BY_USER_ID, new Object[]{id}, new RoleExtractor());
     }
 }

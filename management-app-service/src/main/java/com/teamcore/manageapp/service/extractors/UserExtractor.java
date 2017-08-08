@@ -20,8 +20,8 @@ public class UserExtractor implements ResultSetExtractor<User> {
         role.setName(resultSet.getString("role_name"));
 
         User user = User.newBuilder()
-                .setId(resultSet.getLong("id"))
-                .setName(resultSet.getString("c_name"))
+                .setId(resultSet.getLong("user_id"))
+                .setName(resultSet.getString("user_name"))
                 .setEmail(resultSet.getString("c_email"))
                 .setPassword(resultSet.getString("c_password"))
                 .setSalt(resultSet.getString("c_salt"))

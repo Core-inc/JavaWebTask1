@@ -20,7 +20,7 @@ public class TestFactory {
                 .build();
 
         Role role = new Role();
-        role.setId(1);
+        role.setId(1L);
         role.setRoleId(0);
         role.setName("admin");
         //user.setRole(role);

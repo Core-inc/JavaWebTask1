@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface UserDAO {
     User saveOrUpdate(User user);
-    User getById(Integer id);
+    User getById(Long id);
     User getByEmail(String email);
     void addSkill(User user, Skill skill);
     List<User> getAll();
-    void delete(Integer id);
+    void delete(Long id);
     void delete(User user);
     List<User> getAllByName(String name);
-    Role getRoleByUserId(Integer id);
+    Role getRoleByUserId(Long id);
 }

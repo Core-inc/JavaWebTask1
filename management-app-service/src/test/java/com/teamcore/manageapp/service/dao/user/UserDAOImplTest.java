@@ -50,7 +50,7 @@ public class UserDAOImplTest {
 
     @Test
     public void getById() throws Exception {
-        Integer id = 1;
+        Long id = 1L;
         String email = "first@epam.com";
 
         User user = userDAO.getById(id);
@@ -87,7 +87,7 @@ public class UserDAOImplTest {
                 .setName("java")
                 .build();
 
-        userDAO.addSkill(userDAO.getById(1), skill);
+        userDAO.addSkill(userDAO.getById(1L), skill);
 
         assertEquals(amount + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_developers_skills"));
     }
@@ -105,7 +105,7 @@ public class UserDAOImplTest {
     public void delete() throws Exception {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
 
-        userDAO.delete(1);
+        userDAO.delete(1L);
 
         assertEquals(rowCount - 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users"));
     }
@@ -125,7 +125,7 @@ public class UserDAOImplTest {
         Integer roleId = 0;
         String roleName = "admin";
 
-        Role role = userDAO.getRoleByUserId(1);
+        Role role = userDAO.getRoleByUserId(1L);
 
         assertEquals(roleId, role.getRoleId());
         assertEquals(roleName, role.getName());

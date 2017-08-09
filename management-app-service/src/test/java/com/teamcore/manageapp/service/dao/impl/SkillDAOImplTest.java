@@ -1,6 +1,7 @@
-package com.teamcore.manageapp.service.dao.skill;
+package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.config.TestServiceConfig;
+import com.teamcore.manageapp.service.dao.SkillDAO;
 import com.teamcore.manageapp.service.domain.Skill;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,6 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

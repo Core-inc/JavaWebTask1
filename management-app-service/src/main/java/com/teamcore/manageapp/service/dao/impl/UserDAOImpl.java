@@ -1,5 +1,6 @@
-package com.teamcore.manageapp.service.dao.user;
+package com.teamcore.manageapp.service.dao.impl;
 
+import com.teamcore.manageapp.service.dao.UserDAO;
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+
     private static final String INSERT_USER = "INSERT INTO t_users " +
             "(c_name, c_email, c_password, c_salt, c_created_at, c_updated_at, c_user_group_id) " +
             "values (:name, :email, :password, :salt, :createdAt, :updatedAt, :roleId)";
@@ -69,19 +71,20 @@ public class UserDAOImpl implements UserDAO {
                 new MapSqlParameterSource("id", id), UserDAOImpl::userRowMap);
     }
 
+
     @Override
     public User save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(INSERT_USER,
                 new MapSqlParameterSource()
-                    .addValue("name", user.getName())
-                    .addValue("email", user.getEmail())
-                    .addValue("password", user.getPassword())
-                    .addValue("salt", user.getSalt())
-                    .addValue("createdAt", Timestamp.valueOf(LocalDateTime.now()))
-                    .addValue("updatedAt", Timestamp.valueOf(LocalDateTime.now()))
-                    .addValue("roleId", user.getRole().getId()),
+                        .addValue("name", user.getName())
+                        .addValue("email", user.getEmail())
+                        .addValue("password", user.getPassword())
+                        .addValue("salt", user.getSalt())
+                        .addValue("createdAt", Timestamp.valueOf(LocalDateTime.now()))
+                        .addValue("updatedAt", Timestamp.valueOf(LocalDateTime.now()))
+                        .addValue("roleId", user.getRole().getRoleId()),
                 keyHolder, new String[]{"id"});
 
         user.setId(keyHolder.getKey().longValue());
@@ -91,7 +94,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User update(User user) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(UPDATE_USER,
                 new MapSqlParameterSource()
@@ -102,10 +104,8 @@ public class UserDAOImpl implements UserDAO {
                         .addValue("salt", user.getSalt())
                         .addValue("createdAt", Timestamp.valueOf(user.getCreatedAt()))
                         .addValue("updatedAt", Timestamp.valueOf(LocalDateTime.now()))
-                        .addValue("roleId", user.getRole().getId()),
-                keyHolder, new String[]{"id"});
-
-        user.setId(keyHolder.getKey().longValue());
+                        .addValue("roleId", user.getRole().getRoleId())
+        );
 
         return user;
     }
@@ -126,10 +126,6 @@ public class UserDAOImpl implements UserDAO {
         jdbcTemplate.update(DELETE_USER, new MapSqlParameterSource("id", id));
     }
 
-    @Override
-    public void delete(User user) {
-        jdbcTemplate.update(DELETE_USER, new MapSqlParameterSource("id", user.getId()));
-    }
 
     @Override
     public List<User> getAllByName(String name) {
@@ -142,11 +138,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private static User userRowMap(ResultSet resultSet, int i) throws SQLException {
-        Role role = Role.newBuilder()
-                .setId(resultSet.getLong("role_id"))
-                .setRoleId(resultSet.getInt("c_group_id"))
-                .setName(resultSet.getString("role_name"))
-                .build();
+        Role role = Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
 
         User user = User.newBuilder()
                 .setId(resultSet.getLong("user_id"))
@@ -165,10 +157,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
-        return Role.newBuilder()
-                .setId(resultSet.getLong("id"))
-                .setRoleId(resultSet.getInt("c_group_id"))
-                .setName(resultSet.getString("c_name"))
-                .build();
+        return Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
     }
 }

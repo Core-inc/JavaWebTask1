@@ -25,3 +25,11 @@ nbdist/
 
 ###temp files
 *.swp
+
+###Maven
+.mvn/*
+mvnw
+mvnw.cmd
+
+###db config
+db.conf

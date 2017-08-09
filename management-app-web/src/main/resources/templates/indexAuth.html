@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Core</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+      integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" href="../static/css/main.css">
+<body>
+<!-- Header -->
+<div id="header">
+    <div id="logo">
+        <a href="/">
+            <img src="../static/images/logo.png" width="60" height="60">
+        </a>
+        <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
+    </div>
+</div>
+<!-- Body -->
+<div class="container-fluid" id="body">
+    <div class="row pt-5">
+        <!-- Mac image -->
+        <div class="col-md-7" style="padding-right: 50px">
+            <img src="../static/images/imac.png" width="100%">
+        </div>
+        <div class="col-md-4">
+            <!--Authorization form-->
+            <div id="login_form">
+                <form id="form_sign_in" action="@{/personal}" th:object="${AuthPojo}" method="POST">
+                    <p class="text-md-center" style="font-size: 20px; font-weight: bold; margin-bottom: 4px;">Лаборатория EPAM</p>
+                    <p class="text-md-center mx-auto" id="form_subtitle">Вход для зарегистрированных пользователей</p>
+                    <input class="form-control" th:field="*{email}" placeholder="Введите email" name="email" required>
+                    <input class="form-control" th:field="*{password}" placeholder="Введите пароль" name="password" required>
+                    <button type="submit" class="my_button">Войти</button>
+                </form>
+            </div>
+            <!-- Link to upload tech.task
+             Не уверен, что способ верный.
+             Задача: Нам нужно вернуть одну из двух страниц (с формой авторизации
+             или с формой загрузки ТЗ), для этого служит контроллер (/index).
+             Решение: Посылаем get-запрос, по параметру isAuthorization выбираем нужный шаблон.-->
+            <div class="switch_form">
+                <p class="text-md-center">
+                    Хотите начать сотрудничество?
+                    <a href="index.html?isAuthorizationPage=0">Начать</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<div class="container-fluid" id="footer">
+    <div class="row mx-auto">
+        <div class="col-md-7 offset-md-2">
+            <div id="footer_links">
+                <a href="/team">Команда</a>
+                <a href="/info">Информация о проекте</a>
+                <a href="/tech">Технологии</a>
+            </div>
+        </div>
+        <div class="col-md-2 text-md-right">© 2017 Core-inc</div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</body>
+</html>

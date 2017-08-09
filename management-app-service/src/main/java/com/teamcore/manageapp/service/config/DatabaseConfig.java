@@ -4,18 +4,22 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 @Configuration
+@PropertySource("classpath:db/db.properties")
 public class DatabaseConfig {
+
+    @Autowired
+    private Environment env;
+
     @Bean
     @Autowired
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
@@ -26,14 +30,10 @@ public class DatabaseConfig {
     public DataSource dataSource() throws IOException {
         BasicDataSource driver = new BasicDataSource();
 
-        Properties config = new Properties();
-        InputStream in = new ClassPathResource("db/db.properties").getInputStream();
-        config.load(in);
-
-        driver.setDriverClassName(config.getProperty("dbDriver"));
-        driver.setUrl(config.getProperty("dbURL"));
-        driver.setUsername(config.getProperty("dbUser"));
-        driver.setPassword(config.getProperty("dbPassword"));
+        driver.setDriverClassName(env.getProperty("dbDriver"));
+        driver.setUrl(env.getProperty("dbURL"));
+        driver.setUsername(env.getProperty("dbUser"));
+        driver.setPassword(env.getProperty("dbPassword"));
 
         return driver;
     }

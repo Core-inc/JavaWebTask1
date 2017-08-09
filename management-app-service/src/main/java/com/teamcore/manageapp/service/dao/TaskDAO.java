@@ -1,24 +1,21 @@
 package com.teamcore.manageapp.service.dao;
 
 
-
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
-import com.teamcore.manageapp.service.domain.User;
 
 import java.util.List;
 
-/**
- * Created by alterG on 1.08.17.
- */
 public interface TaskDAO {
 
-    // manager (assign task with users)
-    void addUserToTask(User user);
+    Task findTaskById(long id);
 
-    // manager and developer (browse developer portfolio)
-    List<Task> getTaskListbyUser(User user);
+    void deleteTaskById(long id);
 
-    // manager (browse project tasks)
-    List<Task> getTaskListbyProject(Project project);
+    void updateTask(Task task);
+
+    Task addTask(Task task);
+
+    List<Task> findAllTasksByProject(Project project);
+
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class TestFactory {
 
     public static User createDefaultNewUser() {
-       return User.newBuilder()
+        return User.newBuilder()
                 .setName("John")
                 .setEmail("john@epam.com")
                 .setPassword("123456")
@@ -98,4 +98,28 @@ public class TestFactory {
                 .build();
     }
 
+    //PROJECTS AND TASKS
+
+    public static Task createNewTask() {
+        return Task.newBuilder()
+                .setName("dummy_task")
+                .setCost(10L)
+                .setDuration(7L)
+                .setStatus(1)
+                .setProjectId(2L)
+                .setCreatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Task createExistedTask() {
+        return Task.newBuilder()
+                .setName("testing_task")
+                .setId(1L)
+                .setCost(10L)
+                .setDuration(5L)
+                .setStatus(1)
+                .setProjectId(1L)
+                .setCreatedAt(LocalDateTime.now())
+                .build();
+    }
 }

@@ -65,7 +65,6 @@ public class UserDAOImplTest {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
         User user = TestFactory.createDefaultNewUser();
 
-
         //insert in db
         User savedUser = userDAO.save(user);
 

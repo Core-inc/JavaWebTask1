@@ -21,16 +21,16 @@ public class TestFactory {
 
     }
 
-//    public static Admin createDefaultNewAdmin() {
-//        return Admin.newBuilder()
-//                .setName("John")
-//                .setEmail("john@epam.com")
-//                .setPassword("123456")
-//                .setSalt("wkfemwkpfmwek")
-//                .setCreatedAt(LocalDateTime.now())
-//                .build();
-//    }
-//
+    public static Admin createDefaultNewAdmin() {
+        return Admin.newBuilder()
+                .setName("John")
+                .setEmail("john@epam.com")
+                .setPassword("123456")
+                .setSalt("wkfemwkpfmwek")
+                .setCreatedAt(LocalDateTime.now())
+                .build();
+    }
+
 //    public static Manager createDefaultNewManager() {
 //        return Manager.newBuilder()
 //                .setName("John")
@@ -63,17 +63,17 @@ public class TestFactory {
                 .build();
     }
 
-//    public static Admin createDefaultExistedAdmin() {
-//        return Admin.newBuilder()
-//                .setId(1L)
-//                .setName("first")
-//                .setEmail("first@epam.com")
-//                .setPassword("qwe")
-//                .setSalt("qwe")
-//                .setCreatedAt(LocalDateTime.now())
-//                .build();
-//    }
-//
+    public static Admin createDefaultExistedAdmin() {
+        return Admin.newBuilder()
+                .setId(1L)
+                .setName("first")
+                .setEmail("first@epam.com")
+                .setPassword("qwe")
+                .setSalt("qwe")
+                .setCreatedAt(LocalDateTime.now())
+                .build();
+    }
+
 //    public static Manager createDefaultExistedManager() {
 //        return Manager.newBuilder()
 //                .setId(2L)

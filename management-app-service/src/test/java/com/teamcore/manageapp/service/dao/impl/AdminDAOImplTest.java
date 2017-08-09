@@ -1,11 +1,9 @@
 package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.config.TestServiceConfig;
-import com.teamcore.manageapp.service.dao.UserDAO;
-import com.teamcore.manageapp.service.domain.Role;
-import com.teamcore.manageapp.service.domain.User;
+import com.teamcore.manageapp.service.dao.AdminDAO;
+import com.teamcore.manageapp.service.domain.Admin;
 import com.teamcore.manageapp.service.utils.TestFactory;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,48 +26,32 @@ import static org.junit.Assert.assertEquals;
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
                 scripts = {"classpath:db/cleanup.sql"})
 })
-public class UserDAOImplTest {
+public class AdminDAOImplTest {
 
-    private UserDAO userDAO;
+    private AdminDAO adminDAO;
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
 
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
-    @Test
-    public void getById() throws Exception {
-        Long id = 1L;
-        String email = "first@epam.com";
-
-        User user = userDAO.getById(id);
-
-        assertEquals(id, user.getId());
-        assertEquals(email, user.getEmail());
+    @Autowired
+    public void setAdminDAO(AdminDAO adminDAO) {
+        this.adminDAO = adminDAO;
     }
 
     @Test
     public void save() throws Exception {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
-        User user = TestFactory.createDefaultNewUser();
+
+        Admin user = TestFactory.createDefaultNewAdmin();
 
         //insert in db
-        User savedUser = userDAO.save(user);
+        Admin savedUser = adminDAO.save(user);
 
         //check that db inserted
-        User returnedUser = userDAO.getById(savedUser.getId());
+        Admin returnedUser = adminDAO.getById(savedUser.getId());
 
         assertEquals(rowCount + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users"));
         assertEquals(savedUser.getId(), returnedUser.getId());
@@ -78,68 +60,77 @@ public class UserDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        User user = TestFactory.createDefaultExistedUser();
+        Admin user = TestFactory.createDefaultExistedAdmin();
 
         String newName = "Mr. Anderson";
 
         //update name
         user.setName(newName);
 
-        userDAO.update(user);
+        adminDAO.update(user);
 
         //check that db updated
-        User returnedUser = userDAO.getById(user.getId());
+        Admin returnedUser = adminDAO.getById(user.getId());
 
         assertEquals(user.getName(), returnedUser.getName());
-    }
-
-
-    @Test
-    public void getByEmail() throws Exception {
-        String email = "first@epam.com";
-
-        User user = userDAO.getByEmail(email);
-
-        assertEquals(email, user.getEmail());
-    }
-
-    @Test
-    public void getAll() throws Exception {
-        Integer amount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
-
-        List<User> users = userDAO.getAll();
-
-        assertEquals(Integer.valueOf(amount), Integer.valueOf(users.size()));
     }
 
     @Test
     public void delete() throws Exception {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
 
-        userDAO.delete(1L);
+        adminDAO.delete(1L);
 
         assertEquals(rowCount - 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users"));
+    }
+
+    @Test
+    public void getById() throws Exception {
+        Long id = 1L;
+        String email = "first@epam.com";
+
+        Admin user = adminDAO.getById(id);
+
+        assertEquals(id, user.getId());
+        assertEquals(email, user.getEmail());
+    }
+
+    @Test
+    public void getByEmail() throws Exception {
+        String email = "first@epam.com";
+
+        Admin user = adminDAO.getByEmail(email);
+
+        assertEquals(email, user.getEmail());
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        Integer amount = 1;
+
+        Admin admin = TestFactory.createDefaultExistedAdmin();
+
+        List<Admin> users = adminDAO.getAll();
+
+        assertEquals(amount, Integer.valueOf(users.size()));
+
+        assertEquals(admin.getId(), users.get(0).getId());
+        assertEquals(admin.getEmail(), users.get(0).getEmail());
     }
 
     @Test
     public void getAllByName() throws Exception {
         Integer amount = 1;
 
-        List<User> users = userDAO.getAllByName("first");
+        Admin admin = TestFactory.createDefaultExistedAdmin();
 
-        assertEquals(Integer.valueOf(amount), Integer.valueOf(users.size()));
+        List<Admin> users = adminDAO.getAllByName(admin.getName());
 
-    }
+        assertEquals(amount, Integer.valueOf(users.size()));
 
-    @Test
-    public void getRoleByUserId() throws Exception {
-        Integer roleId = 0;
-        String roleName = "admin";
+        assertEquals(admin.getId(), users.get(0).getId());
+        assertEquals(admin.getEmail(), users.get(0).getEmail());
 
-        Role role = userDAO.getRoleByUserId(1L);
-
-        assertEquals(roleId, role.getRoleId());
-        assertEquals(roleName, role.getName());
     }
 
 }

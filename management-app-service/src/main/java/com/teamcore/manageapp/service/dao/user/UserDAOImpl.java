@@ -70,20 +70,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User saveOrUpdate(User user) {
-        User resultUser;
-
-        if (user.getId() == null) {
-            resultUser = save(user);
-        } else {
-            resultUser = update(user);
-        }
-
-        return resultUser;
-    }
-
-    //TODO update role
-    private User save(User user) {
+    public User save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(INSERT_USER,
@@ -102,7 +89,8 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
-    private User update(User user) {
+    @Override
+    public User update(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(UPDATE_USER,

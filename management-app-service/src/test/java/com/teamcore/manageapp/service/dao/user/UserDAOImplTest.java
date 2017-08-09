@@ -64,10 +64,23 @@ public class UserDAOImplTest {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
         User user = TestFactory.createDefaultUser();
 
-        User savedUser = userDAO.saveOrUpdate(user);
+        User savedUser = userDAO.save(user);
 
         assertEquals(rowCount + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users"));
         assertEquals(user.getEmail(), savedUser.getEmail());
+    }
+
+    @Test
+    public void update() throws Exception {
+        User user = TestFactory.createDefaultUser();
+
+        User savedUser = userDAO.save(user);
+
+        savedUser.setName("changed");
+
+        User updatedUser = userDAO.update(savedUser);
+
+        assertEquals(updatedUser.getName(), savedUser.getName());
     }
 
     @Test

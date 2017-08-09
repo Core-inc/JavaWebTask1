@@ -6,7 +6,8 @@ import com.teamcore.manageapp.service.domain.User;
 import java.util.List;
 
 public interface UserDAO {
-    User saveOrUpdate(User user);
+    User save(User user);
+    User update(User user);
     User getById(Long id);
     User getByEmail(String email);
     List<User> getAll();

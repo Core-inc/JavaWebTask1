@@ -14,3 +14,12 @@ insert into t_users(c_name, c_email, c_password, c_salt, c_user_group_id) values
 'second', 'second@epam.com', 'qwe', 'qwe', 1);
 insert into t_users(c_name, c_email, c_password, c_salt, c_user_group_id) values(
 'third', 'third@epam.com', 'qwe', 'qwe', 2);
+
+INSERT INTO t_projects (c_exter_name, c_inter_name, c_specs_link, c_status, c_created_at, c_updated_at)
+VALUES('testExternalName', 'testInternalName', 'http://test', 0, '2016-01-19 15:00:00', '2017-10-27 02:00:00');
+
+INSERT INTO t_projects (c_exter_name, c_inter_name, c_specs_link, c_status, c_created_at, c_updated_at)
+VALUES('web_site', 'web_site_1', 'http://site', 0, '2017-10-15 02:00:00', '2017-10-15 02:00:00');
+
+INSERT INTO t_projects (c_exter_name, c_inter_name, c_specs_link, c_status, c_created_at, c_updated_at)
+VALUES('game_tanks', 'world_of_tanks', 'http://tanks', 0, '2017-10-12 01:00:00', '2017-10-12 01:00:00');

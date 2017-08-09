@@ -3,22 +3,36 @@ package com.teamcore.manageapp.service.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(exclude = {"role"})
 public @Data class User {
+    @NotNull
     private Long id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
+
+    @NotNull
     private String salt;
+
+    @NotNull
     private Boolean enabled;
 
+    @NotNull
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    private Integer roleId;
+    @NotNull
+    private Role role;
 
     protected User() {}
 
@@ -31,7 +45,7 @@ public @Data class User {
         this.enabled = user.enabled;
         this.createdAt = user.createdAt;
         this.updatedAt = user.updatedAt;
-        this.roleId = user.roleId;
+        this.role = user.role;
     }
 
     public static Builder newBuilder() {
@@ -82,8 +96,8 @@ public @Data class User {
             return (T) this;
         }
 
-        public T setRoleId(Integer roleId) {
-            User.this.setRoleId(roleId);
+        public T setRole(Role role) {
+            User.this.setRole(role);
             return (T) this;
         }
 

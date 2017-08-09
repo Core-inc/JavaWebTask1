@@ -19,15 +19,13 @@ public class TestFactory {
                 .setCreatedAt(LocalDateTime.now())
                 .build();
 
-        Role role = new Role();
-        role.setRoleId(0);
-        role.setName("admin");
-        //user.setRole(role);
+        Role role = Role.newBuilder()
+                .setId(1L)
+                .setRoleId(0)
+                .setName("admin")
+                .build();
 
-        //TODO delete!!!
-        user.setRoleId(role.getRoleId());
-
-
+        user.setRole(role);
 
         return user;
     }

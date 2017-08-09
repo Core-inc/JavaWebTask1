@@ -31,6 +31,7 @@ public class TestFactory {
                 .build();
     }
 
+
 //    public static Manager createDefaultNewManager() {
 //        return Manager.newBuilder()
 //                .setName("John")
@@ -62,6 +63,7 @@ public class TestFactory {
                 .setRole(Role.ADMIN)
                 .build();
     }
+
 
     public static Admin createDefaultExistedAdmin() {
         return Admin.newBuilder()

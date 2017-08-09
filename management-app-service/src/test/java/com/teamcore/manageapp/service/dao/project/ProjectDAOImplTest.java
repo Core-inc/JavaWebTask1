@@ -56,9 +56,9 @@ public class ProjectDAOImplTest {
     @Test
     public void testAddNewProject() throws Exception {
         Project newProject = Project.getProject();
-        newProject.setExternalName("testExternalName");
-        newProject.setInternalName("testInternalName");
-        newProject.setSpecLink("http://test");
+        newProject.setExternalName("testExternalName2");
+        newProject.setInternalName("testInternalName2");
+        newProject.setSpecLink("http://test2");
         newProject.setStatus(0);
         newProject.setCreatedAt(new Date("08/07/2017"));
         newProject.setUpdatedAt(new Date("08/07/2017"));
@@ -111,7 +111,7 @@ public class ProjectDAOImplTest {
     public void testFindByInternalName() throws Exception {
 
 
-        String internalName = "testInternalName";
+        String internalName = "testInternalName2";
         Project project = projectDAO.findByInternalName(internalName);
 
         Assert.assertNotNull(project);
@@ -127,10 +127,10 @@ public class ProjectDAOImplTest {
     public void testDeleteByInternalName() throws Exception {
 
 
-        String internalName = "testInternalName";
+        String internalName = "testInternalName2";
         projectDAO.deleteByInternalName(internalName);
 
-        Project project = projectDAO.findByInternalName("testInternalName");
+        Project project = projectDAO.findByInternalName("testInternalName2");
 
         Assert.assertNull(project);
     }
@@ -143,7 +143,7 @@ public class ProjectDAOImplTest {
     @Test
     public void testUpdateProject() throws Exception {
 
-        Long id = 6L;
+        Long id = 3L;
         Project oldProject = projectDAO.findById(id);
         Project updProject = projectDAO.findById(id);
         updProject.setStatus(1);

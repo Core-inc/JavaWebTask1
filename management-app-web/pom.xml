@@ -13,11 +13,21 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<version.logback>1.2.3</version.logback>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.teamcore</groupId>
 			<artifactId>management-app-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${version.logback}</version>
 		</dependency>
 
         <dependency>

@@ -1,8 +1,8 @@
-package com.teamcore.manageapp.service.dao.user;
+package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.config.TestServiceConfig;
+import com.teamcore.manageapp.service.dao.UserDAO;
 import com.teamcore.manageapp.service.domain.Role;
-import com.teamcore.manageapp.service.domain.Skill;
 import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.After;
@@ -29,14 +29,15 @@ import static org.junit.Assert.assertEquals;
                 scripts = {"classpath:db/cleanup.sql"})
 })
 public class UserDAOImplTest {
+
     private UserDAO userDAO;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -62,26 +63,37 @@ public class UserDAOImplTest {
     @Test
     public void save() throws Exception {
         Integer rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users");
-        User user = TestFactory.createDefaultUser();
+        User user = TestFactory.createDefaultNewUser();
 
+
+        //insert in db
         User savedUser = userDAO.save(user);
 
+        //check that db inserted
+        User returnedUser = userDAO.getById(savedUser.getId());
+
         assertEquals(rowCount + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "t_users"));
-        assertEquals(user.getEmail(), savedUser.getEmail());
+        assertEquals(savedUser.getId(), returnedUser.getId());
+        assertEquals(savedUser.getEmail(), returnedUser.getEmail());
     }
 
     @Test
     public void update() throws Exception {
-        User user = TestFactory.createDefaultUser();
+        User user = TestFactory.createDefaultExistedUser();
 
-        User savedUser = userDAO.save(user);
+        String newName = "Mr. Anderson";
 
-        savedUser.setName("changed");
+        //update name
+        user.setName(newName);
 
-        User updatedUser = userDAO.update(savedUser);
+        userDAO.update(user);
 
-        assertEquals(updatedUser.getName(), savedUser.getName());
+        //check that db updated
+        User returnedUser = userDAO.getById(user.getId());
+
+        assertEquals(user.getName(), returnedUser.getName());
     }
+
 
     @Test
     public void getByEmail() throws Exception {

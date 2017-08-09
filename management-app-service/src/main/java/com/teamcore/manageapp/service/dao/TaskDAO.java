@@ -1,4 +1,4 @@
-package com.teamcore.manageapp.service.dao.task;
+package com.teamcore.manageapp.service.dao;
 
 
 

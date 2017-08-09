@@ -1,5 +1,6 @@
-package com.teamcore.manageapp.service.dao.skill;
+package com.teamcore.manageapp.service.dao.impl;
 
+import com.teamcore.manageapp.service.dao.SkillDAO;
 import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Skill;

@@ -1,26 +1,21 @@
 package com.teamcore.manageapp.service.config;
 
-import com.teamcore.manageapp.service.utils.ConfigException;
-import com.teamcore.manageapp.service.utils.ConfigReader;
-import com.teamcore.manageapp.service.utils.FileConfigReader;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 @Configuration
 public class DatabaseConfig {
-
     @Bean
     @Autowired
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
@@ -28,20 +23,17 @@ public class DatabaseConfig {
     }
 
     @Bean
-    @Autowired
-    public DataSource dataSource(ConfigReader cfgReader) {
+    public DataSource dataSource() throws IOException {
         BasicDataSource driver = new BasicDataSource();
 
-        //read config options
-        try {
-            driver.setDriverClassName(cfgReader.getOption("dbDriver"));
-            driver.setUrl(cfgReader.getOption("dbURL"));
-            driver.setUsername(cfgReader.getOption("dbUser"));
-            driver.setPassword(cfgReader.getOption("dbPassword"));
+        Properties config = new Properties();
+        InputStream in = new ClassPathResource("db/db.properties").getInputStream();
+        config.load(in);
 
-         } catch (ConfigException e) {
-            throw new BeanCreationException("db driver settings setup failed", e);
-         }
+        driver.setDriverClassName(config.getProperty("dbDriver"));
+        driver.setUrl(config.getProperty("dbURL"));
+        driver.setUsername(config.getProperty("dbUser"));
+        driver.setPassword(config.getProperty("dbPassword"));
 
         return driver;
     }
@@ -56,14 +48,5 @@ public class DatabaseConfig {
     @Autowired
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
-    }
-
-    @Bean
-    public ConfigReader plainTextConfigReader() {
-        try {
-            return new FileConfigReader("db/db.conf", (bytes) -> bytes);
-        } catch (IOException e) {
-            throw new BeanCreationException("db FileConfigReader creation failed", e);
-        }
     }
 }

@@ -6,6 +6,8 @@ import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -16,14 +18,12 @@ import static org.mockito.Mockito.*;
 public class TaskServiceImplTest {
 
 
+    @Mock
     private TaskDAO taskDAO;
+
+    @InjectMocks
     private TaskServiceImpl taskService;
 
-    @Before
-    public void setUp() {
-        taskDAO = mock(TaskDAO.class);
-        taskService = new TaskServiceImpl(taskDAO);
-    }
 
     @Test
     public void addTask() {

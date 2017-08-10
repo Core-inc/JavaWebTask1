@@ -127,7 +127,7 @@ public class UserDAOImplTest {
 
         List<User> users = userDAO.getAllByName("first");
 
-        assertEquals(Integer.valueOf(amount), Integer.valueOf(users.size()));
+        assertEquals(amount, Integer.valueOf(users.size()));
 
     }
 

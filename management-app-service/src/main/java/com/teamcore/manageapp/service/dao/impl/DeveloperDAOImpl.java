@@ -18,12 +18,21 @@ import java.util.List;
 
 import static com.teamcore.manageapp.service.dao.impl.QueryUserConstant.*;
 
+/**
+ * {@see DeveloperDAO} Implementation based on {@see NamedParameterJdbcTemplate} class
+ * for retrieving {@see Developer} objects that represent developer users
+ * in our system
+ */
 @Repository
 public class DeveloperDAOImpl implements DeveloperDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
+    /**
+     * setter injection method to setup {@see NamedParameterJdbcTemplate} object
+     * @param jdbcTemplate {@see NamedParameterJdbcTemplate} object to inject
+     */
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -40,6 +49,12 @@ public class DeveloperDAOImpl implements DeveloperDAO {
 //        return null;
 //    }
 
+    /**
+     * saves specified {@see Developer} object in database
+     * @param user {@see Developer} object to save in database
+     * @return saved {@see Developer} object
+     * @see Developer
+     */
     @Override
     public Developer save(Developer user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -61,6 +76,12 @@ public class DeveloperDAOImpl implements DeveloperDAO {
         return user;
     }
 
+    /**
+     * updates specified {@see Developer} object in database
+     * @param user {@see Developer} object to update in database
+     * @return updated {@see Developer} object
+     * @see Developer
+     */
     @Override
     public Developer update(Developer user) {
 
@@ -79,6 +100,10 @@ public class DeveloperDAOImpl implements DeveloperDAO {
         return user;
     }
 
+    /**
+     * deletes developer user with specified {@code id} from database
+     * @param id id of the developer user to delete from database
+     */
     @Override
     public void delete(Long id) {
         jdbcTemplate.update(DELETE_USER_BY_ROLE,
@@ -87,6 +112,12 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                         .addValue("roleId", Role.DEVELOPER.getRoleId()));
     }
 
+    /**
+     * retrieves developer user with specific {@code id} from database
+     * @param id id of developer user in database
+     * @return {@see Developer} object describing requested developer user entity
+     * @see Developer
+     */
     @Override
     public Developer getById(Long id) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_ID_AND_ROLE,
@@ -96,6 +127,12 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                 DeveloperDAOImpl::developerRowMap);
     }
 
+    /**
+     * retrieves admin user with specific {@code email} from database
+     * @param email email of developer user in database
+     * @return {@see Developer} object describing requested developer user entity
+     * @see Developer
+     */
     @Override
     public Developer getByEmail(String email) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_EMAIL_AND_ROLE,
@@ -105,6 +142,11 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                 DeveloperDAOImpl::developerRowMap);
     }
 
+    /**
+     * retrieves list of all developer users in system
+     * @return list of all developer users in system
+     * @see Developer
+     */
     @Override
     public List<Developer> getAll() {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_ROLE,
@@ -113,6 +155,11 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                 DeveloperDAOImpl::developerRowMap);
     }
 
+    /**
+     * retrieves list of all developer users in system with specified {@code name}
+     * @return list of all developer users in system with specified {@code name}
+     * @see Developer
+     */
     @Override
     public List<Developer> getAllByName(String name) {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_NAME_AND_ROLE,
@@ -122,6 +169,10 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                 DeveloperDAOImpl::developerRowMap);
     }
 
+    /**
+     * static method {@see RowMapper} interface implementation
+     * for {@see Developer} object
+     */
     private static Developer developerRowMap(ResultSet resultSet, int i) throws SQLException {
 
         Developer developer = Developer.newBuilder()

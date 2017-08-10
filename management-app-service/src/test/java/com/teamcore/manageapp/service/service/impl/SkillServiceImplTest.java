@@ -29,6 +29,7 @@ public class SkillServiceImplTest {
         Skill secondSkill = newTestSkill();
         secondSkill.setId(1L);
 
+
         when(skillDAO.getAllSkills()).thenReturn(Arrays.asList(firstSkill, secondSkill));
 
         List<Skill> skills = skillService.getAll();

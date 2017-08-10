@@ -29,7 +29,6 @@ public class SkillServiceImplTest {
         Skill secondSkill = newTestSkill();
         secondSkill.setId(1L);
 
-
         when(skillDAO.getAllSkills()).thenReturn(Arrays.asList(firstSkill, secondSkill));
 
         List<Skill> skills = skillService.getAll();
@@ -46,6 +45,7 @@ public class SkillServiceImplTest {
         Skill testSkill = newTestSkill();
 
         when(skillDAO.getSkillById(0L)).thenReturn(testSkill);
+
 
         Skill skill = skillService.getById(0L);
 

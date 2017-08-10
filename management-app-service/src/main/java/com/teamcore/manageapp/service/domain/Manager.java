@@ -11,6 +11,17 @@ public @Data class Manager extends User {
         this.setRole(Role.MANAGER);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !getClass().equals(obj.getClass())) {
+            return false;
+        }
+
+        if(obj == this) return true;
+
+        return super.equals(obj);
+    }
+
     public static Builder newBuilder() {
         return new Manager().new Builder();
     }

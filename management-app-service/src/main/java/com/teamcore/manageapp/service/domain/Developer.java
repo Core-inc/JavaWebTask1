@@ -11,8 +11,19 @@ public @Data class Developer extends User {
         this.setRole(Role.DEVELOPER);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !getClass().equals(obj.getClass())) {
+            return false;
+        }
+
+        if(obj == this) return true;
+
+        return super.equals(obj);
+    }
+
     public static Builder newBuilder() {
-       return new Developer().new Builder();
+        return new Developer().new Builder();
     }
 
     public class Builder extends User.Builder<Builder> {

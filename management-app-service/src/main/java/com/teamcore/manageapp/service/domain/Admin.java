@@ -11,6 +11,17 @@ public @Data class Admin extends User {
         this.setRole(Role.ADMIN);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !getClass().equals(obj.getClass())) {
+            return false;
+        }
+
+        if(obj == this) return true;
+
+        return super.equals(obj);
+    }
+
     public static Builder newBuilder() {
         return new Admin().new Builder();
     }

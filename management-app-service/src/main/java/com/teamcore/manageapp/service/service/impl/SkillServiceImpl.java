@@ -32,7 +32,7 @@ public class SkillServiceImpl implements SkillService {
      * @return list of {@see Skill} objects from database
      */
     @Override
-    public List<? extends Skill> getAll() {
+    public List<Skill> getAll() {
         return skillDAO.getAllSkills();
     }
 

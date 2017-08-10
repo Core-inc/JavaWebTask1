@@ -12,15 +12,9 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private TaskService taskService;
-
     @Autowired
     private TaskDAO taskDAO;
 
-    // for mockito tests
-    public TaskServiceImpl(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     /**
      * Find task by id

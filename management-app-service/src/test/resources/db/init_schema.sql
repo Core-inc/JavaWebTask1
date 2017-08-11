@@ -1,11 +1,11 @@
-create table t_user_groups (
+create table if not EXISTS t_user_groups (
 	id			serial primary key not null,
 	c_group_id 	integer not null unique,
 	c_name		text not null unique
 );
 
 
-create table t_users (
+create table if not EXISTS t_users (
 	id				serial primary key not null,
 	c_name       		varchar(255) not null unique,
 	c_email 			varchar(255) not null unique,
@@ -19,7 +19,7 @@ create table t_users (
 );
 
 
-create table t_developers (
+create table if not EXISTS t_developers (
 	id				serial primary key not null,
 	c_user_id			integer not null unique,
 	c_skill_level 		integer not null,
@@ -27,7 +27,7 @@ create table t_developers (
 );
 
 
-create table t_projects (
+create table if not EXISTS t_projects (
 	id				serial primary key not null,
 	c_exter_name		varchar(511) not null,
 	c_inter_name		text not null,
@@ -38,7 +38,7 @@ create table t_projects (
 );
 
 --tasks that developers will do
-create table t_tasks (
+create table if not EXISTS t_tasks (
 	id			serial primary key not null,
 	c_name			text not null,
 	c_cost 			bigint null,
@@ -50,12 +50,12 @@ create table t_tasks (
 	FOREIGN KEY (c_project_id) REFERENCES t_projects(id)
 );
 
-create table t_skills (
+create table if not EXISTS t_skills (
 	id			serial primary key not null,
 	c_name			text not null
 );
 
-create table t_developers_tasks (
+create table if not EXISTS t_developers_tasks (
 	id 				serial primary key not null,
 	c_developer_id 		integer not null,
 	c_task_id 			integer not null,
@@ -64,7 +64,7 @@ create table t_developers_tasks (
 	UNIQUE(c_developer_id)
 );
 
-create table t_developers_skills (
+create table if not EXISTS t_developers_skills (
 	id 				serial primary key not null,
 	c_developer_id 		integer not null,
 	c_skill_id 			integer not null,
@@ -72,7 +72,7 @@ create table t_developers_skills (
 	FOREIGN KEY (c_skill_id) REFERENCES t_skills(id)
 );
 
-create table t_tasks_skills (
+create table if not EXISTS t_tasks_skills (
 	id 				serial primary key not null,
 	c_task_id 		integer not null,
 	c_skill_id 			integer not null,

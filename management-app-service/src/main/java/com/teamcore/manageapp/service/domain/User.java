@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -83,6 +84,17 @@ public @Data class User {
                 .append(updatedAt)
                 .append(role)
                 .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("email", email)
+                .append("enabled", enabled)
+                .append("role", role)
+                .toString();
     }
 
     public static Builder newBuilder() {

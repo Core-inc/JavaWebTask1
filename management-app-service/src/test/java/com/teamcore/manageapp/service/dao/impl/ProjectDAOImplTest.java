@@ -29,7 +29,7 @@ import java.util.List;
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                 scripts = {"classpath:db/init_schema.sql", "classpath:db/init_data.sql"}),
-              //  scripts = {"classpath:db/init_schema.sql", "classpath:db/test_init_data.sql"}),
+        //  scripts = {"classpath:db/init_schema.sql", "classpath:db/test_init_data.sql"}),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
                 scripts = {"classpath:db/cleanup.sql"})
 })
@@ -59,14 +59,14 @@ public class ProjectDAOImplTest {
         newProject.setInternalName("testInternalName2");
         newProject.setSpecLink("http://test2");
         newProject.setStatus(0);
-      //  newProject.setCreatedAt(LocalDateTime.of(2017, Month.JULY, 9, 11, 6, 22));
+        //  newProject.setCreatedAt(LocalDateTime.of(2017, Month.JULY, 9, 11, 6, 22));
         newProject.setCreatedAt(LocalDateTime.parse("2015-08-11 15:00:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         //newProject.setUpdatedAt(LocalDateTime.parse("2015-08-11 15:00:01"));
         newProject.setUpdatedAt(LocalDateTime.parse("2015-08-11 15:00:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-        int numberOfAddedRows = projectDAO.addNewProject(newProject);
+        long idProjectFromDb = projectDAO.addNewProject(newProject).getId();
 
-        Assert.assertEquals(1,numberOfAddedRows);
+        Assert.assertEquals(4,idProjectFromDb);
 
     }
 
@@ -150,13 +150,16 @@ public class ProjectDAOImplTest {
         Long id = 3L;
         Project oldProject = projectDAO.findById(id);
         Project updProject = projectDAO.findById(id);
+        // Project updProject = oldProject;
         updProject.setStatus(1);
+        // oldProject.setStatus(1);
+        Project updFromDb = projectDAO.updateProject(updProject);
 
-        int numOfUpdRows = projectDAO.updateProject(updProject);
+        //int numOfUpdRows = projectDAO.updateProject(updProject);
 
-        Assert.assertEquals(1,numOfUpdRows);
-        Assert.assertNotEquals(oldProject,updProject);
-        Assert.assertEquals(projectDAO.findById(id).getStatus(),1);
+        //  Assert.assertEquals(1,numOfUpdRows);
+        Assert.assertNotEquals(oldProject,updFromDb);
+        Assert.assertEquals(updFromDb.getStatus(),1);
 
     }
 

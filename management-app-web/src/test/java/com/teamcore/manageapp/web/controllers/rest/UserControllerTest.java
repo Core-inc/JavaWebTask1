@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.UserService;
@@ -86,15 +87,13 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].salt", is("qwe")))
 //                .andExpect(jsonPath("$[0].createdAt", is(LocalDateTime.MIN)))
 //                .andExpect(jsonPath("$[0].updatedAt", is(LocalDateTime.MAX)))
-                .andExpect(jsonPath("$[0].roleId", is(0)))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("second")))
                 .andExpect(jsonPath("$[1].email", is("second@epam.com")))
                 .andExpect(jsonPath("$[1].password", is("654321")))
-                .andExpect(jsonPath("$[1].salt", is("ewq")))
+                .andExpect(jsonPath("$[1].salt", is("ewq")));
 //                .andExpect(jsonPath("$[1].createdAt", is(LocalDateTime.MAX)))
 //                .andExpect(jsonPath("$[1].updatedAt", is(LocalDateTime.MIN)))
-                .andExpect(jsonPath("$[1].roleId", is(1)));
 
         verify(userServiceMock, times(1)).getAll();
         verifyNoMoreInteractions(userServiceMock);
@@ -138,28 +137,20 @@ public class UserControllerTest {
                 .setRole(Role.ADMIN)
                 .build();
 
-        when(userServiceMock.getAllByName("first")).thenReturn(Arrays.asList(firstUser, secondUser));
+        when(userServiceMock.getAllByName("first")).thenReturn(Arrays.asList(firstUser));
 
         mockMvc.perform(get("/users/name/first"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("first")))
                 .andExpect(jsonPath("$[0].email", is("first@epam.com")))
                 .andExpect(jsonPath("$[0].password", is("123456")))
-                .andExpect(jsonPath("$[0].salt", is("qwe")))
+                .andExpect(jsonPath("$[0].salt", is("qwe")));
 //                .andExpect(jsonPath("$[0].createdAt", is(LocalDateTime.MIN)))
 //                .andExpect(jsonPath("$[0].updatedAt", is(LocalDateTime.MAX)))
-                .andExpect(jsonPath("$[0].roleId", is(0)))
-                .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].name", is("first")))
-                .andExpect(jsonPath("$[1].email", is("second@epam.com")))
-                .andExpect(jsonPath("$[1].password", is("654321")))
-                .andExpect(jsonPath("$[1].salt", is("ewq")))
-//                .andExpect(jsonPath("$[1].createdAt", is(LocalDateTime.MAX)))
-//                .andExpect(jsonPath("$[1].updatedAt", is(LocalDateTime.MIN)))
-                .andExpect(jsonPath("$[1].roleId", is(1)));
+//                .andExpect(jsonPath("$[0].roleId", is(0)))
 
         verify(userServiceMock, times(1)).getAllByName("first");
         verifyNoMoreInteractions(userServiceMock);
@@ -171,12 +162,9 @@ public class UserControllerTest {
 
         when(userServiceMock.getRoleByUserId(1L)).thenReturn(role);
 
-        mockMvc.perform(get("/1/role"))
+        mockMvc.perform(get("/users/1/role"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.roleId", is(0)))
-                .andExpect(jsonPath("$.name", is("admin")));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         verify(userServiceMock, times(1)).getRoleByUserId(1L);
         verifyNoMoreInteractions(userServiceMock);
@@ -192,8 +180,9 @@ public class UserControllerTest {
         when(userServiceMock.save(user)).thenReturn(addedUser);
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
 
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mapper.writeValueAsBytes(user))
         )
@@ -203,10 +192,10 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is("first")))
                 .andExpect(jsonPath("$.email", is("first@epam.com")))
                 .andExpect(jsonPath("$.password", is("123456")))
-                .andExpect(jsonPath("$.salt", is("qwe")))
+                .andExpect(jsonPath("$.salt", is("qwe")));
 //                .andExpect(jsonPath("$.createdAt", is(LocalDateTime.MIN)))
 //                .andExpect(jsonPath("$.updatedAt", is(LocalDateTime.MAX)))
-                .andExpect(jsonPath("$.roleId", is(0)));
+//                .andExpect(jsonPath("$.roleId", is(0)));
 
         verify(userServiceMock, times(1)).save(user);
         verifyNoMoreInteractions(userServiceMock);
@@ -255,9 +244,8 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is("first")))
                 .andExpect(jsonPath("$.email", is("first@epam.com")))
                 .andExpect(jsonPath("$.password", is("123456")))
-                .andExpect(jsonPath("$.salt", is("qwe")))
+                .andExpect(jsonPath("$.salt", is("qwe")));
 //                .andExpect(jsonPath("$.createdAt", is(LocalDateTime.MIN)))
 //                .andExpect(jsonPath("$.updatedAt", is(LocalDateTime.MAX)))
-                .andExpect(jsonPath("$.roleId", is(0)));
     }
 }

@@ -4,12 +4,16 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 @Aspect
-public class LoggingAspect {
+public class ServiceLoggingAspect {
 
+
+   private final static Logger logger = LoggerFactory.getLogger(ServiceLoggingAspect.class);
 
     @Pointcut("@annotation(com.teamcore.manageapp.service.annotations.Loggable)")
     public void loggableMethods(){}
@@ -23,20 +27,21 @@ public class LoggingAspect {
 
    @Around("loggableMethods() || daoMethods() || serviceMethods()")
     public Object logMethodInvocation(ProceedingJoinPoint jp) throws Throwable {
-       System.out.println("hijacked class: " + jp.getTarget().getClass().getName());
-       System.out.println("hijacked method : " + jp.getSignature().getName());
-       System.out.println("hijacked arguments : " + Arrays.toString(jp.getArgs()));
+       logger.info("hijacked class: {}", jp.getTarget().getClass().getName());
+       logger.info("hijacked method: {}", jp.getSignature().getName());
+       logger.info("hijacked arguments: {}", Arrays.toString(jp.getArgs()));
 
        Object returnValue = null;
        try {
            returnValue = jp.proceed();
        } catch(Throwable t) {
-           System.out.println("hijacked exception! : " + t);
+           logger.error("hijacked exception: " + t);
            throw t;
        }
 
-       System.out.println("hijacked return value :" + returnValue);
+       logger.info("hijacked return value: {}", returnValue);
        return returnValue;
 
     }
+
 }

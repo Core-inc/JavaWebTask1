@@ -1,6 +1,8 @@
 package com.teamcore.manageapp.service.domain;
 
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -89,8 +91,13 @@ public @Data class Project {
 
     @Override
     public String toString() {
-        return "id = "+id+" |externalName = "+externalName+ " |internalName= "+internalName + " |status="+Status.values()[status].toString()
-                +" |specLink = "+specLink + " |createdAt = "+createdAt+ " |updatedAt = "+updatedAt;
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("externalName", externalName)
+                .append("internalName", internalName)
+                .append("status", status)
+                .append("specLink", specLink)
+                .toString();
     }
 
 

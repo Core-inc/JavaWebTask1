@@ -95,4 +95,34 @@ public @Data class Task {
             return new Task(Task.this);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (id != null ? !id.equals(task.id) : task.id != null) return false;
+        if (name != null ? !name.equals(task.name) : task.name != null) return false;
+        if (cost != null ? !cost.equals(task.cost) : task.cost != null) return false;
+        if (duration != null ? !duration.equals(task.duration) : task.duration != null) return false;
+        if (status != null ? !status.equals(task.status) : task.status != null) return false;
+        if (createdAt != null ? !createdAt.equals(task.createdAt) : task.createdAt != null) return false;
+        if (updatedAt != null ? !updatedAt.equals(task.updatedAt) : task.updatedAt != null) return false;
+        return projectId != null ? projectId.equals(task.projectId) : task.projectId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (cost != null ? cost.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (projectId != null ? projectId.hashCode() : 0);
+        return result;
+    }
 }

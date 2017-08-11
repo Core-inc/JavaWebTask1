@@ -16,6 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * {@see SkillDao} interface implementation for general operations
+ * on {@see Skill} data-access objects
+ */
 @Repository
 public class SkillDAOImpl implements SkillDAO {
 
@@ -58,11 +62,20 @@ public class SkillDAOImpl implements SkillDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+    /**
+     * setter for NamedParameterJdbcTemplate injection
+     * @param jdbcTemplate - injected realization of{@see NamedParameterJdbcTemplate} interface
+     */
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * save {@see Skill} object in database
+     * @param skill - {@see Skill} object which will be saved
+     * @return saved {@see Skill} object with new {@code id} from database
+     */
     @Override
     public Skill addSkill(Skill skill) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -76,6 +89,11 @@ public class SkillDAOImpl implements SkillDAO {
         return skill;
     }
 
+    /**
+     * update existing {@see Skill} object in database
+     * @param skill - {@see Skill} object which will be updated
+     * @return updated {@see Skill} object
+     */
     @Override
     public Skill updateSkill(Skill skill) {
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -86,11 +104,20 @@ public class SkillDAOImpl implements SkillDAO {
         return skill;
     }
 
+    /**
+     * delete existing {@see Skill} object from database
+     * @param id - {@see Skill} {@code id} in database
+     */
     @Override
     public void deleteSkill(Long id) {
         jdbcTemplate.update(DELETE_SKILL, new MapSqlParameterSource("id", id));
     }
 
+    /**
+     * retrieves {@see Skill} object with specific {@code id} in database
+     * @param id - {@see Skill} {@code id} in database
+     * @return {@see Skill} object with specific {@code id} from database
+     */
     @Override
     public Skill getSkillById(Long id) {
         return jdbcTemplate.queryForObject(SELECT_SKILL_BY_ID,
@@ -103,6 +130,10 @@ public class SkillDAOImpl implements SkillDAO {
         );
     }
 
+    /**
+     * retrieves list of all {@see Skill} objects from database
+     * @return list of {@see Skill} objects from database
+     */
     @Override
     public List<Skill> getAllSkills() {
         return jdbcTemplate.query(SELECT_ALL_SKILLS,
@@ -114,6 +145,13 @@ public class SkillDAOImpl implements SkillDAO {
         );
     }
 
+    /**
+     * retrieves list of all {@see Developer} objects which have {@see Skill}
+     * specified by {@code id}
+     * @param id - {@see Skill} {@code id} in database
+     * @return list of {@see Developer} objects with specific {@see Skill}
+     * from database
+     */
     @Override
     public List<Developer> getAllDevelopersBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_ALL_DEVELOPERS_BY_SKILL_ID,
@@ -121,6 +159,13 @@ public class SkillDAOImpl implements SkillDAO {
                 SkillDAOImpl::developerRowMap);
     }
 
+    /**
+     * retrieves list of all {@see Developer} objects with "free" status which have {@see Skill}
+     * specified by {@code id}
+     * @param id - {@see Skill} {@code id} in database
+     * @return list of {@see Developer} objects with specific {@see Skill}
+     * from database
+     */
     @Override
     public List<Developer> getFreeDevelopersBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_FREE_DEVELOPERS_BY_SKILL_ID,
@@ -128,6 +173,13 @@ public class SkillDAOImpl implements SkillDAO {
                 SkillDAOImpl::developerRowMap);
     }
 
+    /**
+     * retrieves list of all {@see Project} objects which have {@see Skill}
+     * specified by {@code id}
+     * @param id - {@see Skill} {@code id} in database
+     * @return list of {@see Project} objects with specific {@see Skill}
+     * from database
+     */
     @Override
     public List<Project> getProjectsBySkillId(Long id) {
         return jdbcTemplate.query(SELECT_PROJECTS_BY_SKILL_ID,
@@ -147,7 +199,9 @@ public class SkillDAOImpl implements SkillDAO {
         );
     }
 
-
+    /**
+     * RowMapper interface implementation for mapping ResultSet to {@see Developer} object
+     */
     private static Developer developerRowMap(ResultSet resultSet, int i) throws SQLException {
         return Developer
                 .newBuilder()

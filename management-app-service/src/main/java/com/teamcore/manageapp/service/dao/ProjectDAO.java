@@ -13,7 +13,7 @@ public interface ProjectDAO {
      * Method for adding new Project.
      * @param project - Project to add.
      */
-    public int addNewProject(Project project);
+    public Project addNewProject(Project project);
 
 
     /**
@@ -49,7 +49,6 @@ public interface ProjectDAO {
      * Method to update info of the project.
      * @param newProject - project after update.
      */
-    public int updateProject(Project newProject);
-
+    public Project updateProject(Project newProject);
 
 }

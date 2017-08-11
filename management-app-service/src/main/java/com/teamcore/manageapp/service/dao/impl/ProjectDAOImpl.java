@@ -3,6 +3,8 @@ package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.dao.ProjectDAO;
 import com.teamcore.manageapp.service.domain.Project;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,6 +30,8 @@ import java.util.List;
 
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectDAOImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -55,14 +59,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     private static final String UPDATE_PROJECT ="UPDATE t_projects SET c_exter_name = :c_exter_name, c_inter_name = :c_inter_name, c_specs_link = :c_specs_link, c_status = :c_status, c_created_at = :c_created_at, c_updated_at = :c_updated_at WHERE id = :id";
 
-    public int addNewProject(Project project) {
-
-        /*
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-        String formatted = formatDate.format(project.getCreatedAt());
-        String formatted2 = formatDate.format(project.getUpdatedAt());
-        */
-
+    public Project addNewProject(Project project) {
+        LOGGER.debug("Adding new project: Project = {}", project);
 
         SqlParameterSource ps = new MapSqlParameterSource()
                 // .addValue("id", project.getId())
@@ -76,31 +74,31 @@ public class ProjectDAOImpl implements ProjectDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int returnValue = namedParameterJdbcTemplate.update(ADD_PROJECT, ps, keyHolder,new String[]{"id"});
+        project.setId(keyHolder.getKey().longValue());
 
+        LOGGER.debug("Adding is finished. Project from db = {}: ", project);
 
-        if(1 == returnValue)
-            System.out.println("Project creation is SUCCESS");
-        else
-            System.out.println("Project creation is FAILURE");
-
-        return returnValue;
+        return project;
     }
 
     public List<Project> viewAllProjects() {
+        LOGGER.debug("Starting to view all projects: ");
         List<Project> lstProjects;
         try {
 
-           lstProjects = namedParameterJdbcTemplate.query(VIEW_ALL_PROJECTS, new ProjectRowMapper());
+            lstProjects = namedParameterJdbcTemplate.query(VIEW_ALL_PROJECTS, new ProjectRowMapper());
 
         } catch (EmptyResultDataAccessException e) {
             System.out.println("There are no projects in database");
-                return null;
-            }
+            return null;
+        }
 
+        LOGGER.debug("Listing prijects is finished. Projects: {}", lstProjects);
         return lstProjects;
     }
 
     public Project findById(Long id) {
+        LOGGER.debug("Starting to find project: Params id = {}", id);
         Project project;
 
         try {
@@ -111,11 +109,13 @@ public class ProjectDAOImpl implements ProjectDAO {
             return null;
         }
 
+        LOGGER.debug("Project was found. Project = {} ", project);
         return project;
 
     }
 
     public void deleteById(Long id) {
+        LOGGER.debug("Starting to delete project: Params id = {}", id);
 
         int returnValue;
         try {
@@ -129,10 +129,12 @@ public class ProjectDAOImpl implements ProjectDAO {
             System.out.println("There are no project with such id");
         }
 
+        LOGGER.debug("Project was deleted: Params id= {}", id);
 
     }
 
     public Project findByInternalName(String internalName) {
+        LOGGER.debug("Starting to find project: Params internalName = {}", internalName);
         Project project;
         try{
             SqlParameterSource ps = new MapSqlParameterSource("c_inter_name", internalName);
@@ -142,10 +144,12 @@ public class ProjectDAOImpl implements ProjectDAO {
             System.out.println("There are no project with such internalName");
             return null;
         }
+        LOGGER.debug("Project was found: Params internalName= {}", internalName);
         return project;
     }
 
     public void deleteByInternalName(String internalName) {
+        LOGGER.debug("Starting to delete project: Params innername = {}", internalName);
 
         int returnValue;
         try {
@@ -159,10 +163,12 @@ public class ProjectDAOImpl implements ProjectDAO {
         } catch (EmptyResultDataAccessException e) {
             System.out.println("There are no project with such internalName");
         }
+        LOGGER.debug("Project was deleted: Params innername= {}", internalName);
 
     }
 
-    public int updateProject(Project newProject) {
+    public Project updateProject(Project newProject) {
+        LOGGER.debug("Starting to update project: New project = {}", newProject);
         SqlParameterSource ps = new MapSqlParameterSource()
                 .addValue("id", newProject.getId())
                 .addValue("c_exter_name", newProject.getExternalName())
@@ -173,7 +179,8 @@ public class ProjectDAOImpl implements ProjectDAO {
                 .addValue("c_updated_at", Timestamp.valueOf(newProject.getUpdatedAt()));
 
         int returnValue = namedParameterJdbcTemplate.update(UPDATE_PROJECT,ps);
-        return returnValue;
+        LOGGER.debug("Project was updated: New project= {}", newProject);
+        return newProject;
 
 
     }

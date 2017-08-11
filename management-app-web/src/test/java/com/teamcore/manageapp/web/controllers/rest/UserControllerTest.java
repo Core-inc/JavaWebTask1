@@ -3,7 +3,7 @@ package com.teamcore.manageapp.web.controllers.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
-import com.teamcore.manageapp.service.services.user.UserService;
+import com.teamcore.manageapp.service.service.UserService;
 import com.teamcore.manageapp.web.controllers.rest.config.TestConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -62,18 +62,18 @@ public class UserControllerTest {
     @Test
     public void listAllUsers() throws Exception {
         User firstUser = getFirstUser();
-        User secondUser = new User.Builder()
-                .id(2)
-                .name("second")
-                .email("second@epam.com")
-                .password("654321")
-                .salt("ewq")
-                .createdAt(LocalDateTime.MAX)
-                .updatedAt(LocalDateTime.MIN)
-                .roleId(1)
+        User secondUser = User.newBuilder()
+                .setId(2L)
+                .setName("second")
+                .setEmail("second@epam.com")
+                .setPassword("654321")
+                .setSalt("ewq")
+                .setCreatedAt(LocalDateTime.MAX)
+                .setUpdatedAt(LocalDateTime.MIN)
+                .setRole(Role.ADMIN)
                 .build();
 
-        Mockito.<List<?>>when(userServiceMock.listAll()).thenReturn(Arrays.asList(firstUser, secondUser));
+        Mockito.<List<?>>when(userServiceMock.getAll()).thenReturn(Arrays.asList(firstUser, secondUser));
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class UserControllerTest {
 //                .andExpect(jsonPath("$[1].updatedAt", is(LocalDateTime.MIN)))
                 .andExpect(jsonPath("$[1].roleId", is(1)));
 
-        verify(userServiceMock, times(1)).listAll();
+        verify(userServiceMock, times(1)).getAll();
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -104,11 +104,11 @@ public class UserControllerTest {
     public void userById_Found() throws Exception {
         User user = getFirstUser();
 
-        when(userServiceMock.getById(1)).thenReturn(user);
+        when(userServiceMock.getById(1L)).thenReturn(user);
 
         validateSuccessfulGetRequest("/users/1");
 
-        verify(userServiceMock, times(1)).getById(1);
+        verify(userServiceMock, times(1)).getById(1L);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -127,15 +127,15 @@ public class UserControllerTest {
     @Test
     public void allUsersByName_Found() throws Exception {
         User firstUser = getFirstUser();
-        User secondUser = new User.Builder()
-                .id(2)
-                .name("first")
-                .email("second@epam.com")
-                .password("654321")
-                .salt("ewq")
-                .createdAt(LocalDateTime.MAX)
-                .updatedAt(LocalDateTime.MIN)
-                .roleId(1)
+        User secondUser = User.newBuilder()
+                .setId(2L)
+                .setName("second")
+                .setEmail("second@epam.com")
+                .setPassword("654321")
+                .setSalt("ewq")
+                .setCreatedAt(LocalDateTime.MAX)
+                .setUpdatedAt(LocalDateTime.MIN)
+                .setRole(Role.ADMIN)
                 .build();
 
         when(userServiceMock.getAllByName("first")).thenReturn(Arrays.asList(firstUser, secondUser));
@@ -167,12 +167,9 @@ public class UserControllerTest {
 
     @Test
     public void roleByUserId_Found() throws Exception {
-        Role role = new Role();
-        role.setId(1);
-        role.setRoleId(0);
-        role.setName("admin");
+        Role role = Role.ADMIN;
 
-        when(userServiceMock.getRoleByUserId(1)).thenReturn(role);
+        when(userServiceMock.getRoleByUserId(1L)).thenReturn(role);
 
         mockMvc.perform(get("/1/role"))
                 .andExpect(status().isOk())
@@ -181,7 +178,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.roleId", is(0)))
                 .andExpect(jsonPath("$.name", is("admin")));
 
-        verify(userServiceMock, times(1)).getRoleByUserId(1);
+        verify(userServiceMock, times(1)).getRoleByUserId(1L);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -192,7 +189,7 @@ public class UserControllerTest {
 
         User addedUser = getFirstUser();
 
-        when(userServiceMock.saveOrUpdate(user)).thenReturn(addedUser);
+        when(userServiceMock.save(user)).thenReturn(addedUser);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -211,7 +208,7 @@ public class UserControllerTest {
 //                .andExpect(jsonPath("$.updatedAt", is(LocalDateTime.MAX)))
                 .andExpect(jsonPath("$.roleId", is(0)));
 
-        verify(userServiceMock, times(1)).saveOrUpdate(user);
+        verify(userServiceMock, times(1)).save(user);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -233,20 +230,20 @@ public class UserControllerTest {
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().isNotFound());
 
-        verify(userServiceMock, times(1)).getById(1);
+        verify(userServiceMock, times(1)).getById(1L);
         verifyNoMoreInteractions(userServiceMock);
     }
 
     private User getFirstUser() {
-        return new User.Builder()
-                .id(1)
-                .name("first")
-                .email("first@epam.com")
-                .password("123456")
-                .salt("qwe")
-                .createdAt(LocalDateTime.MIN)
-                .updatedAt(LocalDateTime.MAX)
-                .roleId(0)
+        return User.newBuilder()
+                .setId(1L)
+                .setName("first")
+                .setEmail("first@epam.com")
+                .setPassword("123456")
+                .setSalt("qwe")
+                .setCreatedAt(LocalDateTime.MIN)
+                .setUpdatedAt(LocalDateTime.MAX)
+                .setRole(Role.ADMIN)
                 .build();
     }
 

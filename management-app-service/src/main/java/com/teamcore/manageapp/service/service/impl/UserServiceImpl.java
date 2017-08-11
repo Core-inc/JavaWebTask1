@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.service.service.impl;
 
 import com.teamcore.manageapp.service.dao.UserDAO;
+import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +79,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userDAO.delete(id);
+    }
+
+    /**
+     * get {@see User} object by specified email
+     * @param email - {@code email} of the {@see User}
+     * @return {@see User} with this email
+     */
+    @Override
+    public User getByEmail(String email) {
+        return userDAO.getByEmail(email);
+    }
+
+    /**
+     * get list of {@see User} objects with specified name
+     * @param name - {@code name} of the {@see User}
+     * @return List of {@see User} objects with this name
+     */
+    @Override
+    public List<User> getAllByName(String name) {
+        return userDAO.getAllByName(name);
+    }
+
+    /**
+     * get {@see Role} object of {@see User} with specified {@code id}
+     * @param id - {@code id} of the {@see User} whose {@see Role} will be returned
+     * @return {@see Role}
+     */
+    @Override
+    public Role getRoleByUserId(Long id) {
+        return userDAO.getRoleByUserId(id);
     }
 }

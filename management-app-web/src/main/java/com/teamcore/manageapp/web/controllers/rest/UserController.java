@@ -2,7 +2,7 @@ package com.teamcore.manageapp.web.controllers.rest;
 
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
-import com.teamcore.manageapp.service.services.user.UserService;
+import com.teamcore.manageapp.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,13 +35,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> listAllUsers() {
-        List<User> users = (List<User>) userService.listAll();
+        List<User> users = (List<User>) userService.getAll();
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> userById(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<?> userById(@PathVariable(value = "id") Long id) {
         User user = userService.getById(id);
         if (user == null) {
             Error error = new Error(4, "User was not found.");
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/role")
-    public ResponseEntity<?> userRole(@PathVariable Integer id) {
+    public ResponseEntity<?> userRole(@PathVariable Long id) {
         Role role = userService.getRoleByUserId(id);
         HttpStatus status = role != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
@@ -76,7 +76,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
-        User savedUser = userService.saveOrUpdate(user);
+        User savedUser = userService.save(user);
 
         HttpHeaders headers = new HttpHeaders();
         URI locationUri = ucb.path("/users")
@@ -94,7 +94,7 @@ public class UserController {
             HttpStatus status = HttpStatus.NOT_FOUND;
             return new ResponseEntity<>(user, status);
         } else {
-            User updatedUser = userService.saveOrUpdate(user);
+            User updatedUser = userService.update(user);
 
             HttpHeaders headers = new HttpHeaders();
             URI locationUri = ucb.path("/users")
@@ -108,12 +108,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        boolean isDeleted = userService.delete(id);
-
-        if (!isDeleted) {
-            //TODO exception
-        }
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
 
         return (ResponseEntity<?>) ResponseEntity.ok();
     }

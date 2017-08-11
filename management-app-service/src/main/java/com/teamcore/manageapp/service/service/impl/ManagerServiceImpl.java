@@ -2,6 +2,7 @@ package com.teamcore.manageapp.service.service.impl;
 
 import com.teamcore.manageapp.service.dao.ManagerDAO;
 import com.teamcore.manageapp.service.domain.Manager;
+import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,24 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void delete(Long id) {
         managerDAO.delete(id);
+    }
+    /**
+     * get {@see Manager} object by specified email
+     * @param email - {@code email} of the {@see Manager}
+     * @return {@see Manager} with this email
+     */
+    @Override
+    public Manager getByEmail(String email) {
+        return managerDAO.getByEmail(email);
+    }
+
+    /**
+     * get list of {@see Manager} objects with specified name
+     * @param name - {@code name} of the {@see Manager}
+     * @return List of {@see Manager} objects with this name
+     */
+    @Override
+    public List<Manager> getAllByName(String name) {
+        return managerDAO.getAllByName(name);
     }
 }

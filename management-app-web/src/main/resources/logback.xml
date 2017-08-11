@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Console appender (System.out) -->
+    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{dd.MM.yy HH:mm:ss} %-5level %-7thread %14logger{1}:%line %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender (daily rolling) -->
+    <appender name="fileRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/log.txt</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/log-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{dd.MM.yy HH:mm:ss} %-5level %-7thread %14logger{1}:%line %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Base logger -->
+    <logger name="com.teamcore.manageapp.web" level="DEBUG" additivity="false">
+        <appender-ref ref="fileRolling"/>
+    </logger>
+
+    <!-- Secondary logger for any purpose -->
+    <root level="INFO">
+        <appender-ref ref="fileRolling"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+
+</configuration>

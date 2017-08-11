@@ -19,18 +19,33 @@ import java.util.List;
 import static com.teamcore.manageapp.service.dao.impl.QueryUserConstant.*;
 
 
+/**
+ * {@see AdminDAO} Implementation based on {@see NamedParameterJdbcTemplate} class
+ * for retrieving {@see Admin} objects that represent admin users
+ * in our system
+ */
 @Repository
 public class AdminDAOImpl implements AdminDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
+    /**
+     * setter injection method to setup {@see NamedParameterJdbcTemplate} object
+     * @param jdbcTemplate {@see NamedParameterJdbcTemplate} object to inject
+     */
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
 
+    /**
+     * saves specified {@see Admin} object in database
+     * @param user {@see Admin} object to save in database
+     * @return saved {@see Admin} object
+     * @see Admin
+     */
     @Override
     public Admin save(Admin user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -52,6 +67,12 @@ public class AdminDAOImpl implements AdminDAO {
         return user;
     }
 
+    /**
+     * updates specified {@see Admin} object in database
+     * @param user {@see Admin} object to update in database
+     * @return updated {@see Admin} object
+     * @see Admin
+     */
     @Override
     public Admin update(Admin user) {
 
@@ -70,6 +91,10 @@ public class AdminDAOImpl implements AdminDAO {
         return user;
     }
 
+    /**
+     * deletes admin user with specified {@code id} from database
+     * @param id id of the admin user to delete from database
+     */
     @Override
     public void delete(Long id) {
         jdbcTemplate.update(DELETE_USER_BY_ROLE,
@@ -78,6 +103,12 @@ public class AdminDAOImpl implements AdminDAO {
                         .addValue("roleId", Role.ADMIN.getRoleId()));
     }
 
+    /**
+     * retrieves admin user with specific {@code id} from database
+     * @param id id of the admin user in database
+     * @return {@see Admin} object describing requested admin user entity
+     * @see Admin
+     */
     @Override
     public Admin getById(Long id) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_ID_AND_ROLE,
@@ -87,6 +118,12 @@ public class AdminDAOImpl implements AdminDAO {
                 AdminDAOImpl::adminRowMap);
     }
 
+    /**
+     * retrieves admin user with specific {@code email} from database
+     * @param email email of admin user in database
+     * @return {@see Admin} object describing requested admin user entity
+     * @see Admin
+     */
     @Override
     public Admin getByEmail(String email) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_EMAIL_AND_ROLE,
@@ -96,6 +133,11 @@ public class AdminDAOImpl implements AdminDAO {
                 AdminDAOImpl::adminRowMap);
     }
 
+    /**
+     * retrieves list of all admin users in system
+     * @return list of all admin users in system
+     * @see Admin
+     */
     @Override
     public List<Admin> getAll() {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_ROLE,
@@ -104,6 +146,11 @@ public class AdminDAOImpl implements AdminDAO {
                 AdminDAOImpl::adminRowMap);
     }
 
+    /**
+     * retrieves list of all admin users in system with specified {@code name}
+     * @return list of all admin users in system with specified {@code name}
+     * @see Admin
+     */
     @Override
     public List<Admin> getAllByName(String name) {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_NAME_AND_ROLE,
@@ -113,6 +160,10 @@ public class AdminDAOImpl implements AdminDAO {
                 AdminDAOImpl::adminRowMap);
     }
 
+    /**
+     * static method {@see RowMapper} interface implementation
+     * for {@see Admin} object
+     */
     private static Admin adminRowMap(ResultSet resultSet, int i) throws SQLException {
 
         return Admin.newBuilder()

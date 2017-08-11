@@ -16,6 +16,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * {@see UserDAO} Implementation based on {@see NamedParameterJdbcTemplate} class
+ * for retrieving {@see User} objects that represent users
+ * in our system
+ */
 @Repository
 public class UserDAOImpl implements UserDAO {
 
@@ -60,18 +65,22 @@ public class UserDAOImpl implements UserDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+    /**
+     * setter injection method to setup {@see NamedParameterJdbcTemplate} object
+     * @param jdbcTemplate {@see NamedParameterJdbcTemplate} object to inject
+     */
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
-    public User getById(Long id) {
-        return jdbcTemplate.queryForObject(GET_USER_BY_ID,
-                new MapSqlParameterSource("id", id), UserDAOImpl::userRowMap);
-    }
 
-
+    /**
+     * saves specified {@see User} object in database
+     * @param user {@see User} object to save in database
+     * @return saved {@see User} object
+     * @see User
+     */
     @Override
     public User save(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -92,6 +101,13 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+
+    /**
+     * updates specified {@see User} object in database
+     * @param user {@see User} object to update in database
+     * @return updated {@see User} object
+     * @see User
+     */
     @Override
     public User update(User user) {
 
@@ -110,33 +126,76 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+
+    /**
+     * deletes user with specified {@code id} from database
+     * @param id id of the user to delete from database
+     */
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update(DELETE_USER, new MapSqlParameterSource("id", id));
+    }
+
+    /**
+     * retrieves user with specific {@code id} from database
+     * @param id id of the user in database
+     * @return {@see User} object describing requested user entity
+     * @see User
+     */
+    @Override
+    public User getById(Long id) {
+        return jdbcTemplate.queryForObject(GET_USER_BY_ID,
+                new MapSqlParameterSource("id", id), UserDAOImpl::userRowMap);
+    }
+
+
+    /**
+     * retrieves user with specific {@code email} from database
+     * @param email email of user in database
+     * @return {@see User} object describing requested user entity
+     * @see User
+     */
     @Override
     public User getByEmail(String email) {
         return jdbcTemplate.queryForObject(GET_USER_BY_EMAIL,
                 new MapSqlParameterSource("email", email), UserDAOImpl::userRowMap);
     }
 
+    /**
+     * retrieves list of all users in system
+     * @return list of all users in system
+     * @see User
+     */
     @Override
     public List<User> getAll() {
         return jdbcTemplate.query(GET_ALL_USERS, UserDAOImpl::userRowMap);
     }
 
-    @Override
-    public void delete(Long id) {
-        jdbcTemplate.update(DELETE_USER, new MapSqlParameterSource("id", id));
-    }
 
-
+    /**
+     * retrieves list of all users in system with specified {@code name}
+     * @return list of all users in system with specified {@code name}
+     * @see User
+     */
     @Override
     public List<User> getAllByName(String name) {
         return jdbcTemplate.query(GET_ALL_USERS_BY_NAME, new MapSqlParameterSource("name", name), UserDAOImpl::userRowMap);
     }
 
+    /**
+     * returns {@see Role} enum for user entity with specific {@code id}
+     * @param id id of the user in database
+     * @see Role
+     */
     @Override
     public Role getRoleByUserId(Long id) {
         return jdbcTemplate.queryForObject(GET_ROLE_BY_USER_ID, new MapSqlParameterSource("id", id), UserDAOImpl::roleRowMap);
     }
 
+    /**
+     * static method {@see RowMapper} interface implementation
+     * for {@see User} object
+     */
     private static User userRowMap(ResultSet resultSet, int i) throws SQLException {
         Role role = Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
 
@@ -156,6 +215,10 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+    /**
+     * static method {@see RowMapper} interface implementation
+     * for {@see Role} enum
+     */
     private static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
         return Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
     }

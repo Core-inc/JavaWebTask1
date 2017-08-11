@@ -2,6 +2,9 @@ package com.teamcore.manageapp.service.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -46,6 +49,52 @@ public @Data class User {
         this.createdAt = user.createdAt;
         this.updatedAt = user.updatedAt;
         this.role = user.role;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !getClass().equals(obj.getClass())) {
+            return false;
+        }
+
+        if(obj == this) return true;
+
+        User user = (User) obj;
+        return new EqualsBuilder()
+                .append(id, user.id)
+                .append(name, user.name)
+                .append(email, user.email)
+                .append(salt, user.salt)
+                .append(enabled, user.enabled)
+                .append(createdAt, user.createdAt)
+                .append(updatedAt, user.updatedAt)
+                .append(role, user.role)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(name)
+                .append(email)
+                .append(salt)
+                .append(enabled)
+                .append(createdAt)
+                .append(updatedAt)
+                .append(role)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("email", email)
+                .append("enabled", enabled)
+                .append("role", role)
+                .toString();
     }
 
     public static Builder newBuilder() {

@@ -20,18 +20,33 @@ import static com.teamcore.manageapp.service.dao.impl.QueryUserConstant.*;
 
 
 
+/**
+ * {@see ManagerDAO} Implementation based on {@see NamedParameterJdbcTemplate} class
+ * for retrieving {@see Manager} objects that represent manager users
+ * in our system
+ */
 @Repository
 public class ManagerDAOImpl implements ManagerDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
+    /**
+     * setter injection method to setup {@see NamedParameterJdbcTemplate} object
+     * @param jdbcTemplate {@see NamedParameterJdbcTemplate} object to inject
+     */
     @Autowired
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
 
+    /**
+     * saves specified {@see Manager} object in database
+     * @param user {@see Manager} object to save in database
+     * @return saved {@see Manager} object
+     * @see Manager
+     */
     @Override
     public Manager save(Manager user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -53,6 +68,12 @@ public class ManagerDAOImpl implements ManagerDAO {
         return user;
     }
 
+    /**
+     * updates specified {@see Manager} object in database
+     * @param user {@see Manager} object to update in database
+     * @return updated {@see Manager} object
+     * @see Manager
+     */
     @Override
     public Manager update(Manager user) {
 
@@ -71,6 +92,10 @@ public class ManagerDAOImpl implements ManagerDAO {
         return user;
     }
 
+    /**
+     * deletes manager user with specified {@code id} from database
+     * @param id id of the manager user to delete from database
+     */
     @Override
     public void delete(Long id) {
         jdbcTemplate.update(DELETE_USER_BY_ROLE,
@@ -79,6 +104,12 @@ public class ManagerDAOImpl implements ManagerDAO {
                         .addValue("roleId", Role.MANAGER.getRoleId()));
     }
 
+    /**
+     * retrieves manager user with specific {@code id} from database
+     * @param id id of manager user in database
+     * @return {@see Manager} object describing requested manager user entity
+     * @see Manager
+     */
     @Override
     public Manager getById(Long id) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_ID_AND_ROLE,
@@ -88,6 +119,12 @@ public class ManagerDAOImpl implements ManagerDAO {
                 ManagerDAOImpl::managerRowMap);
     }
 
+    /**
+     * retrieves manager user with specific {@code email} from database
+     * @param email email of manager user in database
+     * @return {@see Manager} object describing requested manager user entity
+     * @see Manager
+     */
     @Override
     public Manager getByEmail(String email) {
         return jdbcTemplate.queryForObject(SELECT_USER_BY_EMAIL_AND_ROLE,
@@ -97,6 +134,11 @@ public class ManagerDAOImpl implements ManagerDAO {
                 ManagerDAOImpl::managerRowMap);
     }
 
+    /**
+     * retrieves list of all manager users in system
+     * @return list of all manager users in system
+     * @see Manager
+     */
     @Override
     public List<Manager> getAll() {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_ROLE,
@@ -105,6 +147,11 @@ public class ManagerDAOImpl implements ManagerDAO {
                 ManagerDAOImpl::managerRowMap);
     }
 
+    /**
+     * retrieves list of all manager users in system with specified {@code name}
+     * @return list of all manager users in system with specified {@code name}
+     * @see Manager
+     */
     @Override
     public List<Manager> getAllByName(String name) {
         return jdbcTemplate.query(SELECT_ALL_USERS_BY_NAME_AND_ROLE,
@@ -114,6 +161,10 @@ public class ManagerDAOImpl implements ManagerDAO {
                 ManagerDAOImpl::managerRowMap);
     }
 
+    /**
+     * static method {@see RowMapper} interface implementation
+     * for {@see Manager} object
+     */
     private static Manager managerRowMap(ResultSet resultSet, int i) throws SQLException {
 
         return Manager.newBuilder()

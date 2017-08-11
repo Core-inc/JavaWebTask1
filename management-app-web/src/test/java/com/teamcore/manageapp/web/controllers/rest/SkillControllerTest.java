@@ -1,10 +1,8 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
 import com.teamcore.manageapp.service.domain.Skill;
-import com.teamcore.manageapp.service.services.skill.SkillService;
-import com.teamcore.manageapp.service.services.skill.exceptions.SkillDevelopersNotFoundException;
+import com.teamcore.manageapp.service.service.SkillService;
 import com.teamcore.manageapp.service.services.skill.exceptions.SkillNotFoundException;
-import com.teamcore.manageapp.service.services.skill.exceptions.SkillProjectsNotFoundException;
 import com.teamcore.manageapp.service.services.skill.exceptions.SkillsNotFoundException;
 import com.teamcore.manageapp.web.config.TestConfig;
 import org.junit.Before;
@@ -56,7 +54,7 @@ public class SkillControllerTest {
     public void testFindAll_NotFound() throws Exception {
 
         //setup mock skill repository
-        when(mockService.findAll())
+        when(mockService.getAll())
                 .thenThrow(new SkillsNotFoundException());
 
         //assert expectations
@@ -65,7 +63,7 @@ public class SkillControllerTest {
                 .andExpect(jsonPath("$.error_code")
                         .value(RestError.SKILLS_NOT_FOUND_CODE));
 
-        verify(mockService, times(1)).findAll();
+        verify(mockService, times(1)).getAll();
         verifyNoMoreInteractions(mockService);
     }
 
@@ -75,15 +73,15 @@ public class SkillControllerTest {
 
         List<Skill> expectedSkills = Arrays.asList(
                 Skill.newBuilder()
-                        .setId(1)
+                        .setId(1L)
                         .setName("Java").build(),
                 Skill.newBuilder()
-                        .setId(2)
+                        .setId(2L)
                         .setName("Python").build()
         );
 
         //setup mock skill repository
-        when(mockService.findAll())
+        when(mockService.getAll())
                 .thenReturn(expectedSkills);
 
 
@@ -97,7 +95,7 @@ public class SkillControllerTest {
                 .andExpect(jsonPath("$[1].id").value(2))
                 .andExpect(jsonPath("$[1].name").value("Python"));
 
-        verify(mockService, times(1)).findAll();
+        verify(mockService, times(1)).getAll();
         verifyNoMoreInteractions(mockService);
     }
 
@@ -106,7 +104,7 @@ public class SkillControllerTest {
     public void testFindSkillById_NotFound() throws Exception {
 
         //setup mock skill repository
-        when(mockService.findById(1))
+        when(mockService.getById(1L))
                 .thenThrow(new SkillNotFoundException(1));
 
         //assert expectations
@@ -115,7 +113,7 @@ public class SkillControllerTest {
                 .andExpect(jsonPath("$.error_code")
                         .value(RestError.SKILL_NOT_FOUND_CODE));
 
-        verify(mockService, times(1)).findById(1);
+        verify(mockService, times(1)).getById(1L);
         verifyNoMoreInteractions(mockService);
     }
 
@@ -123,11 +121,11 @@ public class SkillControllerTest {
     public void testFindSkillById_Found() throws Exception {
 
         Skill expectedSkill = Skill.newBuilder()
-                .setId(1)
+                .setId(1L)
                 .setName("Java").build();
 
         //setup mock skill repository
-        when(mockService.findById(1))
+        when(mockService.getById(1L))
                 .thenReturn(expectedSkill);
 
         //assert expectations
@@ -137,76 +135,76 @@ public class SkillControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Java"));
 
-        verify(mockService, times(1)).findById(1);
+        verify(mockService, times(1)).getById(1L);
         verifyNoMoreInteractions(mockService);
     }
 
-    @Test
-    public void testFindAllDevelopersById_NotFound() throws Exception {
+//    @Test
+//    public void testFindAllDevelopersById_NotFound() throws Exception {
+//
+//        //setup mock skill repository
+//        when(mockService.findAllDevelopers(1))
+//                .thenThrow(new SkillDevelopersNotFoundException());
+//
+//        //assert expectations
+//        mockMvc.perform(get("/skills/{skillId}/developers", 1))
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.error_code")
+//                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
+//
+//        verify(mockService, times(1)).findAllDevelopers(1);
+//        verifyNoMoreInteractions(mockService);
+//    }
+//
+//    @Test
+//    //TODO implement test
+//    public void testFindAllDevelopersById_Found() throws Exception {
+//
+//    }
 
-        //setup mock skill repository
-        when(mockService.findAllDevelopers(1))
-                .thenThrow(new SkillDevelopersNotFoundException());
+//    @Test
+//    public void testFindFreeDevelopersById_NotFound() throws Exception {
+//
+//        //setup mock skill repository
+//        when(mockService.findFreeDevelopers(1))
+//                .thenThrow(new SkillDevelopersNotFoundException());
+//
+//        //assert expectations
+//        mockMvc.perform(get("/skills/{skillId}/developers/free", 1))
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.error_code")
+//                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
+//
+//        verify(mockService, times(1)).findFreeDevelopers(1);
+//        verifyNoMoreInteractions(mockService);
+//    }
 
-        //assert expectations
-        mockMvc.perform(get("/skills/{skillId}/developers", 1))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error_code")
-                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
-
-        verify(mockService, times(1)).findAllDevelopers(1);
-        verifyNoMoreInteractions(mockService);
-    }
-
-    @Test
-    //TODO implement test
-    public void testFindAllDevelopersById_Found() throws Exception {
-
-    }
-
-    @Test
-    public void testFindFreeDevelopersById_NotFound() throws Exception {
-
-        //setup mock skill repository
-        when(mockService.findFreeDevelopers(1))
-                .thenThrow(new SkillDevelopersNotFoundException());
-
-        //assert expectations
-        mockMvc.perform(get("/skills/{skillId}/developers/free", 1))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error_code")
-                        .value(RestError.SKILL_DEVELOPERS_NOT_FOUND_CODE));
-
-        verify(mockService, times(1)).findFreeDevelopers(1);
-        verifyNoMoreInteractions(mockService);
-    }
-
-    @Test
-    //TODO implement test
-    public void testFindFreeDevelopersById_Found() {
-
-    }
-
-    @Test
-    public void testFindProjectsById_NotFound() throws Exception {
-
-        //setup mock skill repository
-        when(mockService.findProjects(1))
-                .thenThrow(new SkillProjectsNotFoundException());
-
-        //assert expectations
-        mockMvc.perform(get("/skills/{skillId}/projects", 1))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error_code")
-                        .value(RestError.SKILL_PROJECTS_NOT_FOUND));
-
-        verify(mockService, times(1)).findProjects(1);
-        verifyNoMoreInteractions(mockService);
-    }
-
-    @Test
-    //TODO implement test
-    public void testFindProjectsById_Found() {
-
-    }
+//    @Test
+//    //TODO implement test
+//    public void testFindFreeDevelopersById_Found() {
+//
+//    }
+//
+//    @Test
+//    public void testFindProjectsById_NotFound() throws Exception {
+//
+//        //setup mock skill repository
+//        when(mockService.findProjects(1))
+//                .thenThrow(new SkillProjectsNotFoundException());
+//
+//        //assert expectations
+//        mockMvc.perform(get("/skills/{skillId}/projects", 1))
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.error_code")
+//                        .value(RestError.SKILL_PROJECTS_NOT_FOUND));
+//
+//        verify(mockService, times(1)).findProjects(1);
+//        verifyNoMoreInteractions(mockService);
+//    }
+//
+//    @Test
+//    //TODO implement test
+//    public void testFindProjectsById_Found() {
+//
+//    }
 }

@@ -1,9 +1,7 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
-import com.teamcore.manageapp.service.domain.Developer;
-import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Skill;
-import com.teamcore.manageapp.service.services.skill.SkillService;
+import com.teamcore.manageapp.service.service.SkillService;
 import com.teamcore.manageapp.service.services.skill.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,39 +47,47 @@ public class SkillController {
 
     @RequestMapping(path="", method = GET)
     public @ResponseBody List<Skill> findAllSkills() {
-        List<Skill> skills = skillService.findAll();
-        if (skills == null) { throw new SkillsNotFoundException(); }
-        return skills;
+        try {
+            return skillService.getAll();
+        } catch(SkillServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new SkillsNotFoundException();
+        }
     }
 
 
     @RequestMapping(path="/{skillId}", method = GET)
-    public @ResponseBody Skill findSkillById(@PathVariable("skillId") int skillId) {
-        Skill skill = skillService.findById(skillId);
-        if (skill == null) { throw new SkillNotFoundException(skillId); }
-        return skill;
+    public @ResponseBody Skill findSkillById(@PathVariable("skillId") long skillId) {
+        try {
+            return skillService.getById(skillId);
+        } catch (SkillServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new SkillNotFoundException(skillId);
+        }
     }
 
-    @RequestMapping(path="/{skillId}/developers", method = GET)
-    public @ResponseBody List<Developer> findAllDevelopersById(@PathVariable("skillId") int skillId) {
-        List<Developer> developers = skillService.findAllDevelopers(skillId);
-        if (developers == null) { throw new SkillDevelopersNotFoundException(); }
-        return developers;
-    }
+//    @RequestMapping(path="/{skillId}/developers", method = GET)
+//    public @ResponseBody List<Developer> findAllDevelopersById(@PathVariable("skillId") int skillId) {
+//        List<Developer> developers = skillService.findAllDevelopers(skillId);
+//        if (developers == null) { throw new SkillDevelopersNotFoundException(); }
+//        return developers;
+//    }
 
-    @RequestMapping(path="/{skillId}/developers/free", method = GET)
-    public @ResponseBody List<Developer> findFreeDevelopersById(@PathVariable("skillId") int skillId) {
-        List<Developer> developers = skillService.findFreeDevelopers(skillId);
-        if (developers == null) { throw new SkillDevelopersNotFoundException(); }
-        return developers;
-    }
-
-    @RequestMapping(path="/{skillId}/projects", method = GET)
-    public List<Project> findProjectsById(@PathVariable("skillId") int skillId) {
-        List<Project> projects = skillService.findProjects(skillId);
-        if (projects == null) { throw new SkillProjectsNotFoundException(); }
-        return projects;
-    }
+//    @RequestMapping(path="/{skillId}/developers/free", method = GET)
+//    public @ResponseBody List<Developer> findFreeDevelopersById(@PathVariable("skillId") int skillId) {
+//        List<Developer> developers = skillService.findFreeDevelopers(skillId);
+//        if (developers == null) { throw new SkillDevelopersNotFoundException(); }
+//        return developers;
+//    }
+//
+//    @RequestMapping(path="/{skillId}/projects", method = GET)
+//    public List<Project> findProjectsById(@PathVariable("skillId") int skillId) {
+//        List<Project> projects = skillService.findProjects(skillId);
+//        if (projects == null) { throw new SkillProjectsNotFoundException(); }
+//        return projects;
+//    }
 
     @ExceptionHandler(SkillServiceException.class)
     public ResponseEntity<RestError> skillServiceExceptionHandler(SkillServiceException e) {

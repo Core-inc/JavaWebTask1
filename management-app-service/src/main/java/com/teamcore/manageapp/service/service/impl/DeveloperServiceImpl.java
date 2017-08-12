@@ -79,4 +79,24 @@ public class DeveloperServiceImpl implements DeveloperService {
     public void delete(Long id) {
         developerDAO.delete(id);
     }
+
+    /**
+     * get {@see Developer} object by specified email
+     * @param email - {@code email} of the {@see Developer}
+     * @return {@see Developer} with this email
+     */
+    @Override
+    public Developer getByEmail(String email) {
+        return developerDAO.getByEmail(email);
+    }
+
+    /**
+     * get list of {@see Developer} objects with specified name
+     * @param name - {@code name} of the {@see Developer}
+     * @return List of {@see Developer} objects with this name
+     */
+    @Override
+    public List<Developer> getAllByName(String name) {
+        return developerDAO.getAllByName(name);
+    }
 }

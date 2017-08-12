@@ -7,3 +7,4 @@ drop table if exists t_skills CASCADE;
 drop table if exists t_developers_tasks CASCADE;
 drop table if exists t_developers_skills CASCADE;
 drop table if exists t_tasks_skills CASCADE;
+drop table if exists t_project_requests CASCADE;

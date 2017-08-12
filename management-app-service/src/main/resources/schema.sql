@@ -37,6 +37,14 @@ create table if not EXISTS t_projects (
 	c_updated_at 		timestamp DEFAULT current_timestamp not null
 );
 
+create table if not EXISTS t_project_requests (
+	id				serial primary key not null,
+	c_exter_name		varchar(511) not null,
+	c_specs_link		text not null,
+	c_customer_name		text not null,
+	c_customer_email 	text not null
+);
+
 --tasks that developers will do
 create table if not EXISTS t_tasks (
 	id			serial primary key not null,

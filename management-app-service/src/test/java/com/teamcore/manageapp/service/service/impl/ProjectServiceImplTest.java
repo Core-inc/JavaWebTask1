@@ -29,26 +29,14 @@ import java.util.List;
  * Class provides methods for testing ProjectDAOImpl. Use DatabaseConfig.class for creating context.
  */
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(classes = {TestServiceConfig.class})
-//@ContextConfiguration(classes = TestTestConfig.class)
-
-@SqlGroup({
-        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                scripts = {"classpath:db/init_schema.sql", "classpath:db/init_data.sql"}),
-        //  scripts = {"classpath:db/init_schema.sql", "classpath:db/test_init_data.sql"}),
-        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                scripts = {"classpath:db/cleanup.sql"})
-})
-
 public class ProjectServiceImplTest {
-
 
     @Mock
     ProjectDAO projectDAO;
 
     // используем аанотацию @InjectMocks для создания mock объекта
     @InjectMocks
-    ProjectServiceImpl projectService = new ProjectServiceImpl(projectDAO);
+    ProjectServiceImpl projectService;// = new ProjectServiceImpl(projectDAO);
 
 
     /**
@@ -77,7 +65,7 @@ public class ProjectServiceImplTest {
         newProject.setCreatedAt(LocalDateTime.parse("2015-08-11 15:00:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         newProject.setUpdatedAt(LocalDateTime.parse("2015-08-11 15:00:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-        Mockito.when(projectService.save(newProject)).thenReturn(mockProject);
+        Mockito.when(projectDAO.addNewProject(newProject)).thenReturn(mockProject);
 
         Assert.assertEquals(mockProject, projectService.save(newProject));
         Mockito.verify(projectDAO).addNewProject(newProject);
@@ -107,7 +95,7 @@ public class ProjectServiceImplTest {
         project.setCreatedAt(LocalDateTime.parse("2016-01-19 15:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         project.setUpdatedAt(LocalDateTime.parse("2017-10-27 02:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-        Mockito.when(projectService.getById(id)).thenReturn(project);
+        Mockito.when(projectDAO.findById(id)).thenReturn(project);
 
         Assert.assertEquals(project, projectService.getById(id));
         Mockito.verify(projectDAO).findById(id);
@@ -148,7 +136,7 @@ public class ProjectServiceImplTest {
         project.setUpdatedAt(LocalDateTime.parse("2017-10-27 02:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 
-        Mockito.when(projectService.findByInternalName(internalName)).thenReturn(project);
+        Mockito.when(projectDAO.findByInternalName(internalName)).thenReturn(project);
 
         Assert.assertEquals(project, projectService.findByInternalName(internalName));
         Mockito.verify(projectDAO).findByInternalName(internalName);
@@ -188,7 +176,7 @@ public class ProjectServiceImplTest {
 
 
 
-        Mockito.when(projectService.update(projectUpd)).thenReturn(projectUpd);
+        Mockito.when(projectDAO.updateProject(projectUpd)).thenReturn(projectUpd);
 
         Assert.assertEquals(projectUpd, projectService.update(projectUpd));
         Mockito.verify(projectDAO).updateProject(projectUpd);
@@ -246,7 +234,7 @@ public class ProjectServiceImplTest {
         list.add(project3);
         list.add(project4);
 
-        Mockito.when(projectService.getAll()).thenReturn(list);
+        Mockito.when(projectDAO.viewAllProjects()).thenReturn(list);
 
         Assert.assertEquals(list, projectService.getAll());
         Mockito.verify(projectDAO).viewAllProjects();

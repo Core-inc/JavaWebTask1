@@ -1,4 +1,4 @@
-package com.teamcore.manageapp.service.services.skill.exceptions;
+package com.teamcore.manageapp.service.service.exceptions.skill;
 
 public class SkillProjectsNotFoundException extends SkillServiceException {
 

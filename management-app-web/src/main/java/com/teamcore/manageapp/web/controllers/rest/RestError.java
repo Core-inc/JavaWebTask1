@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpStatus;
 
 public class RestError {
 
@@ -8,13 +9,6 @@ public class RestError {
     private int code;
     @JsonProperty("message")
     private String message;
-
-
-    public final static int GENERAL_REST_ERROR = 1;
-    public final static int SKILLS_NOT_FOUND_CODE = 2;
-    public final static int SKILL_NOT_FOUND_CODE = 3;
-    public final static int SKILL_DEVELOPERS_NOT_FOUND_CODE = 4;
-    public final static int SKILL_PROJECTS_NOT_FOUND = 5;
 
     private RestError() {}
 
@@ -49,4 +43,37 @@ public class RestError {
         }
 
     }
+
+    public enum Code {
+
+        GENERAL_REST_ERROR(1, HttpStatus.NOT_FOUND),
+        SKILLS_NOT_FOUND_CODE(2, HttpStatus.NOT_FOUND),
+        SKILL_NOT_FOUND_CODE(3, HttpStatus.NOT_FOUND),
+
+        SKILL_DEVELOPERS_NOT_FOUND_CODE(4, HttpStatus.NOT_FOUND),
+        SKILL_PROJECTS_NOT_FOUND_CODE(5, HttpStatus.NOT_FOUND),
+
+        //maybe http status codes should be changed
+        //according to security policy
+        SKILL_ADD_CODE(6, HttpStatus.INTERNAL_SERVER_ERROR),
+        SKILL_UPDATE_CODE(7, HttpStatus.INTERNAL_SERVER_ERROR),
+        SKILL_DELETE_CODE(8, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        private final HttpStatus httpStatus;
+        private final int serviceCode;
+
+        private Code(int serviceCode, HttpStatus httpStatus) {
+            this.serviceCode = serviceCode;
+            this.httpStatus = httpStatus;
+        }
+
+        public int getServiceCode() {
+            return serviceCode;
+        }
+
+        public HttpStatus getHttpStatus() {
+            return httpStatus;
+        }
+    }
+
 }

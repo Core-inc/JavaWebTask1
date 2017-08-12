@@ -66,7 +66,7 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public List<? extends Task> getAll() {
+    public List<Task> getAll() {
         return null;
     }
 

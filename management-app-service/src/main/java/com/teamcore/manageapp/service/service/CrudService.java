@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CrudService<T> {
 
-    List<? extends T> getAll();
+    List<T> getAll();
 
     T getById(Long id);
 

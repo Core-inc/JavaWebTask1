@@ -21,9 +21,6 @@ public class ProjectController {
     private ProjectService projectService;
     private TaskService taskService;
 
-    public ProjectController() {
-    }
-
     @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
@@ -94,15 +91,16 @@ public class ProjectController {
         return new ResponseEntity<>(savedTask, headers, HttpStatus.CREATED);
     }
 
-    /*
     @GetMapping(value = "/status/{status}")
     public ResponseEntity<?> projectByStatus(@PathVariable int status) {
         List<Project> projects = projectService.getByStatus(status);
+
         HttpStatus statusHttp = projects != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
+
         return new ResponseEntity<>(projects, statusHttp);
     }
-    */
+
     @PostMapping
     public ResponseEntity<Project> saveProject(@RequestBody Project project, UriComponentsBuilder ucb) {
         Project savedProject = projectService.save(project);
@@ -143,6 +141,14 @@ public class ProjectController {
         return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<?> getTasksOfProjects(@PathVariable Long id) {
+        Project project = projectService.getById(id);
+        List<Task> tasks = taskService.findAllTasksByProject(project);
 
+        HttpStatus statusHttp = tasks != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
 
+        return new ResponseEntity<>(tasks, statusHttp);
+    }
 }

@@ -57,7 +57,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     private static final String DELETE_PROJECT_BY_INTERNALNAME ="DELETE FROM t_projects WHERE c_inter_name =:c_inter_name ";
 
-    private static final String UPDATE_PROJECT ="UPDATE t_projects SET c_exter_name = :c_exter_name, c_inter_name = :c_inter_name, c_specs_link = :c_specs_link, c_status = :c_status, c_created_at = :c_created_at, c_updated_at = :c_updated_at WHERE id = :id";
+    private static final String UPDATE_PROJECT = "UPDATE t_projects SET c_exter_name = :c_exter_name, c_inter_name = :c_inter_name, c_specs_link = :c_specs_link, c_status = :c_status, c_created_at = :c_created_at, c_updated_at = :c_updated_at WHERE id = :id";
+
+    private static final String FIND_PROJECT_BY_STATUS = "SELECT FROM t_projects WHERE c_status = :status";
 
     public Project addNewProject(Project project) {
         LOGGER.debug("Adding new project: Project = {}", project);
@@ -183,6 +185,14 @@ public class ProjectDAOImpl implements ProjectDAO {
         return newProject;
 
 
+    }
+
+    @Override
+    public List<Project> getByStatus(int status) {
+        SqlParameterSource ps = new MapSqlParameterSource()
+                .addValue("status", status);
+
+        return namedParameterJdbcTemplate.query(FIND_PROJECT_BY_STATUS, new ProjectRowMapper());
     }
 
     public static class ProjectRowMapper implements RowMapper<Project> {

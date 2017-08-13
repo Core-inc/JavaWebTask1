@@ -51,4 +51,5 @@ public interface ProjectDAO {
      */
     public Project updateProject(Project newProject);
 
+    List<Project> getByStatus(int status);
 }

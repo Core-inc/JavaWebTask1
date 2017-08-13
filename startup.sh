@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="0.0.1-SNAPSHOT"
-NEWJARS="management-app-service/target/management-app-service-$VERSION.jar:management-app-web/target/management-app-web-$VERSION.jar"
+mvn package -Dmaven.test.skip=true
 
-java -cp $CLASSPATH:$NEWJARS -jar management-app-main/target/management-app-main-$VERSION.war com.teamcore.manageapp.main.SiteApplication
+VERSION="0.0.1-SNAPSHOT"
+java -jar management-app-main/target/management-app-main-$VERSION.war com.teamcore.manageapp.main.SiteApplication

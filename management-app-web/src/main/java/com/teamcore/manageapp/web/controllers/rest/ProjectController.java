@@ -70,14 +70,14 @@ public class ProjectController {
         return new ResponseEntity<>(project, status);
     }
 
-    @GetMapping(value = "/{id}/tasks")
-    public ResponseEntity<?> projectTasks(@PathVariable(value = "id") Long id) {
-        List<Task> taskList = taskService.findAllTasksByProject(projectService.getById(id));
-
-        HttpStatus status = taskList != null ?
-                HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(taskList, status);
-    }
+//    @GetMapping(value = "/{id}/tasks")
+//    public ResponseEntity<?> projectTasks(@PathVariable(value = "id") Long id) {
+//        List<Task> taskList = taskService.findAllTasksByProject(projectService.getById(id));
+//
+//        HttpStatus status = taskList != null ?
+//                HttpStatus.OK : HttpStatus.NOT_FOUND;
+//        return new ResponseEntity<>(taskList, status);
+//    }
 
     @PostMapping(value = "/{id}/tasks")
     public ResponseEntity<Task> addTaskForProject(@PathVariable(value = "id") Long id, @RequestBody Task task, UriComponentsBuilder ucb) {

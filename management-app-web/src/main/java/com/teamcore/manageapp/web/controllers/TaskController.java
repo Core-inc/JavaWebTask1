@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/projects")
+@RequestMapping(value = "/tasks")
 public class TaskController {
 
     private TaskService taskService;

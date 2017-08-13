@@ -76,6 +76,10 @@ body {
     padding-left: 20px;
 }
 
+#menu > h5 {
+    margin-bottom: 4px;
+}
+
 .divider {
     background-color: #b4b4b4;
     height: 1px;

@@ -15,4 +15,9 @@ public class ManagerCabinetController {
     public String managerCabinetDevs() {
         return "/manager/dev_base";
     }
+
+    @RequestMapping(value = "/cabinet/manager/add_project", method = RequestMethod.GET)
+    public String managerCabinetAddProject() {
+        return "/manager/add_project";
+    }
 }

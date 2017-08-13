@@ -16,7 +16,7 @@
         </a>
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
         <div class="d-inline" style=" float: right; margin-right: 30px;">
-            <img src="../../static//images/avatar.png" width="60" height="60" alt="">
+            <img src="/images/avatar.png" width="60" height="60" alt="">
             <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalymov</p>
         </div>
     </div>
@@ -29,22 +29,23 @@
         <h5 style="margin-bottom: 4px;">Меню</h5>
             <div class="divider"></div>
             <ul>
-                <li><a href="">Обзор проектов</a></li>
-                <li><a href="">Добавить проект</a></li>
+                <li><a href="/cabinet/manager">Обзор проектов</a></li>
+                <li><a href="/cabinet/manager/add_project">Добавить проект</a></li>
                 <li><a href="">База разработчиков</a></li>
                 <li><a href="">Добавить разработчика</a></li>
             </ul>
         </div>
         <div class="col-md-8 offset-md-1" id="workflow">
             <h5>Добавить проект</h5>
-            <form id="form_add_project" action="" method="POST">
+            <form id="form_add_project" method="POST">
                 <p id="form-subtitle-upload-">Проект будет связан с заказчиком по введенному email<br>
                 и появится в вашем личном кабинете</p>
-                <input class="form-control" placeholder="Введите название проекта" name="project_outername" required>
-                <input class="form-control" placeholder="Введите идентификатор" name="project_innername" required>
-                <input class="form-control" placeholder="Введите имя заказчика" name="customer_name" required>
-                <input class="form-control" placeholder="Введите email заказчика" name="customer_email" required>
-                <button class="my_button" href="">Добавить проект</button>
+                <input class="form-control" placeholder="Введите название проекта" name="externalName" required>
+                <input class="form-control" placeholder="Введите идентификатор" name="internalName" required>
+                <input class="form-control" placeholder="Укажите ссылку" name="specLink" required>
+                <input type="email" class="form-control" placeholder="Введите email заказчика" name="customer_email" required>
+                <button class="my_button" type="submit">Добавить проект</button>
+            </form>
         </div>
     </div>
 </div>
@@ -68,5 +69,54 @@
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script>
+    function addProject() {
+        console.log("123123123");
+        $.post('http://localhost:8080/projects', $('#theForm').serialize());
+//        $.ajax({
+//            url: "http://localhost:8080/projects",
+//            method: "POST",
+//            dataType: "application/json;charset=UTF-8",
+//            data: JSON.stringify($("#form_add_project").serialize())
+//        })
+    }
+
+    $("#form_add_project").submit(function (e) {
+        e.preventDefault();
+
+        var data = {}
+        var Form = this;
+
+        //Gathering the Data
+        //and removing undefined keys(buttons)
+        $.each(this.elements, function(i, v){
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
+        var project = {};
+        project["externalName"] = data["externalName"];
+        project["internalName"] = data["internalName"];
+        project["specLink"] = data["specLink"];
+        project["status"] = "0";
+        project["createdAt"] = null;
+        project["updatedAt"] = null;
+        var customer = data["customer_email"];
+
+        $.ajax({
+            url: "http://localhost:8080/projects",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(project),
+            success: function () {
+                alert("data was send")
+            }
+        })
+    })
+</script>
+
 </body>
 </html>

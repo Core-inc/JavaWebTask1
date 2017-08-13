@@ -1,6 +1,8 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.ProjectService;
@@ -8,6 +10,7 @@ import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -38,7 +41,7 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<?> getAllProjects() {
-        List<Project> list = (List<Project>) projectService.getAll();
+        List<Project> list = projectService.getAll();
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -101,7 +104,7 @@ public class ProjectController {
         return new ResponseEntity<>(projects, statusHttp);
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Project> saveProject(@RequestBody Project project, UriComponentsBuilder ucb) {
         Project savedProject = projectService.save(project);
 

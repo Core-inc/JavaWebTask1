@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -70,8 +71,8 @@ public class ProjectDAOImpl implements ProjectDAO {
                 .addValue("c_inter_name", project.getInternalName())
                 .addValue("c_specs_link", project.getSpecLink())
                 .addValue("c_status", project.getStatus())
-                .addValue("c_created_at", Timestamp.valueOf(project.getCreatedAt()))
-                .addValue("c_updated_at", Timestamp.valueOf(project.getUpdatedAt()));
+                .addValue("c_created_at", Timestamp.valueOf(LocalDateTime.now()))
+                .addValue("c_updated_at", Timestamp.valueOf(LocalDateTime.now()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

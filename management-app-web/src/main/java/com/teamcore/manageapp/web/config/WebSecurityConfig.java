@@ -16,15 +16,19 @@ public class WebSecurityConfig extends ServiceSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").authenticated().anyRequest().permitAll()
-        .and()
-        .formLogin()
-        .loginProcessingUrl("/login").loginPage("/login")
-        .failureHandler((httpServletRequest, httpServletResponse, e) -> {
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("authFail", "true");
-            httpServletResponse.sendRedirect("/login");
-        })
-        .permitAll();
+//        http.authorizeRequests().antMatchers("/").authenticated().anyRequest().permitAll()
+//        .and()
+//        .formLogin()
+//        .loginProcessingUrl("/login").loginPage("/login")
+//        .failureHandler((httpServletRequest, httpServletResponse, e) -> {
+//            HttpSession session = httpServletRequest.getSession();
+//            session.setAttribute("authFail", "true");
+//            httpServletResponse.sendRedirect("/login");
+//        })
+//        .permitAll();
+
+        http.authorizeRequests().antMatchers("/**").permitAll();
+
+        http.csrf().disable();
     }
 }

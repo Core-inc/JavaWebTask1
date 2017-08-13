@@ -16,6 +16,11 @@ insert into t_users(c_name, c_email, c_password, c_salt, c_user_group_id) values
 'second', 'second@epam.com', 'qwe', 'qwe', 1) ON CONFLICT DO NOTHING;
 insert into t_users(c_name, c_email, c_password, c_salt, c_user_group_id) values(
 'third', 'third@epam.com', 'qwe', 'qwe', 2) ON CONFLICT DO NOTHING;
+insert into t_users(c_name, c_email, c_password, c_salt, c_user_group_id) values(
+'customer', 'igivemoney@epam.com', 'qwe', 'qwe', 3) ON CONFLICT DO NOTHING;
+
+insert into t_customers_projects(id, c_customer_id, c_project_id) values(
+1, 4, 1) ON CONFLICT DO NOTHING;
 
 INSERT INTO t_projects (c_exter_name, c_inter_name, c_specs_link, c_status, c_created_at, c_updated_at)
 VALUES('testExternalName', 'testInternalName', 'http://test', 0, '2016-01-19 15:00:00', '2017-10-27 02:00:00') ON CONFLICT DO NOTHING;

@@ -17,7 +17,7 @@
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
         <div class="d-inline" style=" float: right; margin-right: 30px;">
             <img src="/images/avatar.png" width="60" height="60" alt="">
-            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalymov</p>
         </div>
     </div>
 
@@ -86,6 +86,13 @@
                 </div>
                 <input class="form-control" placeholder="Введите стоимость (в рублях)" name="cost" type="number"
                        required style="width: 360px;">
+                <select class="form-control" name="skill" id="skill-select" required style="width: 360px;">
+                    <option value="" disabled selected >Выберите специализацию разработчика</option>
+                    <option value="java">Java Enterprise</option>
+                    <option value="web">Front-end</option>
+                </select>
+                <input class="form-control" placeholder="Введите email разработчика" name="email" required style="width: 360px;">
+                <input class="form-control" placeholder="Введите стоимость (в рублях)" name="cost" type="number" required style="width: 360px;">
                 <button class="my_button" href="">Добавить задачу</button>
             </form>
         </div>
@@ -106,9 +113,7 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>

@@ -71,4 +71,6 @@ public interface SkillDAO {
      * from database
      */
     List<Project> getProjectsBySkillId(Long id);
+
+    Skill getSkillByDeveloperId(Long id);
 }

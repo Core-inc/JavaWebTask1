@@ -10,4 +10,9 @@ public class ManagerCabinetController {
     public String managerCabinet() {
         return "/manager/project_review";
     }
+
+    @RequestMapping(value = "/cabinet/manager/devs", method = RequestMethod.GET)
+    public String managerCabinetDevs() {
+        return "/manager/dev_base";
+    }
 }

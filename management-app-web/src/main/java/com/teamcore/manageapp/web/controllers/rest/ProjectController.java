@@ -126,7 +126,7 @@ public class ProjectController {
             Project updatedProject = projectService.update(project);
 
             HttpHeaders headers = new HttpHeaders();
-            URI locationUri = ucb.path("/users")
+            URI locationUri = ucb.path("/projectss")
                     .path(String.valueOf(updatedProject.getId()))
                     .build()
                     .toUri();

@@ -2,7 +2,9 @@ package com.teamcore.manageapp.web.controllers;
 
 
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.ProjectService;
+import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/projects")
 public class ProjectController {
     private ProjectService projectService;
-
-    public ProjectController() {
-    }
+    private TaskService taskService;
 
     @Autowired
     public ProjectController(ProjectService projectService) {
@@ -31,6 +31,10 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    @Autowired
+    public void setTaskService(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllProjects() {
@@ -62,15 +66,16 @@ public class ProjectController {
         return new ResponseEntity<>(project, status);
     }
 
-    /*
     @GetMapping(value = "/status/{status}")
     public ResponseEntity<?> projectByStatus(@PathVariable int status) {
         List<Project> projects = projectService.getByStatus(status);
+
         HttpStatus statusHttp = projects != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
+
         return new ResponseEntity<>(projects, statusHttp);
     }
-    */
+
     @PostMapping
     public ResponseEntity<Project> saveProject(@RequestBody Project project, UriComponentsBuilder ucb) {
         Project savedProject = projectService.save(project);
@@ -111,6 +116,14 @@ public class ProjectController {
         return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<?> getTasksOfProjects(@PathVariable Long id) {
+        Project project = projectService.getById(id);
+        List<Task> tasks = taskService.findAllTasksByProject(project);
 
+        HttpStatus statusHttp = tasks != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
 
+        return new ResponseEntity<>(tasks, statusHttp);
+    }
 }

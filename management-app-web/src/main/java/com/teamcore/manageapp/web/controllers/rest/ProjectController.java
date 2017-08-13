@@ -2,7 +2,9 @@ package com.teamcore.manageapp.web.controllers.rest;
 
 
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.ProjectService;
+import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/projects")
 public class ProjectController {
     private ProjectService projectService;
+    private TaskService taskService;
 
     public ProjectController() {
     }
@@ -31,6 +34,10 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    @Autowired
+    public void setTaskService(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllProjects() {
@@ -60,6 +67,31 @@ public class ProjectController {
         HttpStatus status = project != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(project, status);
+    }
+
+    @GetMapping(value = "/{id}/tasks")
+    public ResponseEntity<?> projectTasks(@PathVariable(value = "id") Long id) {
+        List<Task> taskList = taskService.findAllTasksByProject(projectService.getById(id));
+
+        HttpStatus status = taskList != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(taskList, status);
+    }
+
+    @PostMapping(value = "/{id}/tasks")
+    public ResponseEntity<Task> addTaskForProject(@PathVariable(value = "id") Long id, @RequestBody Task task, UriComponentsBuilder ucb) {
+
+        Task savedTask = taskService.save(task);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        URI locationUri = ucb.path("/projects/{id}/tasks")
+                .path(String.valueOf(savedTask.getId()))
+                .build()
+                .toUri();
+        headers.setLocation(locationUri);
+
+        return new ResponseEntity<>(savedTask, headers, HttpStatus.CREATED);
     }
 
     /*
@@ -94,7 +126,7 @@ public class ProjectController {
             Project updatedProject = projectService.update(project);
 
             HttpHeaders headers = new HttpHeaders();
-            URI locationUri = ucb.path("/users")
+            URI locationUri = ucb.path("/projectss")
                     .path(String.valueOf(updatedProject.getId()))
                     .build()
                     .toUri();

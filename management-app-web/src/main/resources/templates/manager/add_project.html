@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Core</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+      integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" href="../../static/css/main.css">
+<body>
+<!-- Header -->
+<div id="header">
+    <div id="logo">
+        <a href="/">
+            <img src="../../static/images/logo.png" width="60" height="60">
+        </a>
+        <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
+        <div class="d-inline" style=" float: right; margin-right: 30px;">
+            <img src="../../static/images/avatar.png" width="60" height="60" alt="">
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
+        </div>
+    </div>
+
+</div>
+<!-- Body -->
+<div class="container-fluid" id="body" style="padding-top: 60px;">
+    <div class="row" style="padding: 0 60px 0 60px;">
+        <div class="col-md-2" id="menu">
+        <h5 style="margin-bottom: 4px;">Меню</h5>
+            <div class="divider"></div>
+            <ul>
+                <li><a href="">Обзор проектов</a></li>
+                <li><a href="">Добавить проект</a></li>
+                <li><a href="">База разработчиков</a></li>
+                <li><a href="">Добавить разработчика</a></li>
+            </ul>
+        </div>
+        <div class="col-md-8 offset-md-1" id="workflow">
+            <h5>Добавить проект</h5>
+            <form id="form_add_project" action="" method="POST">
+                <p id="form-subtitle-upload-">Проект будет связан с заказчиком по введенному email<br>
+                и появится в вашем личном кабинете</p>
+                <input class="form-control" placeholder="Введите название проекта" name="project_outername" required>
+                <input class="form-control" placeholder="Введите идентификатор" name="project_innername" required>
+                <input class="form-control" placeholder="Введите имя заказчика" name="customer_name" required>
+                <input class="form-control" placeholder="Введите email заказчика" name="customer_email" required>
+                <button type="submit" class="my_button" href="">Добавить проект</button>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<div class="container-fluid" id="footer">
+    <div class="row mx-auto">
+        <div class="col-md-7 offset-md-2">
+            <div id="footer_links">
+                <a href="/team">Команда</a>
+                <a href="/info">Информация о проекте</a>
+                <a href="/tech">Технологии</a>
+            </div>
+        </div>
+        <div class="col-md-2 text-md-right">© 2017 Core-inc</div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</body>
+</html>

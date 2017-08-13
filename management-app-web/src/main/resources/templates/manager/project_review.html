@@ -1,47 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Team Core</title>
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
       integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<link rel="stylesheet" href="../static/css/main.css">
+<link rel="stylesheet" href="../../static/css/main.css">
 <body>
 <!-- Header -->
 <div id="header">
     <div id="logo">
         <a href="/">
-            <img src="../static/images/logo.png" width="60" height="60">
+            <img src="../../static/images/logo.png" width="60" height="60">
         </a>
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
-    </div>
-</div>
-<!-- Body -->
-    <div class="container-fluid" id="body">
-        <div class="row">
-            <div class="col-md-1 offset-md-1">
-                <img src="../static/images/abs.png" alt="" height="450px">
-            </div>
-            <div class="col-md-8 offset-md-1">
-                <div id="login_form">
-                    <form id="form_sign_in" action="" method="POST">
-                        <p style="font-size: 20px; font-weight: bold; margin-bottom: 4px;">Лаборатория EPAM</p>
-                        <p id="form-subtitle-upload-">Для начала сотрудничества отправьте техническое задание</p>
-                        <input class="form-control" placeholder="Введите email" name="email" required>
-                        <input class="form-control" placeholder="Введите название проекта" name="inner_name" required>
-                        <textarea class="form-control" id="tech-task" placeholder="Введите техническое задание"
-                                  name="techTask" required></textarea>
-                        <button type="submit" class="my_button" href="" style="margin-right: 30px;">Отправить</button>
-                        Уже есть аккаунт?
-                        <a href="">Войти</a>
-
-                    </form>
-                </div>
-            </div>
-
+        <div class="d-inline" style=" float: right; margin-right: 30px;">
+            <img src="../../static/images/avatar.png" width="60" height="60" alt="">
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
         </div>
     </div>
+
+</div>
+<!-- Body -->
+<div class="container-fluid" id="body" style="padding-top: 60px;">
+    <div class="row" style="padding: 0 60px 0 60px;">
+        <div class="col-md-2" id="menu">
+        <h5 style="margin-bottom: 4px;">Меню</h5>
+            <div class="divider"></div>
+            <ul>
+                <li><a href="">Обзор проектов</a></li>
+                <li><a href="">Добавить проект</a></li>
+                <li><a href="">База разработчиков</a></li>
+                <li><a href="">Добавить разработчика</a></li>
+            </ul>
+        </div>
+        <div class="col-md-8 offset-md-1" id="workflow">
+            <h5>Обзор проектов</h5>
+            <p>Название: <a href="">sberbank.ru-july2017</a></p>
+        </div>
+    </div>
+</div>
 <!-- Footer -->
 <div class="container-fluid" id="footer">
     <div class="row mx-auto">

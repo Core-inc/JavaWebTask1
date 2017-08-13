@@ -1,5 +1,6 @@
 package com.teamcore.manageapp.web.controllers;
 
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.ProjectService;
@@ -55,6 +56,36 @@ public class TaskController {
         */
         return new ResponseEntity<>(task, status);
     }
+
+    @GetMapping(value = "/{id}/developers")
+    public ResponseEntity<?> developersByTask(@PathVariable(value = "id") Long id) {
+        List<Developer> devList = taskService.getDeveloperByTask(taskService.getById(id));
+        HttpStatus status = devList != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+        /*
+        if (task == null) {
+            Error error = new Error(4, "Task was not found.");
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
+        */
+        return new ResponseEntity<>(devList, status);
+    }
+
+    @PostMapping
+    public ResponseEntity<Task> saveTask(@RequestBody Task task, @RequestBody Developer developer, UriComponentsBuilder ucb) {
+        Task savedTask = taskService.save(task);
+        taskService.addDeveloperToTask(developer,savedTask);
+
+        HttpHeaders headers = new HttpHeaders();
+        URI locationUri = ucb.path("/tasks")
+                .path(String.valueOf(savedTask.getId()))
+                .build()
+                .toUri();
+        headers.setLocation(locationUri);
+
+        return new ResponseEntity<>(savedTask, headers, HttpStatus.CREATED);
+    }
+
 
     @PatchMapping
     public ResponseEntity<Task> updateTask(@RequestBody Task task, UriComponentsBuilder ucb) {

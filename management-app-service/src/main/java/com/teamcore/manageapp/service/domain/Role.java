@@ -6,12 +6,14 @@ import static com.teamcore.manageapp.service.domain.Role.Code.*;
 public enum Role {
     ADMIN(ADMIN_ID, "admin"),
     MANAGER(MANAGER_ID, "manager"),
-    DEVELOPER(DEVELOPER_ID, "developer");
+    DEVELOPER(DEVELOPER_ID, "developer"),
+    CUSTOMER(CUSTOMER_ID, "customer");
 
     public static class Code {
         public static final int ADMIN_ID = 0;
         public static final int MANAGER_ID = 1;
         public static final int DEVELOPER_ID = 2;
+        public static final int CUSTOMER_ID = 3;
     }
 
     private final Integer dbId;
@@ -22,6 +24,7 @@ public enum Role {
             case ADMIN_ID: return ADMIN;
             case MANAGER_ID: return MANAGER;
             case DEVELOPER_ID: return DEVELOPER;
+            case CUSTOMER_ID: return CUSTOMER;
         }
         throw new IllegalArgumentException("Role dbId is not correct!");
     }

@@ -110,4 +110,9 @@ public class UserServiceImpl implements UserService {
     public Role getRoleByUserId(Long id) {
         return userDAO.getRoleByUserId(id);
     }
+
+    @Override
+    public List<User> getAllCustomers() {
+        return userDAO.getAllCustomers();
+    }
 }

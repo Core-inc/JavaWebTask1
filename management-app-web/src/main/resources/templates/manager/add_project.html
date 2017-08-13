@@ -43,7 +43,7 @@
                 <input class="form-control" placeholder="Введите название проекта" name="externalName" required>
                 <input class="form-control" placeholder="Введите идентификатор" name="internalName" required>
                 <input class="form-control" placeholder="Укажите ссылку" name="specLink" required>
-                <input type="email" class="form-control" placeholder="Введите email заказчика" name="customer_email" required>
+                <select class="form-control" id="customer_emails" name="customer_email"></select>
                 <button class="my_button" type="submit">Добавить проект</button>
             </form>
         </div>
@@ -71,21 +71,28 @@
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 <script>
-    function addProject() {
-        console.log("123123123");
-        $.post('http://localhost:8080/projects', $('#theForm').serialize());
-//        $.ajax({
-//            url: "http://localhost:8080/projects",
-//            method: "POST",
-//            dataType: "application/json;charset=UTF-8",
-//            data: JSON.stringify($("#form_add_project").serialize())
-//        })
-    }
+    $(document).ready(function(){
+        var emails;
+
+        $.ajax({
+            url: "/users/customers",
+            method: "GET",
+            dataType: "json",
+            success: function (customers) {
+                customers.forEach(function (item, i, arr) {
+                    $('#customer_emails').append($('<option>', {
+                        value: item["id"],
+                        text: item["email"]
+                    }));
+                })
+            }
+        });
+    });
 
     $("#form_add_project").submit(function (e) {
         e.preventDefault();
 
-        var data = {}
+        var data = {};
         var Form = this;
 
         //Gathering the Data
@@ -104,6 +111,8 @@
         project["createdAt"] = null;
         project["updatedAt"] = null;
         var customer = data["customer_email"];
+
+        console.log("customer id, attach it to the project somehow: " + customer);
 
         $.ajax({
             url: "http://localhost:8080/projects",

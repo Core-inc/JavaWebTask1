@@ -4,6 +4,8 @@ insert into t_user_groups(c_group_id, c_name) values(
 1,'manager') ON CONFLICT DO NOTHING;
 insert into t_user_groups(c_group_id, c_name) values(
 2,'developer') ON CONFLICT DO NOTHING;
+insert into t_user_groups(c_group_id, c_name) values(
+3,'customer') ON CONFLICT DO NOTHING;
 
 insert into t_skills(c_name) values('Java') ON CONFLICT DO NOTHING;
 insert into t_skills(c_name) values('Python') ON CONFLICT DO NOTHING;

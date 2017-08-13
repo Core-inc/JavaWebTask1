@@ -74,6 +74,14 @@ public class UserController {
         return new ResponseEntity<>(role, status);
     }
 
+    @GetMapping("/customers")
+    public ResponseEntity<?> listAllCustomers() {
+        List<User> customers = userService.getAllCustomers();
+        HttpStatus status = customers != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(customers, status);
+    }
+
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
         User savedUser = userService.save(user);

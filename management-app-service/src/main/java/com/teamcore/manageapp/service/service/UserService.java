@@ -31,4 +31,6 @@ public interface UserService extends CrudService<User> {
      * @return {@see Role}
      */
     Role getRoleByUserId(Long id);
+
+    List<User> getAllCustomers();
 }

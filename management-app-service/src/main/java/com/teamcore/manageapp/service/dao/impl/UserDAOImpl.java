@@ -62,6 +62,12 @@ public class UserDAOImpl implements UserDAO {
             "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
             "WHERE t_users.c_name = :name";
 
+    private static final String GET_ALL_CUSTOMERS = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
+            "WHERE c_user_group_id = :roleId";
+
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -190,6 +196,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Role getRoleByUserId(Long id) {
         return jdbcTemplate.queryForObject(GET_ROLE_BY_USER_ID, new MapSqlParameterSource("id", id), UserDAOImpl::roleRowMap);
+    }
+
+    @Override
+    public List<User> getAllCustomers() {
+        return jdbcTemplate.query(GET_ALL_CUSTOMERS,
+                new MapSqlParameterSource()
+                        .addValue("roleId", Role.CUSTOMER.getRoleId()), UserDAOImpl::userRowMap);
     }
 
     /**

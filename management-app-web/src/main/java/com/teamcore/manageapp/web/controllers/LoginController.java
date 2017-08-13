@@ -18,7 +18,7 @@ public class LoginController {
             model.addAttribute("authFail", true);
             session.removeAttribute("authFail");
         }
-        return "login";
+        return "general/authorization";
     }
 
 }

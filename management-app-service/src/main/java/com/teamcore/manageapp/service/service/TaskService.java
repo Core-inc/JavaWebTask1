@@ -1,5 +1,6 @@
 package com.teamcore.manageapp.service.service;
 
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.CrudService;
@@ -7,7 +8,6 @@ import com.teamcore.manageapp.service.service.CrudService;
 import java.util.List;
 
 public interface TaskService extends CrudService<Task> {
-
     /**
      * Find task by id
      * @param id
@@ -41,4 +41,17 @@ public interface TaskService extends CrudService<Task> {
      */
     List<Task> findAllTasksByProject(Project project);
 
+    /**
+     * get developer by task id
+     * @param task
+     * @return list of developers due to this task
+     */
+    List<Developer> getDeveloperByTask(Task task);
+
+    /**
+     * add developer to task
+     * @param developer
+     * @param task
+     */
+    void addDeveloperToTask(Developer developer, Task task);
 }

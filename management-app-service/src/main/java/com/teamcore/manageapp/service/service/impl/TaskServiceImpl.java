@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.service.service.impl;
 
 import com.teamcore.manageapp.service.dao.TaskDAO;
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.service.TaskService;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-
     @Autowired
     private TaskDAO taskDAO;
 
@@ -64,6 +64,16 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.findAllTasksByProject(project);
     }
 
+    @Override
+    public List<Developer> getDeveloperByTask(Task task) {
+        return taskDAO.getDeveloperByTask(task);
+    }
+
+    @Override
+    public void addDeveloperToTask(Developer developer, Task task) {
+        taskDAO.addDeveloperToTask(developer,task);
+    }
+
 
     @Override
     public List<Task> getAll() {
@@ -77,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task save(Task domainObject) {
+        //  taskDAO.addDeveloperToTask(developer, domainObject);
         return taskDAO.addTask(domainObject);
     }
 

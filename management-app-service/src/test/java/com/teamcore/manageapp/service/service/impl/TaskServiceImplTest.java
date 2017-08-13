@@ -1,6 +1,8 @@
 package com.teamcore.manageapp.service.service.impl;
 
+import com.teamcore.manageapp.service.dao.DeveloperDAO;
 import com.teamcore.manageapp.service.dao.TaskDAO;
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.Before;
@@ -20,6 +22,9 @@ public class TaskServiceImplTest {
 
     @Mock
     private TaskDAO taskDAO;
+
+    @Mock
+    private DeveloperDAO developerDAO;
 
     @InjectMocks
     private TaskServiceImpl taskService;
@@ -72,6 +77,19 @@ public class TaskServiceImplTest {
         verify(taskDAO, times(1)).findTaskById(any(Long.class));
         verifyNoMoreInteractions(taskDAO);
 
+    }
+    @Test
+    public void addDeveloperToTask() {
+        Task mocTask = TestFactory.createNewTask();
+        mocTask.setId(1L);
+        System.out.println("Task: "+mocTask);
+        Developer developer = TestFactory.createDefaultNewDeveloper();
+        developer.setId(5L);
+        System.out.println("Developer: "+developer);
+
+        taskService.addDeveloperToTask(developer, mocTask);
+        verify(taskDAO, times(1)).addDeveloperToTask(developer,mocTask);
+        verifyNoMoreInteractions(taskDAO);
     }
 
 }

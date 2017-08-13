@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.service.dao;
 
 
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 
@@ -17,5 +18,9 @@ public interface TaskDAO {
     Task addTask(Task task);
 
     List<Task> findAllTasksByProject(Project project);
+
+    void addDeveloperToTask(Developer developer, Task task);
+
+    List<Developer> getDeveloperByTask(Task task);
 
 }

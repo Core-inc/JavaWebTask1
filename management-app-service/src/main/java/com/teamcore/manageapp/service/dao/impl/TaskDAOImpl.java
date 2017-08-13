@@ -1,6 +1,8 @@
 package com.teamcore.manageapp.service.dao.impl;
 
+import com.teamcore.manageapp.service.dao.DeveloperDAO;
 import com.teamcore.manageapp.service.dao.TaskDAO;
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +28,16 @@ public class TaskDAOImpl implements TaskDAO {
 
     //private final static Logger logger = LoggerFactory.getLogger(TaskDAOImpl.class);
     private NamedParameterJdbcTemplate jdbcTemplate;
+    private DeveloperDAO developerDAO;
 
     @Autowired
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Autowired
+    public void setDeveloperDAO(DeveloperDAO developerDAO) {
+        this.developerDAO = developerDAO;
     }
 
     private final static String FIND_TASK_BY_ID = "SELECT * FROM t_tasks WHERE id = :id";
@@ -37,8 +46,11 @@ public class TaskDAOImpl implements TaskDAO {
             "c_created_at = :c_created_at, c_updated_at = :c_updated_at, c_project_id = :c_project_id WHERE id = :id";
     private final static String INSERT_TASK = "INSERT INTO t_tasks (c_name, c_cost, c_duration, c_status, c_created_at, c_updated_at, c_project_id) " +
             "VALUES (:c_name, :c_cost, :c_duration, :c_status, :c_created_at, :c_updated_at, :c_project_id)";
+    private final static String INSERT_DEVELOPER_TO_TASK = "INSERT INTO t_developers_tasks (c_developer_id, c_task_id) " +
+            "VALUES (:c_developer_id, :c_task_id)";
     private final static String FIND_TASKS_BY_PROJECT_ID = "SELECT * FROM t_tasks WHERE c_project_id = :c_project_id";
 
+    private final static  String FIND_DEVELOPERS_BY_TASK = "SELECT * FROM t_developers_tasks WHERE c_task_id = :c_task_id";
     //    private final static String FIND_DEVELOPERS_BY_TASK_ID = "SELECT c_developer_id FROM t_developers_tasks WHERE c_task_id = :c_task_id";
     private final static  String FIND_DEVELOPERS_BY_TASK_ID = "WITH developer_ids AS "+
             "(SELECT c_developer_id FROM t_developers_tasks WHERE c_task_id = :c_task_id) " +
@@ -112,6 +124,50 @@ public class TaskDAOImpl implements TaskDAO {
         return task;
     }
 
+
+    @Override
+    public void addDeveloperToTask(Developer developer, Task task) {
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(INSERT_DEVELOPER_TO_TASK,
+                new MapSqlParameterSource()
+                        .addValue("c_developer_id", developer.getId())
+                        .addValue("c_task_id", task.getId()),
+                keyHolder, new String[]{"id"});
+
+        // task.setId(keyHolder.getKey().longValue());
+        // return task;
+    }
+
+
+    @Override
+    public List<Developer> getDeveloperByTask(Task task){
+        //logger.debug("findAllByProject (project id={})", project.getId());
+
+        List<Developer> devList = new ArrayList<>();
+        List<Long> devIdList = jdbcTemplate.query(FIND_DEVELOPERS_BY_TASK,
+                new MapSqlParameterSource("c_task_id", task.getId()),
+                TaskDAOImpl::developerListRowMap);
+
+        for (int i=0;i<devIdList.size();i++) {
+            Long devId = devIdList.get(i);
+            devList.add(developerDAO.getById(devId));
+        }
+        /*
+        long dev_id;
+        while (rs.next()) {
+            dev_id = rs.getLong("c_developer_id");
+            devList.add(developerDAO.getById(dev_id));
+        }
+        */
+
+//        String loggerMesage = taskList.isEmpty()?("Project #"+project.getId() +"hasn't tasks."):("Task #"+project.getId() +" has "+taskList.size()+" tasks.");
+//        logger.debug(loggerMesage);
+
+        return devList;
+    }
+
     @Override
     public List<Task> findAllTasksByProject(Project project) {
         //logger.debug("findAllByProject (project id={})", project.getId());
@@ -144,5 +200,29 @@ public class TaskDAOImpl implements TaskDAO {
                 .setUpdatedAt(resultSet.getTimestamp("c_updated_at").toLocalDateTime())
                 .setProjectId(resultSet.getLong("c_project_id"))
                 .build();
+    }
+    private static Developer developerRowMap(ResultSet resultSet, int i) throws SQLException {
+
+        Developer developer = Developer.newBuilder()
+                .setId(resultSet.getLong("user_id"))
+                .setName(resultSet.getString("user_name"))
+                .setEmail(resultSet.getString("c_email"))
+                .setPassword(resultSet.getString("c_password"))
+                .setSalt(resultSet.getString("c_salt"))
+                .setCreatedAt(resultSet.getTimestamp("c_created_at")
+                        .toLocalDateTime())
+                .setUpdatedAt(resultSet.getTimestamp("c_updated_at")
+                        .toLocalDateTime())
+                .build();
+
+        return developer;
+    }
+    private  static Long developerListRowMap(ResultSet resultSet,int rowNumber) throws SQLException {
+        Long id = resultSet.getLong("c_developer_id");
+
+        //Developer developer = TestFactory.createDefaultNewDeveloper();
+        //developerDAO.getById(resultSet.getLong("c_developer_id"));
+
+        return id;
     }
 }

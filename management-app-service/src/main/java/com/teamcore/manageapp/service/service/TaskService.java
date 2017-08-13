@@ -54,4 +54,5 @@ public interface TaskService extends CrudService<Task> {
      * @param task
      */
     void addDeveloperToTask(Developer developer, Task task);
+    //
 }

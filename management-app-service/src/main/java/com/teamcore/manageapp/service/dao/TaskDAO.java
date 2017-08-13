@@ -22,5 +22,5 @@ public interface TaskDAO {
     void addDeveloperToTask(Developer developer, Task task);
 
     List<Developer> getDeveloperByTask(Task task);
-
+    //
 }

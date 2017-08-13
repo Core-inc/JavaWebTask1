@@ -146,6 +146,5 @@ public class TaskDAOImplTest {
 //            assertTrue(cur.getName().equals("testing") || cur.getName().equals("testing2"));
 //        }
 //
-//
 //    }
 }

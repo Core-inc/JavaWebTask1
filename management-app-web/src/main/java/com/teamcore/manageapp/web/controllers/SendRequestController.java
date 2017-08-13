@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(value = "/addDeveloper")
+@RequestMapping(value = "/sendRequest")
 public class SendRequestController {
     private UserService userService;
 

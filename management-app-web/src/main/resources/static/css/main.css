@@ -46,6 +46,12 @@ body {
     overflow-y: scroll;
 }
 
+#workflow > form > .scroll-div {
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
 #workflow > h5 {
     margin-bottom: 20px;
 }

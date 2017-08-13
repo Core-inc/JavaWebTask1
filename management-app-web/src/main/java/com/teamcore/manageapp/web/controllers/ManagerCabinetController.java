@@ -11,13 +11,23 @@ public class ManagerCabinetController {
         return "/manager/project_review";
     }
 
-    @RequestMapping(value = "/cabinet/manager/devs", method = RequestMethod.GET)
-    public String managerCabinetDevs() {
+    @RequestMapping(value = "/cabinet/manager/developers", method = RequestMethod.GET)
+    public String managerCabinetDevelopers() {
         return "/manager/dev_base";
     }
 
     @RequestMapping(value = "/cabinet/manager/add_project", method = RequestMethod.GET)
     public String managerCabinetAddProject() {
         return "/manager/add_project";
+    }
+
+    @RequestMapping(value = "/cabinet/manager/add_dev", method = RequestMethod.GET)
+    public String managerCabinetAddDeveloper() {
+        return "/manager/add_dev";
+    }
+
+    @RequestMapping(value = "/cabinet/manager/dev_info", method = RequestMethod.GET)
+    public String managerCabinetDeveloperInfo() {
+        return "/manager/dev_info";
     }
 }

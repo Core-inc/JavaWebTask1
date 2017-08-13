@@ -87,3 +87,11 @@ create table if not EXISTS t_tasks_skills (
 	FOREIGN KEY (c_task_id) REFERENCES t_users(id),
 	FOREIGN KEY (c_skill_id) REFERENCES t_skills(id)
 );
+
+create table if not EXISTS t_customers_projects (
+	id 				serial primary key not null,
+	c_customer_id 		integer not null,
+	c_project_id 			integer not null,
+	FOREIGN KEY (c_customer_id) REFERENCES t_users(id),
+	FOREIGN KEY (c_project_id) REFERENCES t_projects(id)
+);

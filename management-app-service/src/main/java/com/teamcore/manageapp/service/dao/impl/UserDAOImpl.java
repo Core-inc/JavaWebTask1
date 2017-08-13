@@ -209,7 +209,7 @@ public class UserDAOImpl implements UserDAO {
      * static method {@see RowMapper} interface implementation
      * for {@see User} object
      */
-    private static User userRowMap(ResultSet resultSet, int i) throws SQLException {
+    public static User userRowMap(ResultSet resultSet, int i) throws SQLException {
         Role role = Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
 
         User user = User.newBuilder()
@@ -232,7 +232,7 @@ public class UserDAOImpl implements UserDAO {
      * static method {@see RowMapper} interface implementation
      * for {@see Role} enum
      */
-    private static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
+    public static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
         return Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
     }
 }

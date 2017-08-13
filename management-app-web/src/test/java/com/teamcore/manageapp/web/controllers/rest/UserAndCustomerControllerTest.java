@@ -34,16 +34,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
+@WebMvcTest(UserAndCustomerController.class)
 @ContextConfiguration(classes = {TestConfig.class})
-public class UserControllerTest {
+public class UserAndCustomerControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
     private UserService userServiceMock;
 
     @InjectMocks
-    private UserController userController;
+    private UserAndCustomerController userAndCustomerController;
 
     @BeforeClass
     public static void testSuiteSetup() {
@@ -52,7 +52,7 @@ public class UserControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(userAndCustomerController).build();
     }
 
     @After

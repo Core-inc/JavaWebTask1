@@ -17,14 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users",
                 produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UserController {
+public class UserAndCustomerController {
     private UserService userService;
 
-    public UserController() {
+    public UserAndCustomerController() {
     }
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserAndCustomerController(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> listAllUsers() {
-        List<User> users = (List<User>) userService.getAll();
+        List<User> users = userService.getAll();
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -72,14 +72,6 @@ public class UserController {
         HttpStatus status = role != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(role, status);
-    }
-
-    @GetMapping("/customers")
-    public ResponseEntity<?> listAllCustomers() {
-        List<User> customers = userService.getAllCustomers();
-        HttpStatus status = customers != null ?
-                HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(customers, status);
     }
 
     @PostMapping
@@ -120,5 +112,13 @@ public class UserController {
         userService.delete(id);
 
         return (ResponseEntity<?>) ResponseEntity.ok();
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<?> listAllCustomers() {
+        List<User> customers = userService.getAllCustomers();
+        HttpStatus status = customers != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(customers, status);
     }
 }

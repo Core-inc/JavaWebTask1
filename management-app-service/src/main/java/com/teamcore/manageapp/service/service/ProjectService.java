@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.service.service;
 
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.User;
 
 import java.util.List;
 
@@ -43,6 +44,8 @@ public interface ProjectService extends CrudService<Project> {
     public void deleteByInternalName(String internalName);
 
     List<Project> getByStatus(int status);
+
+    User getProjectCustomer(Long id);
 
     /**
      * Method to update info of the project.

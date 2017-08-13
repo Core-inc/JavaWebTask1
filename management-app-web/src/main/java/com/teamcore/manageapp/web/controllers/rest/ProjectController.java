@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
+import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.ProjectService;
 import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,5 +154,15 @@ public class ProjectController {
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<>(tasks, statusHttp);
+    }
+
+    @GetMapping("/{id}/customer")
+    public ResponseEntity<?> projectCustomer(@PathVariable Long id) {
+        User customer = projectService.getProjectCustomer(id);
+
+        HttpStatus status = customer != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>(customer, status);
     }
 }

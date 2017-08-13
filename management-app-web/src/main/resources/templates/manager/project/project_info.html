@@ -35,24 +35,22 @@
                 <li><a href="">Статус проекта</a></li>
             </ul>
         </div>
-        <div class="col-md-8 offset-md-1" id="workflow">
+        <div class="col-md-8 offset-md-1">
             <h5>Информация о проекте</h5>
-            <div class="scroll-div">
-                <p>Идентификатор проекта: разработка сайта sb.ru</p>
-                <p>Название проекта:</p>
-                <p>Заказчик: Алексей Соколов</p>
-                <p>Контакты заказчика: sokolov@sb.ru</p>
-                <p>Менеджер: Юлия Данилова</p>
-                <p>Контакты менеджера: manager@teamcore.ru</p>
-                <p>Стоимость проекта: 500 тыс.руб <a href=""> (смета)</a></p>
-                <p class="d-inline">Стоимость: </p> <p class="d-inline" style="color: red">смета не составлена</p>
-                <form id="form_pay_status" action="" method="POST" style="margin-top: 20px;">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="payment_checkbox" value="">
-                        <p class="d-inline">Оплачено</p>
-                    </label>
+            <div>
+                <div class="scroll-div" id="workflow">
+                    <p>Менеджер: Юлия Данилова</p>
+                    <p>Контакты менеджера: manager@teamcore.ru</p>
+                    <p>Стоимость проекта: 500 тыс.руб <a href=""> (смета)</a></p>
+                    <p class="d-inline">Стоимость: </p> <p class="d-inline" style="color: red">смета не составлена</p>
                 </div>
+                <form id="form_pay_status" action="" method="POST" style="margin-top: 20px;">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="payment_checkbox" value="">
+                            <p class="d-inline">Оплачено</p>
+                        </label>
+                    </div>
                     <button class="my_button">Обновить статус оплаты</button>
                 </form>
             </div>
@@ -79,5 +77,39 @@
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        var infoDiv = $("#workflow");
+        var projectId = document.URL.substr(document.URL.lastIndexOf('/') + 1)
+
+        $.ajax({
+            url: "/projects/" + projectId,
+            method: "GET",
+            dataType: "json",
+            async: false,
+            success: function (project) {
+                var customer = {};
+
+                $.ajax({
+                    url: "/projects/" + projectId + "/customer",
+                    method: "GET",
+                    dataType: "json",
+                    async: false,
+                    success: function (customerjson) {
+                        customer = customerjson;
+                    }
+                });
+
+                infoDiv
+                    .append("<p>Идентификатор проекта: " + project["internalName"] + "</p>")
+                    .append("<p>Название проекта: " + project["externalName"] + "</p>")
+                    .append("<p>Заказчик: " + customer["name"] + "</p>")
+                    .append("<p>Контакты заказчика: " + customer["email"] + "</p>");
+            }
+        })
+    })
+</script>
+
 </body>
 </html>

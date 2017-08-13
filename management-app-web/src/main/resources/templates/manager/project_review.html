@@ -31,8 +31,8 @@
             <ul>
                 <li><a href="/cabinet/manager">Обзор проектов</a></li>
                 <li><a href="/cabinet/manager/add_project">Добавить проект</a></li>
-                <li><a href="">База разработчиков</a></li>
-                <li><a href="">Добавить разработчика</a></li>
+                <li><a href="/cabinet/manager/developers">База разработчиков</a></li>
+                <li><a href="/cabinet/manager/add_dev">Добавить разработчика</a></li>
             </ul>
         </div>
         <div class="col-md-8 offset-md-1" id="workflow">
@@ -93,7 +93,7 @@
                         '<td>' + item["status"] + '</td>' +
                         '<td>' + formatDate(item["createdAt"]) + '</td>' +
                         '<td>' + formatDate(item["updatedAt"]) + '</td>' +
-                        '<td><a href="/projects/' + item["id"] + '">Open</a></td>' +
+                        '<td><a href="/project/' + item["id"] + '">Open</a></td>' +
                         '</tr>';
                     table.append(row);
                 })

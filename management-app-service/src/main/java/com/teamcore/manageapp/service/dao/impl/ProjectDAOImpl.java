@@ -3,6 +3,7 @@ package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.dao.ProjectDAO;
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,12 @@ public class ProjectDAOImpl implements ProjectDAO {
     private static final String UPDATE_PROJECT = "UPDATE t_projects SET c_exter_name = :c_exter_name, c_inter_name = :c_inter_name, c_specs_link = :c_specs_link, c_status = :c_status, c_created_at = :c_created_at, c_updated_at = :c_updated_at WHERE id = :id";
 
     private static final String FIND_PROJECT_BY_STATUS = "SELECT FROM t_projects WHERE c_status = :status";
+
+    private static final String GET_PROJECT_CUSTOMER = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_customers_projects on t_users.id = c_customer_id JOIN t_user_groups on c_user_group_id = c_group_id " +
+            "WHERE c_project_id = :projectId";
 
     public Project addNewProject(Project project) {
         LOGGER.debug("Adding new project: Project = {}", project);
@@ -194,6 +201,12 @@ public class ProjectDAOImpl implements ProjectDAO {
                 .addValue("status", status);
 
         return namedParameterJdbcTemplate.query(FIND_PROJECT_BY_STATUS, new ProjectRowMapper());
+    }
+
+    public User getProjectCustomer(Long id) {
+        return namedParameterJdbcTemplate.queryForObject(GET_PROJECT_CUSTOMER,
+                new MapSqlParameterSource()
+                        .addValue("projectId", id), UserDAOImpl::userRowMap);
     }
 
     public static class ProjectRowMapper implements RowMapper<Project> {

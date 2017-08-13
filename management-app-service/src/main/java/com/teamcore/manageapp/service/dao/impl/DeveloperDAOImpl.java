@@ -169,6 +169,14 @@ public class DeveloperDAOImpl implements DeveloperDAO {
                 DeveloperDAOImpl::developerRowMap);
     }
 
+    @Override
+    public Boolean getDeveloperStatus(Long id) {
+        Integer cnt = jdbcTemplate.queryForObject(SELECT_USER_TASKS_ID,
+                new MapSqlParameterSource()
+                .addValue("developerId", id), Integer.class);
+        return cnt != null && cnt > 0;
+    }
+
     /**
      * static method {@see RowMapper} interface implementation
      * for {@see Developer} object

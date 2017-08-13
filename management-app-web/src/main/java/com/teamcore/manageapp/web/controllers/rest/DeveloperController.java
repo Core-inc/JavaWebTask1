@@ -65,10 +65,10 @@ public class DeveloperController {
         return new ResponseEntity<>(developers, status);
     }
 
-//    @GetMapping(value = "/{id}/status")
-//    public ResponseEntity<?> developerStatus(@PathVariable Long id) {
-//        String status = developerService.getDeveloperStatus(id);
-//    }
+    @GetMapping(value = "/{id}/status")
+    public ResponseEntity<?> developerStatus(@PathVariable Long id) {
+        return new ResponseEntity<>(developerService.getDeveloperStatus(id), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Developer> saveDeveloper(@RequestBody Developer developer, UriComponentsBuilder ucb) {

@@ -57,4 +57,7 @@ class QueryUserConstant {
             "(c_name, c_email, c_password, c_salt, c_created_at, c_updated_at, c_user_group_id) " +
             "values (:name, :email, :password, :salt, :createdAt, :updatedAt, :roleId)";
 
+    final static String SELECT_USER_TASKS_ID = "SELECT COUNT(*) " +
+            "FROM t_developers_tasks " +
+            "WHERE c_developer_id = :developerId";
 }

@@ -37,7 +37,22 @@
         </div>
         <div class="col-md-8 offset-md-1" id="workflow">
             <h5>Обзор проектов</h5>
-            <p>Название: <a href="">sberbank.ru-july2017</a></p>
+            <div class="scroll-div">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>External name</th>
+                            <th>Internal name</th>
+                            <th>Status</th>
+                            <th>Created at</th>
+                            <th>Updated at</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -61,5 +76,31 @@
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "/projects",
+            dataType: "json",
+            method: "GET",
+            success: function (projects) {
+                var table = $("#workflow").find("tbody");
+                projects.forEach(function (item, i, arr) {
+                    var row = '<tr>' +
+                        '<td>' + item["id"] + '</td>' +
+                        '<td>' + item["externalName"] + '</td>' +
+                        '<td>' + item["internalName"] + '</td>' +
+                        '<td>' + item["status"] + '</td>' +
+                        '<td>' + item["createdAt"] + '</td>' +
+                        '<td>' + item["updatedAt"] + '</td>' +
+                        '<td><a href="/projects/' + item["id"] + '">Open</a></td>' +
+                        '</tr>';
+                    table.append(row);
+                })
+            }
+        })
+    })
+</script>
+
 </body>
 </html>

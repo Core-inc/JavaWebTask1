@@ -1,4 +1,4 @@
-package com.teamcore.manageapp.web.controllers;
+package com.teamcore.manageapp.web.controllers.rest;
 
 
 import com.teamcore.manageapp.service.domain.Project;

@@ -71,6 +71,7 @@
             url: "/users/self",
             method: "GET",
             dataType: "json",
+            async: false,
             success: function (currentUser) {
                 dev = currentUser;
             }

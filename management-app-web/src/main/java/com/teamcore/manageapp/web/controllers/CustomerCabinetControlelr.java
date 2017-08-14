@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/customer_cabinet")
+@RequestMapping("/customer")
 public class CustomerCabinetControlelr {
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
     public String customerInfo() {
         return "/customer/personal";
     }

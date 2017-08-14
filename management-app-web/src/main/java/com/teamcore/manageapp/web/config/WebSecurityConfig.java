@@ -62,7 +62,8 @@ public class WebSecurityConfig extends ServiceSecurityConfig {
 
         //setup general access policy
         http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/images/**", "/").permitAll()
+                .antMatchers("/css/**", "/js/**", "/images/**", "/",
+                        "/info", "/team", "/tech").permitAll()
                 .anyRequest().authenticated();
 
         //form login

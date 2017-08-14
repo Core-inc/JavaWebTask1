@@ -17,7 +17,7 @@
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
         <div class="d-inline" style=" float: right; margin-right: 30px;">
             <img src="/images/avatar.png" width="60" height="60" alt="">
-            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalymov</p>
         </div>
     </div>
 
@@ -28,65 +28,30 @@
         <div class="col-md-2" id="menu">
             <h5 style="margin-bottom: 4px;">Меню</h5>
             <div class="divider"></div>
-            <ul>
-                <li><a href="">Информация о проекте</a></li>
-                <li><a href="">Техническое задание</a></li>
-                <li><a href="">Добавить задачу</a></li>
-                <li><a href="">Статус проекта</a></li>
+            <ul id="links">
             </ul>
         </div>
         <div class="col-md-9 offset-md-1" id="workflow">
             <h5>Добавить новую задачу</h5>
             <form id="form_add_dev" action="" method="POST">
                 <p id="form-subtitle-upload-">После добавления всех задач будет рассчитана стоимость проекта</p>
-                <input class="form-control" placeholder="Введите задачу" name="email" required style="width: 500px;">
+                <input class="form-control" placeholder="Введите задачу" name="taskName" required style="width: 500px;">
+                <select class="form-control" id="customer_emails" name="customerId"></select>
                 <div class="scroll-div">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="devs">
                         <thead>
                         <tr>
-                            <th>№</th>
-                            <th>Разработчик</th>
-                            <th>Квалицикация</th>
-                            <th>Задействовать</th>
+                            <th><p>Id</p></th>
+                            <th><p>Разработчик</p></th>
+                            <th><p>Квалицикация</p></th>
+                            <th><p align="center">Задействовать</p></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Стас Солнышкин</td>
-                            <td>Front-end</td>
-                            <td>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="ch1" value="stas_devId">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>Артем Круглов</td>
-                            <td>Java Enterprise</td>
-                            <td>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="ch2" value="artem_devId">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>Лера Лебедева</td>
-                            <td>Front-end</td>
-                            <td>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="ch3" value="lera_devId">
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
-                <input class="form-control" placeholder="Введите стоимость (в рублях)" name="cost" type="number"
-                       required style="width: 360px;">
-                <button class="my_button" href="">Добавить задачу</button>
+                <input class="form-control" placeholder="Введите стоимость (в рублях)" name="cost" type="number" required style="width: 360px;">
+                <button class="my_button" type="submit">Добавить задачу</button>
             </form>
         </div>
     </div>
@@ -94,7 +59,7 @@
 <!-- Footer -->
 <div class="container-fluid" id="footer">
     <div class="row mx-auto">
-        <div class="col-md-7 offset-md-2">
+        <div class="col-md-7 offset-mdl-2">
             <div id="footer_links">
                 <a href="/team">Команда</a>
                 <a href="/info">Информация о проекте</a>
@@ -106,14 +71,180 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
+
+<script>
+    $("#form_add_dev").submit(function (e) {
+        e.preventDefault();
+
+        var links = $("#links");
+        var url = document.URL;
+        var urlPart = url.replace("http://localhost:8080/project/", "");
+        var reg = /(\d+)/;
+        var match = reg.exec(urlPart);
+        var projectId = match[0];
+
+        var data = {};
+        var devIds = [];
+
+        //Gathering the Data
+        //and removing undefined keys(buttons)
+        $.each(this.elements, function(i, v){
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
+        $(":checkbox").toArray().forEach(function (item) {
+            devIds.push(item["value"]);
+        });
+
+        var task = {};
+        var customer = {};
+        var developers = {};
+
+        task["name"] = data["taskName"];
+        task["cost"] = data["cost"];
+        task["duration"] = 50;
+        task["status"] = "0";
+        task["createdAt"] = null;
+        task["updatedAt"] = null;
+        task["projectId"] = projectId;
+
+        $.ajax({
+            url: "/users/" + data["customerId"],
+            method: "GET",
+            dataType: "json",
+            async: false,
+            success: function (customerjson) {
+                customer = customerjson;
+            }
+        });
+
+        var taskId = 0;
+
+        $.ajax({
+            url: "/tasks/",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            async: false,
+            data: JSON.stringify(task),
+            success: function (result) {
+                taskId = result["id"];
+            }
+        });
+
+        $.ajax({
+            url: "/users/customers/" + customer["id"] + "/" + projectId,
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            async: false
+//            data: JSON.stringify({"customerId": customer["id"], "projectid": projectId})
+        });
+
+        devIds.forEach(function (item) {
+            $.ajax({
+                url: "/tasks/" + taskId + "/developer/" + item,
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                async: false,
+                data: JSON.stringify(task)
+            })
+        });
+    });
+
+    $(document).ready(function () {
+        var links = $("#links");
+        var url = document.URL;
+        var urlPart = url.replace("http://localhost:8080/project/", "");
+        var reg = /(\d+)/;
+        var match = reg.exec(urlPart);
+        var projectId = match[0];
+
+        links.append('<li><a href="/manager/project/' + projectId + '">Информация о проекте</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/tech_task">Техническое задание</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/add_task">Добавить задачу</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/status">Статус проекта</a></li>');
+
+        $.ajax({
+            url: "/users/customers",
+            method: "GET",
+            dataType: "json",
+            success: function (customers) {
+                customers.forEach(function (item, i, arr) {
+                    $('#customer_emails').append($('<option>', {
+                        value: item["id"],
+                        text: item["email"]
+                    }));
+                })
+            }
+        });
+
+        $.ajax({
+            url: "/developers",
+            dataType: "json",
+            method: "GET",
+            async: false,
+            success: function (result) {
+                var table = $("#devs").find("tbody");
+                result.forEach(function (item, i, arr) {
+                    var skill = null;
+                    var status = null;
+
+                    $.ajax({
+                        url: "/skills/developer/" + item["id"],
+                        dataType: "json",
+                        method: "GET",
+                        async: false,
+                        success: function (skilljson) {
+                            skill = skilljson;
+                        },
+                        error: function () {
+                            console.log("error");
+                            skill = {};
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/developers/" + item["id"] + "/status",
+                        dataType: "json",
+                        method: "GET",
+                        async: false,
+                        success: function (statusjson) {
+                            if (statusjson) {
+                                status = "busy";
+                            } else {
+                                status = "free";
+                            }
+                        },
+                        error: function () {
+                            status = "error";
+                        }
+                    });
+
+                    if (status == "free") {
+                        var row = '<tr>' +
+                            '<td>' + item["id"] + '</td>' +
+                            '<td>' + item["name"] + '</td>' +
+                            '<td>' + skill["name"] + '</td>' +
+                            '<td align="center"><input type="checkbox" value="' + item["id"] + '"></td>' +
+                            '</tr>';
+                        table.append(row);
+                    }
+                });
+            }
+        })
+    })
+</script>
+
 </body>
 </html>

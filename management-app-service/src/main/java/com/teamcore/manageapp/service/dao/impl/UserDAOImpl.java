@@ -62,6 +62,14 @@ public class UserDAOImpl implements UserDAO {
             "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
             "WHERE t_users.c_name = :name";
 
+    private static final String GET_ALL_CUSTOMERS = "SELECT t_users.id as user_id, t_users.c_name as user_name, c_email, " +
+            "c_password, c_salt, c_created_at, c_updated_at,  " +
+            "t_user_groups.id as role_id, c_group_id, t_user_groups.c_name as role_name " +
+            "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
+            "WHERE c_user_group_id = :roleId";
+
+    private static final String ADD_CUSTOMER_TO_PROJECT = "INSERT INTO t_customers_projects " +
+            "(c_customer_id, c_project_id) VALUES (:customerId, :projectId)";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -125,7 +133,6 @@ public class UserDAOImpl implements UserDAO {
 
         return user;
     }
-
 
     /**
      * deletes user with specified {@code id} from database
@@ -192,11 +199,26 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.queryForObject(GET_ROLE_BY_USER_ID, new MapSqlParameterSource("id", id), UserDAOImpl::roleRowMap);
     }
 
+    @Override
+    public List<User> getAllCustomers() {
+        return jdbcTemplate.query(GET_ALL_CUSTOMERS,
+                new MapSqlParameterSource()
+                        .addValue("roleId", Role.CUSTOMER.getRoleId()), UserDAOImpl::userRowMap);
+    }
+
+    @Override
+    public void addCustomerProject(Long customerId, Long projectId) {
+        jdbcTemplate.update(ADD_CUSTOMER_TO_PROJECT,
+                new MapSqlParameterSource()
+                        .addValue("customerId", customerId)
+                        .addValue("projectId", projectId));
+    }
+
     /**
      * static method {@see RowMapper} interface implementation
      * for {@see User} object
      */
-    private static User userRowMap(ResultSet resultSet, int i) throws SQLException {
+    public static User userRowMap(ResultSet resultSet, int i) throws SQLException {
         Role role = Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
 
         User user = User.newBuilder()
@@ -219,7 +241,7 @@ public class UserDAOImpl implements UserDAO {
      * static method {@see RowMapper} interface implementation
      * for {@see Role} enum
      */
-    private static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
+    public static Role roleRowMap(ResultSet resultSet, int i) throws SQLException {
         return Role.getRoleByRoleId(resultSet.getInt("c_group_id"));
     }
 }

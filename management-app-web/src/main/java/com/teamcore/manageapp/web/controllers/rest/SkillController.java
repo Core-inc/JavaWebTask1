@@ -107,6 +107,15 @@ public class SkillController {
         }
     }
 
+    @RequestMapping(path = "/developer/{developerId}", method = GET)
+    public @ResponseBody Skill findSkillByDeveloperId(@PathVariable("developerId") long developerId) {
+        try {
+            return skillService.getSkillByDeveloperId(developerId);
+        } catch (SkillServiceException e) {
+            throw e;
+        }
+    }
+
 //    @RequestMapping(path="/{skillId}/developers", method = GET)
 //    public @ResponseBody List<Developer> findAllDevelopersById(@PathVariable("skillId") int skillId) {
 //        List<Developer> developers = skillService.findAllDevelopers(skillId);

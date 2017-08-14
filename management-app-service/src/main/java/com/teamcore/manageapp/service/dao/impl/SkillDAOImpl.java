@@ -59,6 +59,12 @@ public class SkillDAOImpl implements SkillDAO {
                     "(SELECT c_task_id AS id FROM t_tasks_skills WHERE c_skill_id = :id) "+
                     "SELECT * FROM t_projects JOIN task_ids ON (t_projects.id = task_ids.id)";
 
+    public final static String SELECT_SKILL_BY_DEVELOPER_ID =
+            "SELECT t_skills.id AS id, t_skills.c_name AS c_name " +
+            "FROM t_developers_skills JOIN t_skills " +
+            "ON t_developers_skills.c_developer_id = t_skills.id " +
+            "WHERE t_developers_skills.c_developer_id = :developerId";
+
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -197,6 +203,17 @@ public class SkillDAOImpl implements SkillDAO {
                                 .toLocalDateTime())
                         .build()
         );
+    }
+
+    @Override
+    public Skill getSkillByDeveloperId(Long id) {
+        return jdbcTemplate.queryForObject(SELECT_SKILL_BY_DEVELOPER_ID,
+                new MapSqlParameterSource("developerId", id),
+                (ResultSet resultSet, int i) -> Skill
+                        .newBuilder()
+                        .setId(resultSet.getLong("id"))
+                        .setName(resultSet.getString("c_name"))
+                        .build());
     }
 
     /**

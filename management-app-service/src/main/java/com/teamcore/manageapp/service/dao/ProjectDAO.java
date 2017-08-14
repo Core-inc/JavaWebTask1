@@ -2,6 +2,7 @@ package com.teamcore.manageapp.service.dao;
 
 
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.User;
 
 import java.util.List;
 
@@ -51,4 +52,8 @@ public interface ProjectDAO {
      */
     public Project updateProject(Project newProject);
 
+
+    List<Project> getByStatus(int status);
+
+    User getProjectCustomer(Long id);
 }

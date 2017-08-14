@@ -21,4 +21,6 @@ public interface DeveloperService extends CrudService<Developer> {
      * @return List of {@see Developer} objects with this name
      */
     List<Developer> getAllByName(String name);
+
+    Boolean getDeveloperStatus(Long id);
 }

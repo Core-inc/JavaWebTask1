@@ -1,7 +1,9 @@
 package com.teamcore.manageapp.service.dao.impl;
 
 import com.teamcore.manageapp.service.config.TestServiceConfig;
+import com.teamcore.manageapp.service.dao.DeveloperDAO;
 import com.teamcore.manageapp.service.dao.TaskDAO;
+import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Task;
 import com.teamcore.manageapp.service.utils.TestFactory;
 import org.junit.Test;
@@ -13,6 +15,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,6 +33,7 @@ import static org.junit.Assert.assertNotNull;
 public class TaskDAOImplTest {
 
     private TaskDAO taskDAO;
+    private DeveloperDAO developerDAO;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -41,6 +46,11 @@ public class TaskDAOImplTest {
     @Autowired
     private void setTaskDAO(TaskDAO taskDAO) {
         this.taskDAO = taskDAO;
+    }
+
+    @Autowired
+    private void setDeveloperDAO(DeveloperDAO developerDAO) {
+        this.developerDAO = developerDAO;
     }
 
     @Test
@@ -60,6 +70,24 @@ public class TaskDAOImplTest {
         assertEquals(task.getStatus(), returnedTask.getStatus());
         assertEquals(task.getDuration(), returnedTask.getDuration());
         assertEquals(task.getProjectId(), returnedTask.getProjectId());
+    }
+
+
+    @Test
+    public void addDeveloperToTask() {
+
+        Task task = taskDAO.findTaskById(1L);
+        System.out.println("Task: "+task);
+        //  Developer developer = TestFactory.createDefaultNewDeveloper();
+        Developer developer = developerDAO.getById(3L);
+        System.out.println("Developer: "+developer);
+        taskDAO.addDeveloperToTask(developer,task);
+
+        List<Developer> list = taskDAO.getDeveloperByTask(task);
+        System.out.println("Developer: "+list.get(0));
+
+        assertEquals(list.get(0), developer);
+
     }
 
     @Test
@@ -117,7 +145,6 @@ public class TaskDAOImplTest {
 //        for (Task cur : dbTaskList) {
 //            assertTrue(cur.getName().equals("testing") || cur.getName().equals("testing2"));
 //        }
-//
 //
 //    }
 }

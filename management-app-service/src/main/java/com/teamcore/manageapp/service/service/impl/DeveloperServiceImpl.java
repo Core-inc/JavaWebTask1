@@ -99,4 +99,9 @@ public class DeveloperServiceImpl implements DeveloperService {
     public List<Developer> getAllByName(String name) {
         return developerDAO.getAllByName(name);
     }
+
+    @Override
+    public Boolean getDeveloperStatus(Long id) {
+        return developerDAO.getDeveloperStatus(id);
+    }
 }

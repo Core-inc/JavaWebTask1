@@ -2,6 +2,7 @@ package com.teamcore.manageapp.service.service.impl;
 
 import com.teamcore.manageapp.service.dao.ProjectDAO;
 import com.teamcore.manageapp.service.domain.Project;
+import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectDAO = projectDAO;
     }
 
-    public ProjectServiceImpl(ProjectDAO projectDAO){
+    public ProjectServiceImpl(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
     }
 
@@ -87,5 +88,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
+    @Override
+    public List<Project> getByStatus(int status) {
+        return projectDAO.getByStatus(status);
+    }
 
+    public User getProjectCustomer(Long id) {
+        return projectDAO.getProjectCustomer(id);
+    }
 }

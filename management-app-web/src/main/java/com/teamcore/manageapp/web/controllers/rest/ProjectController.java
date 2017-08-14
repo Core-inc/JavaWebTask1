@@ -1,13 +1,17 @@
 package com.teamcore.manageapp.web.controllers.rest;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
+import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.ProjectService;
 import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,9 +24,6 @@ import java.util.List;
 public class ProjectController {
     private ProjectService projectService;
     private TaskService taskService;
-
-    public ProjectController() {
-    }
 
     @Autowired
     public ProjectController(ProjectService projectService) {
@@ -41,7 +42,7 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<?> getAllProjects() {
-        List<Project> list = (List<Project>) projectService.getAll();
+        List<Project> list = projectService.getAll();
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -69,14 +70,14 @@ public class ProjectController {
         return new ResponseEntity<>(project, status);
     }
 
-    @GetMapping(value = "/{id}/tasks")
-    public ResponseEntity<?> projectTasks(@PathVariable(value = "id") Long id) {
-        List<Task> taskList = taskService.findAllTasksByProject(projectService.getById(id));
-
-        HttpStatus status = taskList != null ?
-                HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(taskList, status);
-    }
+//    @GetMapping(value = "/{id}/tasks")
+//    public ResponseEntity<?> projectTasks(@PathVariable(value = "id") Long id) {
+//        List<Task> taskList = taskService.findAllTasksByProject(projectService.getById(id));
+//
+//        HttpStatus status = taskList != null ?
+//                HttpStatus.OK : HttpStatus.NOT_FOUND;
+//        return new ResponseEntity<>(taskList, status);
+//    }
 
     @PostMapping(value = "/{id}/tasks")
     public ResponseEntity<Task> addTaskForProject(@PathVariable(value = "id") Long id, @RequestBody Task task, UriComponentsBuilder ucb) {
@@ -94,16 +95,17 @@ public class ProjectController {
         return new ResponseEntity<>(savedTask, headers, HttpStatus.CREATED);
     }
 
-    /*
     @GetMapping(value = "/status/{status}")
     public ResponseEntity<?> projectByStatus(@PathVariable int status) {
         List<Project> projects = projectService.getByStatus(status);
+
         HttpStatus statusHttp = projects != null ?
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
+
         return new ResponseEntity<>(projects, statusHttp);
     }
-    */
-    @PostMapping
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Project> saveProject(@RequestBody Project project, UriComponentsBuilder ucb) {
         Project savedProject = projectService.save(project);
 
@@ -143,6 +145,24 @@ public class ProjectController {
         return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<?> getTasksOfProjects(@PathVariable Long id) {
+        Project project = projectService.getById(id);
+        List<Task> tasks = taskService.findAllTasksByProject(project);
 
+        HttpStatus statusHttp = tasks != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
 
+        return new ResponseEntity<>(tasks, statusHttp);
+    }
+
+    @GetMapping("/{id}/customer")
+    public ResponseEntity<?> projectCustomer(@PathVariable Long id) {
+        User customer = projectService.getProjectCustomer(id);
+
+        HttpStatus status = customer != null ?
+                HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>(customer, status);
+    }
 }

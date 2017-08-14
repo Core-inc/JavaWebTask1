@@ -17,7 +17,7 @@
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
         <div class="d-inline" style=" float: right; margin-right: 30px;">
             <img src="/images/avatar.png" width="60" height="60">
-            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalymov</p>
         </div>
     </div>
 
@@ -29,15 +29,30 @@
         <h5 style="margin-bottom: 4px;">Меню</h5>
             <div class="divider"></div>
             <ul>
-                <li><a href="">Обзор проектов</a></li>
-                <li><a href="">Добавить проект</a></li>
-                <li><a href="">База разработчиков</a></li>
-                <li><a href="">Добавить разработчика</a></li>
+                <li><a href="/manager/cabinet">Обзор проектов</a></li>
+                <li><a href="/manager/cabinet/add_project">Добавить проект</a></li>
+                <li><a href="/manager/cabinet/developers">База разработчиков</a></li>
+                <li><a href="/manager/cabinet/add_dev">Добавить разработчика</a></li>
             </ul>
         </div>
         <div class="col-md-8 offset-md-1" id="workflow">
             <h5>Обзор проектов</h5>
-            <p>Название: <a href="">sberbank.ru-july2017</a></p>
+            <div class="scroll-div">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>External name</th>
+                            <th>Internal name</th>
+                            <th>Status</th>
+                            <th>Created at</th>
+                            <th>Updated at</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -56,11 +71,40 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "/projects",
+            dataType: "json",
+            method: "GET",
+            success: function (projects) {
+                var table = $("#workflow").find("tbody");
+                projects.forEach(function (item, i, arr) {
+                    var row = '<tr>' +
+                        '<td>' + item["id"] + '</td>' +
+                        '<td>' + item["externalName"] + '</td>' +
+                        '<td>' + item["internalName"] + '</td>' +
+                        '<td>' + item["status"] + '</td>' +
+                        '<td>' + formatDate(item["createdAt"]) + '</td>' +
+                        '<td>' + formatDate(item["updatedAt"]) + '</td>' +
+                        '<td><a href="/project/' + item["id"] + '">Open</a></td>' +
+                        '</tr>';
+                    table.append(row);
+                })
+            }
+        });
+
+        function formatDate(date) {
+            return date[2] + '.' + date[1] + '.' + date[0];
+        }
+    })
+</script>
+
 </body>
 </html>

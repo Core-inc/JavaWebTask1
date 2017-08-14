@@ -74,4 +74,9 @@ public class SkillServiceImpl implements SkillService {
     public void delete(Long id) {
         skillDAO.deleteSkill(id);
     }
+
+    @Override
+    public Skill getSkillByDeveloperId(Long id) {
+        return skillDAO.getSkillByDeveloperId(id);
+    }
 }

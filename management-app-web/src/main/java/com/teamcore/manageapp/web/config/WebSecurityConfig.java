@@ -86,7 +86,5 @@ public class WebSecurityConfig extends ServiceSecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
-        //access denied page
-        http.exceptionHandling().accessDeniedPage("/403");
     }
 }

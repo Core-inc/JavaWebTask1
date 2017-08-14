@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/developer")
 public class DeveloperCabinetController {
-    @RequestMapping(value = "/cabinet/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
     public String developerInfo() {
         return "/developer/personal";
     }
 
-    @RequestMapping(value = "/cabinet/{id}/portfolio", method = RequestMethod.GET)
+    @RequestMapping(value = "/cabinet/portfolio", method = RequestMethod.GET)
     public String developerPortfolio() {
         return "/developer/portfolio";
     }

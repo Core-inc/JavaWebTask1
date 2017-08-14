@@ -18,6 +18,8 @@ public class UrlByRoleResolver {
                     return "/manager/cabinet";
                 case Role.Name.DEVELOPER_ROLE:
                     return "/developer/cabinet";
+                case Role.Name.CUSTOMER_ROLE:
+                    return "/customer/cabinet";
                 default:
                     throw new IllegalStateException("unknown authority: "+grantedAuthority.getAuthority());
             }
@@ -35,6 +37,8 @@ public class UrlByRoleResolver {
                     return "/manager/cabinet";
                 case Role.Name.DEVELOPER_ROLE:
                     return "/developer/cabinet";
+                case Role.Name.CUSTOMER_ROLE:
+                    return "/customer/cabinet";
                 default:
                     throw new IllegalStateException("unknown authority: "+role);
             }

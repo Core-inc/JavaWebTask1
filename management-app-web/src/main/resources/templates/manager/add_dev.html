@@ -17,7 +17,7 @@
         <p class="d-inline" style="font-weight: bold; font-size: 24px;">Software development</p>
         <div class="d-inline" style=" float: right; margin-right: 30px;">
             <img src="/images/avatar.png" width="60" height="60" alt="">
-            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalymov</p>
+            <p class="d-inline" style="font-weight: bold; font-size: 18px;">Roman Shalimov</p>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
 <div class="container-fluid" id="body" style="padding-top: 60px;">
     <div class="row" style="padding: 0 60px 0 60px;">
         <div class="col-md-2" id="menu">
-        <h5 style="margin-bottom: 4px;">Меню</h5>
+            <h5 style="margin-bottom: 4px;">Меню</h5>
             <div class="divider"></div>
             <ul>
                 <li><a href="/manager/cabinet">Обзор проектов</a></li>
@@ -39,7 +39,10 @@
             <h5>Добавить нового разработчика</h5>
             <form id="form_add_dev" action="" method="POST">
                 <p id="form-subtitle-upload-">На указанный email придет письмо для продолжения регистрации</p>
-                <input class="form-control" placeholder="Введите email" name="email" required>
+                <input class="form-control" placeholder="Введите имя" name="name" required>
+                <input class="form-control" type="password" placeholder="Введите пароль" name="password" required>
+                <input class="form-control" type="email" placeholder="Введите email" name="email" required>
+                <select class="form-control" id="skills" name="skill" required></select>
                 <button class="my_button" type="submit">Отправить письмо</button>
             </form>
         </div>
@@ -60,7 +63,7 @@
 
 </div>
 
-<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
@@ -70,7 +73,42 @@
     $("#form_add_dev").submit(function (e) {
         e.preventDefault();
 
-        alert("what should i do with this email?")
+        var data = {};
+
+        //Gathering the Data
+        //and removing undefined keys(buttons)
+        $.each(this.elements, function(i, v){
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
+        console.log(data);
+
+        var project = {};
+        project["externalName"] = data["externalName"];
+        project["internalName"] = data["internalName"];
+        project["specLink"] = data["specLink"];
+        project["status"] = "0";
+        project["createdAt"] = null;
+        project["updatedAt"] = null;
+        var customer = data["customer_email"];
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/skills",
+            method: "GET",
+            dataType: "json",
+            success: function (skills) {
+                skills.forEach(function (item, i, arr) {
+                    $('#skills').append($('<option>', {
+                        value: item["id"],
+                        text: item["name"]
+                    }));
+                })
+            }
+        });
     })
 </script>
 

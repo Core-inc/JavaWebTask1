@@ -3,6 +3,7 @@ package com.teamcore.manageapp.web.controllers.rest;
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
 import com.teamcore.manageapp.service.service.UserService;
+import com.teamcore.manageapp.web.security.RoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -128,4 +129,10 @@ public class UserAndCustomerController {
 
         return ResponseEntity.ok("");
     }
+
+   @GetMapping("/self")
+    public @ResponseBody  User getSelfInfo() {
+        //retrieve user info
+       return userService.getByEmail(RoleUtil.getSecurityUser().getUsername());
+   }
 }

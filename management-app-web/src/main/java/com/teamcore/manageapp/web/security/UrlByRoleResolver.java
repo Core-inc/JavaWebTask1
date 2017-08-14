@@ -1,13 +1,9 @@
 package com.teamcore.manageapp.web.security;
 
 import com.teamcore.manageapp.service.domain.Role;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class UrlByRoleResolver {

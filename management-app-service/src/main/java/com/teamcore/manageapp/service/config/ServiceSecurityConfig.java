@@ -7,6 +7,7 @@ import org.springframework.security.authentication.encoding.PlaintextPasswordEnc
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -34,7 +35,7 @@ public class ServiceSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(usersByUsernameQuery)
                 .authoritiesByUsernameQuery(authoritiesByUsernameQuery)
-                .passwordEncoder(new PlaintextPasswordEncoder());
+                .passwordEncoder(new Pbkdf2PasswordEncoder("", 200000, 512));
     }
 
 }

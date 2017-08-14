@@ -57,7 +57,8 @@ public class WebSecurityConfig extends ServiceSecurityConfig {
                 .antMatchers("/admin/**").hasAuthority(Role.Name.ADMIN_ROLE)
                 .antMatchers("/manager/**").hasAuthority(Role.Name.MANAGER_ROLE)
                 .antMatchers("/project/**").hasAuthority(Role.Name.MANAGER_ROLE)
-                .antMatchers("/developer/**").hasAuthority(Role.Name.DEVELOPER_ROLE);
+                .antMatchers("/developer/**").hasAuthority(Role.Name.DEVELOPER_ROLE)
+                .antMatchers("/customer/**").hasAuthority(Role.Name.CUSTOMER_ROLE);
 
         //setup general access policy
         http.authorizeRequests()

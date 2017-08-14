@@ -1,6 +1,7 @@
 package com.teamcore.manageapp.web.config;
 
 import com.teamcore.manageapp.service.config.ServiceSecurityConfig;
+import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.web.security.UrlAuthenticationSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,10 +53,15 @@ public class WebSecurityConfig extends ServiceSecurityConfig {
 //                .csrf().csrfTokenRepository(csrfTokenRepository);
         http.csrf().disable();
 
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority(Role.Name.ADMIN_ROLE)
+                .antMatchers("/manager/**").hasAuthority(Role.Name.MANAGER_ROLE)
+                .antMatchers("/project/**").hasAuthority(Role.Name.MANAGER_ROLE)
+                .antMatchers("/developer/**").hasAuthority(Role.Name.DEVELOPER_ROLE);
+
         //setup general access policy
         http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/images/**",
-                        "/403", "/").permitAll()
+                .antMatchers("/css/**", "/js/**", "/images/**", "/").permitAll()
                 .anyRequest().authenticated();
 
         //form login

@@ -1,5 +1,6 @@
 package com.teamcore.manageapp.service.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,9 +22,11 @@ public @Data class User {
     private String email;
 
     @NotNull
+    @JsonIgnore
     private String password;
 
     @NotNull
+    @JsonIgnore
     private String salt;
 
     @NotNull

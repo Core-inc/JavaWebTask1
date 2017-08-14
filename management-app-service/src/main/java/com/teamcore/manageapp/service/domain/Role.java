@@ -2,18 +2,27 @@ package com.teamcore.manageapp.service.domain;
 
 
 import static com.teamcore.manageapp.service.domain.Role.Code.*;
+import static com.teamcore.manageapp.service.domain.Role.Name.*;
 
 public enum Role {
-    ADMIN(ADMIN_ID, "admin"),
-    MANAGER(MANAGER_ID, "manager"),
-    DEVELOPER(DEVELOPER_ID, "developer"),
-    CUSTOMER(CUSTOMER_ID, "customer");
+
+    ADMIN(ADMIN_ID, ADMIN_ROLE),
+    MANAGER(MANAGER_ID, MANAGER_ROLE),
+    DEVELOPER(DEVELOPER_ID, DEVELOPER_ROLE),
+    CUSTOMER(CUSTOMER_ID, CUSTOMER_ROLE);
 
     public static class Code {
         public static final int ADMIN_ID = 0;
         public static final int MANAGER_ID = 1;
         public static final int DEVELOPER_ID = 2;
         public static final int CUSTOMER_ID = 3;
+    }
+
+    public static class Name {
+        public static final String ADMIN_ROLE = "admin";
+        public static final String MANAGER_ROLE = "manager";
+        public static final String DEVELOPER_ROLE = "developer";
+        public static final String CUSTOMER_ROLE = "customer";
     }
 
     private final Integer dbId;

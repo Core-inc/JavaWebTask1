@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/manager")
 public class ManagerCabinetController {
+
     @RequestMapping(value = "/cabinet", method = RequestMethod.GET)
     public String managerCabinet() {
         return "/manager/project_review";

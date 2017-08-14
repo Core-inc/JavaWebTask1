@@ -16,6 +16,12 @@ public enum Role {
         public static final int CUSTOMER_ID = 3;
     }
 
+    public static class Name {
+        public static final String ADMIN_ROLE = "admin";
+        public static final String MANAGER_ROLE = "manager";
+        public static final String DEVELOPER_ROLE = "developer";
+    }
+
     private final Integer dbId;
     private final String dbName;
 

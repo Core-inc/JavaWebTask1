@@ -72,6 +72,18 @@ body {
     margin-top: 10px;
 }
 
+
+
+.team_photo > img {
+    width: 160px;
+    height: 140px;
+    border-radius: 100%;
+}
+
+.team_photo > p {
+    font-size: 18px;
+}
+
 #menu {
     background-color: white;
     height: 200px;

@@ -68,10 +68,10 @@
         var match = reg.exec(urlPart);
         var projectId = match[0];
 
-        links.append('<li><a href="/project/' + projectId + '">Информация о проекте</a></li>')
-            .append('<li><a href="/project/' + projectId + '/tech_task">Техническое задание</a></li>')
-            .append('<li><a href="/project/' + projectId + '/add_task">Добавить задачу</a></li>')
-            .append('<li><a href="/project/' + projectId + '/status">Статус проекта</a></li>');
+        links.append('<li><a href="/manager/project/' + projectId + '">Информация о проекте</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/tech_task">Техническое задание</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/add_task">Добавить задачу</a></li>')
+            .append('<li><a href="/manager/project/' + projectId + '/status">Статус проекта</a></li>');
     })
 </script>
 

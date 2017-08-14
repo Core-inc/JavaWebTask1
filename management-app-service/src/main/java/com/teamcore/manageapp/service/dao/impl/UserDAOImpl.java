@@ -68,6 +68,8 @@ public class UserDAOImpl implements UserDAO {
             "FROM t_users JOIN t_user_groups on c_user_group_id = c_group_id " +
             "WHERE c_user_group_id = :roleId";
 
+    private static final String ADD_CUSTOMER_TO_PROJECT = "INSERT INTO t_customers_projects " +
+            "(c_customer_id, c_project_id) VALUES (:customerId, :projectId)";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -131,7 +133,6 @@ public class UserDAOImpl implements UserDAO {
 
         return user;
     }
-
 
     /**
      * deletes user with specified {@code id} from database
@@ -203,6 +204,14 @@ public class UserDAOImpl implements UserDAO {
         return jdbcTemplate.query(GET_ALL_CUSTOMERS,
                 new MapSqlParameterSource()
                         .addValue("roleId", Role.CUSTOMER.getRoleId()), UserDAOImpl::userRowMap);
+    }
+
+    @Override
+    public void addCustomerProject(Long customerId, Long projectId) {
+        jdbcTemplate.update(ADD_CUSTOMER_TO_PROJECT,
+                new MapSqlParameterSource()
+                        .addValue("customerId", customerId)
+                        .addValue("projectId", projectId));
     }
 
     /**

@@ -19,4 +19,6 @@ public interface UserDAO extends GeneralUserDAO<User> {
     Role getRoleByUserId(Long id);
 
     List<User> getAllCustomers();
+
+    void addCustomerProject(Long customerId, Long projectId);
 }

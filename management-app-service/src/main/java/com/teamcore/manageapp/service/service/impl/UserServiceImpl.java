@@ -115,4 +115,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllCustomers() {
         return userDAO.getAllCustomers();
     }
+
+    @Override
+    public void addCustomerProject(Long customerId, Long projectId) {
+        userDAO.addCustomerProject(customerId, projectId);
+    }
 }

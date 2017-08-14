@@ -121,4 +121,11 @@ public class UserAndCustomerController {
                 HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(customers, status);
     }
+
+    @PostMapping("/customers/{customerId}/{projectId}")
+    public ResponseEntity<?> addCustomerProject(@PathVariable Long customerId, @PathVariable Long projectId) {
+        userService.addCustomerProject(customerId, projectId);
+
+        return ResponseEntity.ok("");
+    }
 }

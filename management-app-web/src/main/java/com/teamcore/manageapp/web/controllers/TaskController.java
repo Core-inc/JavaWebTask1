@@ -3,6 +3,7 @@ package com.teamcore.manageapp.web.controllers;
 import com.teamcore.manageapp.service.domain.Developer;
 import com.teamcore.manageapp.service.domain.Project;
 import com.teamcore.manageapp.service.domain.Task;
+import com.teamcore.manageapp.service.service.DeveloperService;
 import com.teamcore.manageapp.service.service.ProjectService;
 import com.teamcore.manageapp.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
 public class TaskController {
 
     private TaskService taskService;
+    private DeveloperService developerService;
 
     public TaskController() {
     }
@@ -29,10 +31,14 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-
     @Autowired
     public void setTaskService(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @Autowired
+    public void setDeveloperService(DeveloperService developerService) {
+        this.developerService = developerService;
     }
 
     @GetMapping
@@ -72,9 +78,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> saveTask(@RequestBody Task task, @RequestBody Developer developer, UriComponentsBuilder ucb) {
+    public ResponseEntity<Task> saveTaskWithDeveloper(@RequestBody Task task/*, @RequestBody Developer developer*/, UriComponentsBuilder ucb) {
         Task savedTask = taskService.save(task);
-        taskService.addDeveloperToTask(developer,savedTask);
+//        addDeveloperToTask(developer.getId(), savedTask.getId());
 
         HttpHeaders headers = new HttpHeaders();
         URI locationUri = ucb.path("/tasks")
@@ -85,7 +91,6 @@ public class TaskController {
 
         return new ResponseEntity<>(savedTask, headers, HttpStatus.CREATED);
     }
-
 
     @PatchMapping
     public ResponseEntity<Task> updateTask(@RequestBody Task task, UriComponentsBuilder ucb) {
@@ -110,10 +115,14 @@ public class TaskController {
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         taskService.delete(id);
 
-        return (ResponseEntity<?>) ResponseEntity.ok();
+        return ResponseEntity.ok("");
     }
 
-//
+    @PostMapping("/{taskId}/developer/{developerId}")
+    public ResponseEntity<?> addDeveloperToTask(@PathVariable Long taskId, @PathVariable Long developerId) {
+        taskService.addDeveloperToTask(developerService.getById(developerId), taskService.getById(taskId));
 
+        return ResponseEntity.ok("");
+    }
 }
 

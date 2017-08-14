@@ -2,7 +2,6 @@ package com.teamcore.manageapp.service.service;
 
 import com.teamcore.manageapp.service.domain.Role;
 import com.teamcore.manageapp.service.domain.User;
-import com.teamcore.manageapp.service.service.CrudService;
 
 import java.util.List;
 
@@ -33,4 +32,6 @@ public interface UserService extends CrudService<User> {
     Role getRoleByUserId(Long id);
 
     List<User> getAllCustomers();
+
+    void addCustomerProject(Long customerId, Long projectId);
 }

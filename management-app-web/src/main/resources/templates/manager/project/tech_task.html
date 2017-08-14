@@ -28,11 +28,7 @@
         <div class="col-md-2" id="menu">
         <h5 style="margin-bottom: 4px;">Меню</h5>
             <div class="divider"></div>
-            <ul>
-                <li><a href="">Информация о проекте</a></li>
-                <li><a href="">Техническое задание</a></li>
-                <li><a href="">Добавить задачу</a></li>
-                <li><a href="">Статус проекта</a></li>
+            <ul id="links">
             </ul>
         </div>
         <div class="col-md-8 offset-md-1" id="workflow">
@@ -62,5 +58,22 @@
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        var links = $("#links");
+        var url = document.URL;
+        var urlPart = url.replace("http://localhost:8080/project/", "");
+        var reg = /(\d+)/;
+        var match = reg.exec(urlPart);
+        var projectId = match[0];
+
+        links.append('<li><a href="/project/' + projectId + '">Информация о проекте</a></li>')
+            .append('<li><a href="/project/' + projectId + '/tech_task">Техническое задание</a></li>')
+            .append('<li><a href="/project/' + projectId + '/add_task">Добавить задачу</a></li>')
+            .append('<li><a href="/project/' + projectId + '/status">Статус проекта</a></li>');
+    })
+</script>
+
 </body>
 </html>

@@ -83,13 +83,6 @@
     $("#form_add_dev").submit(function (e) {
         e.preventDefault();
 
-        var links = $("#links");
-        var url = document.URL;
-        var urlPart = url.replace("http://localhost:8080/project/", "");
-        var reg = /(\d+)/;
-        var match = reg.exec(urlPart);
-        var projectId = match[0];
-
         var data = {};
         var devIds = [];
 
@@ -163,17 +156,18 @@
     });
 
     $(document).ready(function () {
+
         var links = $("#links");
         var url = document.URL;
-        var urlPart = url.replace("http://localhost:8080/project/", "");
+        var urlPart = url.replace("http://localhost:8080/manager/cabinet/project/", "");
         var reg = /(\d+)/;
         var match = reg.exec(urlPart);
         var projectId = match[0];
 
-        links.append('<li><a href="/manager/project/' + projectId + '">Информация о проекте</a></li>')
-            .append('<li><a href="/manager/project/' + projectId + '/tech_task">Техническое задание</a></li>')
-            .append('<li><a href="/manager/project/' + projectId + '/add_task">Добавить задачу</a></li>')
-            .append('<li><a href="/manager/project/' + projectId + '/status">Статус проекта</a></li>');
+        links.append('<li><a href="/manager/cabinet/project/' + projectId + '">Информация о проекте</a></li>')
+            .append('<li><a href="/manager/cabinet/project/' + projectId + '/tech_task">Техническое задание</a></li>')
+            .append('<li><a href="/manager/cabinet/project/' + projectId + '/add_task">Добавить задачу</a></li>')
+            .append('<li><a href="/manager/cabinet/project/' + projectId + '/status">Статус проекта</a></li>');
 
         $.ajax({
             url: "/users/customers",

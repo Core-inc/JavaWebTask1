@@ -72,8 +72,6 @@
 
 <script>
     $(document).ready(function(){
-        var emails;
-
         $.ajax({
             url: "/users/customers",
             method: "GET",
@@ -93,7 +91,6 @@
         e.preventDefault();
 
         var data = {};
-        var Form = this;
 
         //Gathering the Data
         //and removing undefined keys(buttons)
